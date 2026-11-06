@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>龙巢食品ERP · 后台管理</title>
+<style>
+:root{--bg:#f1f5f9;--panel:#fff;--panel2:#f8fafc;--text:#0f172a;--sub:#64748b;--mute:#94a3b8;--bd:#e2e8f0;--bd2:#eef2f7;--pri:#2563eb;--pri2:#1d4ed8;--priSoft:#eff6ff;--ok:#10b981;--okSoft:#ecfdf5;--warn:#f59e0b;--warnSoft:#fffbeb;--danger:#ef4444;--dangerSoft:#fef2f2;--info:#0ea5e9;--infoSoft:#f0f9ff;--sb:#0f172a;--sb2:#1e293b;--sbT:#cbd5e1;--sbS:#f8fafc;--sh:0 1px 3px rgba(15,23,42,.08);--sh2:0 8px 24px rgba(15,23,42,.12);--sh3:0 24px 60px rgba(15,23,42,.22);--r:12px}
+body.dark{--bg:#0b1220;--panel:#111a2e;--panel2:#0f172a;--text:#e2e8f0;--sub:#94a3b8;--mute:#64748b;--bd:#1e2a44;--bd2:#172036;--pri:#3b82f6;--priSoft:#122a44;--okSoft:#0d2b23;--warnSoft:#2b2211;--dangerSoft:#2b1215;--infoSoft:#0b2233;--sb:#070d1a;--sb2:#0f172a;--sbT:#94a3b8;--sbS:#f1f5f9}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-size:14px;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;-webkit-font-smoothing:antialiased}button{font-family:inherit}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:264px;flex-shrink:0;background:var(--sb);color:var(--sbT);display:flex;flex-direction:column;transition:width .22s;overflow:hidden}.sidebar.collapsed{width:68px}
+.brand{display:flex;align-items:center;gap:10px;padding:16px 18px;min-height:60px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07)}
+.logo{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,#3b82f6,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 12px rgba(59,130,246,.4)}
+.brand-txt{overflow:hidden;white-space:nowrap}.brand-txt strong{display:block;font-size:14px;color:var(--sbS)}.brand-txt span{display:block;font-size:11px;opacity:.7;margin-top:1px}.sidebar.collapsed .brand-txt{display:none}
+.side-tools{display:flex;gap:6px;padding:10px 14px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.06)}
+.mini{flex:1;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--sbT);border-radius:7px;padding:6px 4px;font-size:11.5px;cursor:pointer;transition:all .15s;white-space:nowrap;overflow:hidden}.mini:hover{background:rgba(255,255,255,.14);color:#fff}
+.sidebar.collapsed .side-tools{justify-content:center;padding:10px 6px}.sidebar.collapsed .mini{flex:none;font-size:15px;padding:6px 10px}.sidebar.collapsed .mini .txt{display:none}
+.menu-nav{flex:1;overflow-y:auto;padding:8px 8px 24px;scrollbar-width:thin}.menu-nav::-webkit-scrollbar{width:6px}.menu-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px}
+.menu-empty{color:var(--sbT);opacity:.6;font-size:12.5px;padding:24px 12px;text-align:center}
+.m1{margin-bottom:2px}.m1-h{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;cursor:pointer;color:var(--sbS);font-weight:600;font-size:13.5px;transition:background .15s;user-select:none}.m1-h:hover{background:var(--sb2)}
+.caret{width:14px;flex-shrink:0;text-align:center;font-size:10px;opacity:.6;transition:transform .18s}.m1.open>.m1-h>.caret,.m2.open>.m2-h>.caret{transform:rotate(90deg)}
+.mlabel{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mcount{font-size:10.5px;padding:1px 6px;border-radius:999px;background:rgba(255,255,255,.09);color:var(--sbT);flex-shrink:0}
+.m1-b{display:none;padding-left:6px}.m1.open>.m1-b{display:block}
+.m2-h{display:flex;align-items:center;gap:7px;padding:7px 10px 7px 16px;border-radius:7px;cursor:pointer;color:var(--sbT);font-size:13px;font-weight:500;transition:background .15s;user-select:none}.m2-h:hover{background:var(--sb2);color:var(--sbS)}
+.m2-b{display:none}.m2.open>.m2-b{display:block}
+.m3{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 34px;border-radius:7px;cursor:pointer;color:var(--sbT);font-size:12.8px;transition:all .13s}.m3:hover{background:var(--sb2);color:var(--sbS)}
+.m3 .dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45;flex-shrink:0}
+.m3.active{background:linear-gradient(90deg,rgba(59,130,246,.22),rgba(59,130,246,.05));color:#93c5fd;font-weight:600}.m3.active .dot{background:#3b82f6;opacity:1;box-shadow:0 0 0 3px rgba(59,130,246,.22)}
+.m1-icon{display:none}.sidebar.collapsed .m1-h{justify-content:center;padding:11px 0}
+.sidebar.collapsed .m1-h .mlabel,.sidebar.collapsed .m1-h .mcount,.sidebar.collapsed .m1-h .caret{display:none}
+.sidebar.collapsed .m1-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.07);font-size:13px;font-weight:700;color:#e2e8f0}
+.sidebar.collapsed .m1-b{display:none!important}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.topbar{height:60px;flex-shrink:0;background:var(--panel);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:14px;padding:0 20px;z-index:20}
+.icon-btn{width:34px;height:34px;border-radius:8px;flex-shrink:0;border:1px solid var(--bd);background:var(--panel);color:var(--sub);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}.icon-btn:hover{background:var(--panel2);color:var(--pri);border-color:var(--pri)}
+.crumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sub);overflow:hidden;white-space:nowrap;min-width:0}.crumb b{color:var(--text);font-weight:600}.crumb .sep{opacity:.4}
+.crumb .lnk{cursor:pointer;border-radius:4px;padding:2px 5px;transition:all .15s}.crumb .lnk:hover{background:var(--priSoft);color:var(--pri)}
+.top-search{margin-left:auto;position:relative;width:240px;flex-shrink:0}
+.top-search input{width:100%;padding:8px 12px 8px 32px;border:1px solid var(--bd);border-radius:8px;background:var(--panel2);color:var(--text);font-size:13px;outline:none;transition:all .15s}
+.top-search input:focus{border-color:var(--pri);background:var(--panel);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.top-search .s-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mute);pointer-events:none}
+.user{display:flex;align-items:center;gap:8px;flex-shrink:0;padding:4px 8px 4px 14px;border-left:1px solid var(--bd);cursor:pointer;border-radius:8px;transition:background .15s}.user:hover{background:var(--panel2)}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#06b6d4);color:#fff;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.user-info{line-height:1.25}.user-info strong{display:block;font-size:12.5px}.user-info span{display:block;font-size:11px;color:var(--mute)}
+.tabbar{height:42px;flex-shrink:0;background:var(--panel);border-bottom:1px solid var(--bd);display:flex;align-items:stretch;padding:0 12px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.tabbar::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:7px;padding:0 12px;font-size:12.8px;color:var(--sub);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;flex-shrink:0}.tab:hover{color:var(--text);background:var(--panel2)}.tab.active{color:var(--pri);border-bottom-color:var(--pri);font-weight:600}
+.t-x{width:16px;height:16px;border-radius:4px;border:none;background:transparent;color:inherit;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.5;transition:all .15s}.t-x:hover{background:rgba(0,0,0,.1);opacity:1}
+.tabbar-empty{display:flex;align-items:center;font-size:12px;color:var(--mute);padding:0 6px}
+.content{flex:1;overflow-y:auto;padding:20px 22px 80px;scroll-behavior:smooth}.content::-webkit-scrollbar{width:9px}.content::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.page-head h2{margin:0 0 6px;font-size:19px;font-weight:700;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.page-head h2 .badge{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--priSoft);color:var(--pri)}
+.page-head p{margin:0;font-size:12.8px;color:var(--sub)}
+.page-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--bd);background:var(--panel);color:var(--sub);padding:7px 14px;border-radius:8px;font-size:12.8px;cursor:pointer;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}.btn:hover{background:var(--panel2);color:var(--text);border-color:var(--mute)}
+.btn-primary{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}.btn-primary:hover{background:var(--pri2);border-color:var(--pri2);color:#fff}
+.btn-ok{background:var(--ok);border-color:var(--ok);color:#fff;font-weight:600}.btn-ok:hover{background:#059669;border-color:#059669;color:#fff}
+.btn-danger{background:var(--danger);border-color:var(--danger);color:#fff;font-weight:600}.btn-danger:hover{background:#dc2626;border-color:#dc2626;color:#fff}
+.btn-sm{padding:4px 9px;font-size:11.8px;border-radius:6px}.btn:disabled{opacity:.45;cursor:not-allowed}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.tb-search{flex:1;min-width:180px;max-width:320px;padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--panel2);color:var(--text);outline:none}.tb-search:focus{border-color:var(--pri);background:var(--panel);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.toolbar select{padding:7px 10px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--panel2);color:var(--text);outline:none;cursor:pointer}
+.toolbar input[type=date]{padding:7px 10px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--panel2);color:var(--text);outline:none}
+.toolbar input[type=date]:focus{border-color:var(--pri);background:var(--panel);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.toolbar .spacer{flex:1}
+.toolbar .date-sep{color:var(--mute);font-size:12.5px}
+.tbl-wrap{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+.tbl th{background:var(--panel2);color:var(--sub);font-weight:600;text-align:left;padding:11px 12px;border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bd2);vertical-align:middle;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl tbody tr{transition:background .12s;cursor:pointer}.tbl tbody tr:hover{background:var(--panel2)}.tbl tbody tr.selected{background:var(--priSoft)}
+.tbl tbody tr:last-child td{border-bottom:none}.tbl .empty-row td{text-align:center;color:var(--mute);padding:50px 0;cursor:default}
+.tbl .col-check{width:40px;cursor:default}.tbl .col-actions{width:1%;white-space:nowrap;text-align:right;cursor:default}
+.tbl input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--pri)}
+.actions{display:inline-flex;gap:3px;justify-content:flex-end}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;padding:2px 9px;border-radius:999px;font-weight:500;white-space:nowrap}.tag::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.tag.warn{background:var(--warnSoft);color:#b45309}.tag.success{background:var(--okSoft);color:#047857}.tag.danger{background:var(--dangerSoft);color:#b91c1c}.tag.info{background:var(--infoSoft);color:#0369a1}.tag.muted{background:var(--panel2);color:var(--mute)}
+body.dark .tag.warn{color:#fbbf24}body.dark .tag.success{color:#34d399}body.dark .tag.danger{color:#f87171}body.dark .tag.info{color:#38bdf8}
+.detail-badge{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:999px;background:var(--priSoft);color:var(--pri);margin-left:4px;font-weight:600;vertical-align:middle}
+.pager{display:flex;align-items:center;gap:10px;padding:12px 16px;flex-wrap:wrap;border-top:1px solid var(--bd2);font-size:12.5px;color:var(--sub)}
+.pager .pages{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.pager .pg{min-width:30px;height:30px;padding:0 8px;border:1px solid var(--bd);background:var(--panel);border-radius:7px;color:var(--sub);cursor:pointer;font-size:12.5px;transition:all .15s}
+.pager .pg:hover{border-color:var(--pri);color:var(--pri)}.pager .pg.active{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}.pager .pg:disabled{opacity:.4;cursor:not-allowed}
+.pager select{padding:5px 8px;border:1px solid var(--bd);border-radius:7px;background:var(--panel);color:var(--text);font-size:12.5px;cursor:pointer}
+.hero{background:linear-gradient(120deg,#1d4ed8,#0ea5e9 65%,#06b6d4);border-radius:16px;padding:26px 30px;color:#fff;position:relative;overflow:hidden;margin-bottom:20px;box-shadow:0 14px 34px rgba(29,78,216,.28)}
+.hero::after{content:"";position:absolute;right:-40px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero::before{content:"";position:absolute;right:70px;bottom:-90px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero h1{margin:0 0 8px;font-size:22px;font-weight:700;position:relative}.hero p{margin:0;font-size:13.5px;opacity:.92;position:relative;max-width:660px;line-height:1.7}
+.hero-actions{display:flex;gap:10px;margin-top:16px;position:relative;flex-wrap:wrap}
+.hero-btn{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.16);color:#fff;padding:8px 16px;border-radius:9px;font-size:13px;cursor:pointer;transition:all .15s}.hero-btn:hover{background:rgba(255,255,255,.3)}
+.hero-btn.primary{background:#fff;color:#1d4ed8;border-color:#fff;font-weight:600}.hero-btn.primary:hover{background:#eff6ff}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
+.stat{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);display:flex;align-items:center;gap:14px;transition:all .18s}.stat:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.stat-ico{width:44px;height:44px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:19px}
+.s-blue{background:#eff6ff;color:#2563eb}.s-green{background:#ecfdf5;color:#059669}.s-amber{background:#fffbeb;color:#d97706}.s-violet{background:#f5f3ff;color:#7c3aed}
+body.dark .s-blue{background:#122a44;color:#60a5fa}body.dark .s-green{background:#0d2b23;color:#34d399}body.dark .s-amber{background:#2b2211;color:#fbbf24}body.dark .s-violet{background:#231a3d;color:#a78bfa}
+.stat-num{font-size:22px;font-weight:700;line-height:1.1}.stat-label{font-size:12px;color:var(--sub);margin-top:3px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:0 0 14px}
+.section-title h2{margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.section-title h2::before{content:"";width:3px;height:15px;border-radius:2px;background:linear-gradient(#3b82f6,#06b6d4)}
+.section-title .sub{font-size:12px;color:var(--mute);font-weight:400;margin-left:4px}
+.l1-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.l1-card{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;cursor:pointer;transition:all .18s;box-shadow:var(--sh);position:relative;overflow:hidden}
+.l1-card::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(#3b82f6,#06b6d4);transform:scaleY(0);transform-origin:top;transition:transform .22s}
+.l1-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:rgba(59,130,246,.4)}.l1-card:hover::after{transform:scaleY(1)}
+.l1-card h3{margin:0 0 8px;font-size:14.5px;font-weight:700}
+.l1-card .meta{display:flex;gap:12px;font-size:12px;color:var(--sub);margin-bottom:10px}.l1-card .meta b{color:var(--pri);font-weight:700}
+.l1-card .tags{display:flex;flex-wrap:wrap;gap:5px}
+.tagline{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--panel2);color:var(--sub);border:1px solid var(--bd)}
+.detail-grid{display:grid;grid-template-columns:120px 1fr;gap:0;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.detail-grid .dk{background:var(--panel2);padding:10px 14px;font-size:12.5px;color:var(--sub);font-weight:600;border-bottom:1px solid var(--bd2)}
+.detail-grid .dv{padding:10px 14px;font-size:13px;color:var(--text);border-bottom:1px solid var(--bd2);word-break:break-word}
+.detail-grid .dk:last-of-type,.detail-grid .dv:last-of-type{border-bottom:none}
+.detail-status{margin:0 0 14px;padding:12px 14px;background:var(--panel2);border-radius:10px;font-size:12.8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.detail-status b{color:var(--text)}
+.detail-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.detail-sub-title{font-size:13px;font-weight:600;margin:18px 0 8px;color:var(--text);display:flex;align-items:center;gap:8px}
+.detail-sub-title::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--pri)}
+.detail-sub-wrap{border:1px solid var(--bd);border-radius:10px;overflow:auto;max-height:340px}
+.detail-sub-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:720px}
+.detail-sub-table th{background:var(--panel2);padding:9px 12px;text-align:left;color:var(--sub);font-weight:600;font-size:12px;white-space:nowrap;border-bottom:1px solid var(--bd)}
+.detail-sub-table td{padding:9px 12px;border-bottom:1px solid var(--bd2)}
+.detail-sub-table tr:last-child td{border-bottom:none}.detail-sub-table tbody tr:hover td{background:var(--panel2)}
+.detail-total{margin-top:10px;text-align:right;font-size:12.5px;color:var(--sub);padding:10px 14px;background:var(--panel2);border-radius:8px}
+.detail-total b{color:var(--text);font-size:14px;margin:0 4px}
+.detail-form-section{margin-top:18px;padding-top:16px;border-top:1px dashed var(--bd)}
+.detail-form-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px}
+.detail-form-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.detail-form-title::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--pri)}
+.detail-form-title .cnt{font-size:11.5px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--priSoft);color:var(--pri)}
+.detail-form-wrap{border:1px solid var(--bd);border-radius:10px;overflow:auto;max-height:340px;background:var(--panel)}
+.detail-form-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:760px}
+.detail-form-table th{background:var(--panel2);padding:9px 10px;text-align:left;color:var(--sub);font-weight:600;font-size:12px;white-space:nowrap;border-bottom:1px solid var(--bd)}
+.detail-form-table th .req{color:var(--danger)}
+.detail-form-table td{padding:6px 8px;border-bottom:1px solid var(--bd2)}
+.detail-form-table input,.detail-form-table select{width:100%;padding:6px 8px;border:1px solid var(--bd);border-radius:6px;background:var(--panel);color:var(--text);font-size:12.5px;outline:none;font-family:inherit}
+.detail-form-table input:focus,.detail-form-table select:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.detail-form-table input[readonly]{background:var(--bd2);color:var(--sub);cursor:not-allowed}
+.detail-form-empty{padding:28px;text-align:center;color:var(--mute);font-size:12.5px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:16px}
+.kpi{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.kpi::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;opacity:.08;background:currentColor}
+.kpi.k-blue{color:#2563eb}.kpi.k-green{color:#059669}.kpi.k-amber{color:#d97706}.kpi.k-violet{color:#7c3aed}
+.kpi-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative}
+.kpi-label{font-size:12px;color:var(--sub)}
+.kpi-val{font-size:26px;font-weight:700;color:var(--text);margin-top:6px;letter-spacing:-.5px}
+.kpi-val small{font-size:13px;color:var(--mute);font-weight:500;margin-left:3px}
+.kpi-trend{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:999px;display:inline-flex;align-items:center;gap:3px;margin-top:8px}
+.kpi-trend.up{background:var(--okSoft);color:#047857}.kpi-trend.down{background:var(--dangerSoft);color:#b91c1c}.kpi-trend.flat{background:var(--panel2);color:var(--mute)}
+.chart-filter{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.chart-filter select{padding:7px 10px;border:1px solid var(--bd);border-radius:8px;font-size:12.5px;background:var(--panel);color:var(--text);cursor:pointer;outline:none}
+.chart-filter .seg{display:flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden}
+.chart-filter .seg button{border:none;background:var(--panel);color:var(--sub);padding:7px 12px;font-size:12.5px;cursor:pointer;transition:all .15s}
+.chart-filter .seg button+button{border-left:1px solid var(--bd)}
+.chart-filter .seg button.active{background:var(--pri);color:#fff;font-weight:600}
+.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.chart-card{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);min-width:0}
+.chart-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.chart-head h3{margin:0;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.chart-head h3 .ico{width:22px;height:22px;border-radius:6px;background:var(--priSoft);color:var(--pri);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.chart-tip{font-size:11.5px;color:var(--mute);background:var(--panel2);padding:2px 8px;border-radius:999px}
+.chart-body{position:relative}.chart-body svg{display:block;width:100%;height:auto}.chart-full{grid-column:1/-1}
+.rank-list{display:flex;flex-direction:column;gap:10px}
+.rank-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;background:var(--panel2);transition:all .15s}.rank-item:hover{background:var(--priSoft)}
+.rank-no{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--bd);color:var(--sub);flex-shrink:0}
+.rank-item:nth-child(1) .rank-no{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#fff}
+.rank-item:nth-child(2) .rank-no{background:linear-gradient(135deg,#94a3b8,#cbd5e1);color:#fff}
+.rank-item:nth-child(3) .rank-no{background:linear-gradient(135deg,#b45309,#d97706);color:#fff}
+.rank-name{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-val{font-size:13px;font-weight:700;color:var(--pri)}
+.rank-bar{width:80px;height:6px;background:var(--bd);border-radius:3px;overflow:hidden;flex-shrink:0}.rank-bar i{display:block;height:100%;background:linear-gradient(90deg,#3b82f6,#06b6d4);border-radius:3px}
+.mini-tbl{width:100%;border-collapse:collapse;font-size:12.8px}
+.mini-tbl th{background:var(--panel2);color:var(--sub);font-weight:600;padding:9px 12px;text-align:left;border-bottom:1px solid var(--bd);font-size:12px}
+.mini-tbl td{padding:9px 12px;border-bottom:1px solid var(--bd2)}.mini-tbl tr:last-child td{border-bottom:none}.mini-tbl tr:hover td{background:var(--panel2)}
+.modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:200;backdrop-filter:blur(2px)}.modal-mask.show{opacity:1;pointer-events:auto}
+.modal-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:201;padding:20px;pointer-events:none}.modal-wrap.show{pointer-events:auto}
+.modal{background:var(--panel);border-radius:14px;box-shadow:var(--sh3);width:100%;max-width:820px;max-height:calc(100vh - 60px);display:flex;flex-direction:column;transform:scale(.95) translateY(10px);opacity:0;transition:all .22s}
+.modal-wrap.show .modal{transform:scale(1) translateY(0);opacity:1}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--bd);flex-shrink:0}
+.modal-head h3{margin:0;font-size:16px;font-weight:700}
+.modal-x{border:none;background:transparent;font-size:22px;line-height:1;color:var(--mute);cursor:pointer;width:28px;height:28px;border-radius:6px;transition:all .15s}.modal-x:hover{background:var(--panel2);color:var(--text)}
+.modal-body{padding:18px 20px;overflow-y:auto}
+.modal-foot{padding:14px 20px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.form-row{margin-bottom:14px}.form-row:last-child{margin-bottom:0}
+.form-row label{display:block;font-size:12.5px;color:var(--sub);margin-bottom:6px;font-weight:500}
+.form-row label .req{color:var(--danger)}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--panel2);color:var(--text);font-size:13px;outline:none;transition:all .15s;font-family:inherit}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--pri);background:var(--panel);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.form-row textarea{resize:vertical;min-height:70px}.form-row input:disabled,.form-row input[readonly]{opacity:.7;cursor:not-allowed;background:var(--bd2)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}.form-grid .form-row{margin-bottom:0}.form-grid .span2{grid-column:1/-1}
+.audit-info{background:var(--panel2);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.9}.audit-info b{color:var(--text)}.audit-info .k{color:var(--mute);display:inline-block;min-width:80px}
+.toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(16px);background:#0f172a;color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;box-shadow:var(--sh3);opacity:0;pointer-events:none;transition:all .22s;z-index:300;max-width:80vw}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.back-top{position:fixed;right:26px;bottom:26px;width:42px;height:42px;border-radius:50%;border:1px solid var(--bd);background:var(--panel);color:var(--pri);font-size:17px;cursor:pointer;box-shadow:var(--sh2);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .2s;z-index:50}.back-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}.back-top:hover{background:var(--pri);color:#fff;border-color:var(--pri)}
+mark{background:#fde68a;color:#78350f;border-radius:3px;padding:0 2px}body.dark mark{background:#a16207;color:#fef3c7}
+@media(max-width:1100px){.chart-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.sidebar{position:fixed;left:0;top:0;bottom:0;z-index:100;box-shadow:var(--sh2)}.sidebar.collapsed{width:0;border:none}.top-search{width:150px}.user-info{display:none}.content{padding:16px 14px 80px}.form-grid{grid-template-columns:1fr}.modal{max-width:100%}.detail-grid{grid-template-columns:100px 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">龙</div><div class="brand-txt"><strong>龙巢食品 ERP</strong><span>标准版</span></div></div>
+    <div class="side-tools"><button class="mini" id="expandAll">⊞ <span class="txt">展开</span></button><button class="mini" id="collapseAll">⊟ <span class="txt">折叠</span></button></div>
+    <nav class="menu-nav" id="menuNav"></nav>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn" id="toggleSidebar" title="折叠侧边栏">☰</button>
+      <div class="crumb" id="crumb"></div>
+      <div class="top-search"><span class="s-ico">🔍</span><input id="search" type="search" placeholder="搜索菜单..."></div>
+      <button class="icon-btn" id="themeBtn" title="切换主题">🌙</button>
+      <div class="user" id="userBox"><div class="avatar">管</div><div class="user-info"><strong>管理员</strong><span>系统管理员</span></div></div>
+    </header>
+    <div class="tabbar" id="tabbar"></div>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+<button class="back-top" id="backTop">↑</button>
+<div class="toast" id="toast"></div>
+<div class="modal-mask" id="modalMask"></div>
+<div class="modal-wrap" id="modalWrap"><div class="modal" id="modal">
+  <div class="modal-head"><h3 id="modalTitle">标题</h3><button class="modal-x" id="modalClose">×</button></div>
+  <div class="modal-body" id="modalBody"></div>
+  <div class="modal-foot" id="modalFoot"></div>
+</div></div>
+
+<script>
+/* ============ 日期基准 2026-11-05 ============ */
+const BASE_DATE = new Date(2026, 10, 5);
+function dateStr(offsetDays){const d=new Date(BASE_DATE);d.setDate(d.getDate()+offsetDays);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+function fixDateText(s,offset){return String(s).replace(/(20\d{2})-(\d{2})-(\d{2})/g,()=>dateStr(offset));}
+
+/* ============ 菜单 ============ */
+const RAW = [
+["产品与配方","物料与产品","物料分类与编码规则","按原料、辅料、食品添加剂、包材、半成品、成品建立多级分类，统一编码规则"],
+["产品与配方","物料与产品","物料主数据","原料、辅料、添加剂、包材的名称、规格、单位、保质期、储存条件、过敏原、执行标准"],
+["产品与配方","物料与产品","成品主数据","成品编码、规格、箱规、保质期、条码、配料表与营养成分、储存与运输条件"],
+["产品与配方","物料与产品","计量单位与换算","多计量单位与换算率，支持固定换算与按实际称重的浮动换算"],
+["产品与配方","物料与产品","标签模板","标签版本，产品名称，产品批次号，日期，二维码"],
+["产品与配方","配方管理","产品配方（多级BOM）","主料、辅料、食品添加剂、包材的配比、用量、得率与损耗率；支持替代料"],
+["产品与配方","配方管理","配方版本与变更","多版本并存、生效/停用切换、变更申请与审批、变更留痕"],
+["产品与配方","配方管理","配方成本","按原料最新价核算标准成本，输出单位成本与成本构成"],
+["产品与配方","配方管理","配方权限与保密","配方分级授权、关键字段脱敏、导出审批、水印"],
+["工艺与标准","工艺管理","工序库","定义解冻、和面、蒸煮、冷却、杀菌、金检、包装等基础工序"],
+["工艺与标准","工艺管理","工艺路线","按产品绑定工序顺序，拖拽编排；设置工序交接规则"],
+["工艺与标准","工艺管理","工艺版本管理","工艺版本审批生效、变更影响评估"],
+["工艺与标准","工艺管理","生产计划（MPS）","月度/周计划，按产线与班组产能平衡，输出可执行的生产批次"],
+["工艺与标准","工艺管理","物料需求计划（MRP）","按BOM展开、扣减现有库存与在途、生成采购建议与领料计划"],
+["采购管理","采购业务","采购申请","MRP建议、库存阈值、部门领用需求多来源发起，按审批后转采购订单"],
+["采购管理","采购业务","采购订单","供应商、物料、数量、价格、交期、到货计划"],
+["采购管理","采购业务","采购退货","不合格原料退供，关联采购单与检验单，退货出库并冲减库存"],
+["采购管理","采购业务","供应商档案","供应商编号、证照、供应物料、账期、评级、联系人，收款信息"],
+["采购管理","采购业务","合格供应商准入","准入评审、合格名录、资质到期预警、年度复审"],
+["仓储物流","库存管理","库存现有量","按物料、批次、效期、库位查询；区分可用、锁定、在检、待处理"],
+["仓储物流","库存管理","完工入库","生产完工入库、生成批次与箱码、强制录入生产日期与有效期"],
+["仓储物流","库存管理","其他出入库","盘盈盘亏、赠品、样品、内部领用、报废等非采购非销售出入库"],
+["仓储物流","库存管理","调拨与移库","跨仓、跨库位调拨，调拨在途与调入确认"],
+["仓储物流","库存管理","库存预警","安全库存上下限、近效期、过期、呆滞四类预警"],
+["仓储物流","库存管理","盘点","盘点方案、盘点任务、盲盘/动态盘点、差异调整与审批"],
+["仓储物流","库存管理","箱码与托盘码","箱码、托盘码（GS1）生成、打印、扫码绑定与流转记录"],
+["仓储物流","库存管理","仓库、库区与库位","原料库、包材库、半成品库、成品库、冷库、留样库、不合格品隔离区"],
+["仓储物流","配送管理","配送线路与排线","线路、客户配送顺序、配送日、车辆载重与装载率"],
+["仓储物流","配送管理","车辆与司机","车辆档案、车牌、载重、年检与保险到期；司机驾照、绑定车辆"],
+["仓储物流","配送管理","配送任务与签收","任务下发、导航、送达照片、电子签收、拒收/延期异常上报"],
+["生产管理","车间执行","生产排产","可视化排产日历、按产线/班组/时间排工单、产线负荷查看"],
+["生产管理","车间执行","生产工单","由销售订单/计划生成，绑定产品、配方版本、工艺路线"],
+["生产管理","车间执行","班组任务","工单派到班组/个人，APP 查看配方、工艺与任务清单"],
+["生产管理","车间执行","生产领料","按工单BOM生成领料单，按批次领料、效期优先、超领审批"],
+["生产管理","车间执行","生产退料","余料、包材退库，区分良品/不良品，关联工单回写库存"],
+["生产管理","车间执行","生产报工","按工序上报完工数、不良数、工时、设备与操作人"],
+["生产管理","车间执行","工序流转与交接","上工序检验合格方可流转，记录工序在制数量与所在工序"],
+["生产管理","车间执行","车间生产看板","当日计划完成率、工序进度、在制与异常"],
+["质量管理","质检基础","检测项设置","检验指标、标准值、允差、检测方法与判定规则"],
+["质量管理","质检基础","缺陷库","不合格缺陷类型与严重等级，供现场判定与统计"],
+["质量管理","质检基础","质检方案","检测项组合成检验模板，按物料/产品/工序绑定"],
+["质量管理","质检基础","待检任务","按业务单据自动生成质检任务池，检验员接单并录入结果"],
+["质量管理","检验执行","来料检验（IQC）","按批次抽检，判定合格/让步接收/退货，结果联动采购入库"],
+["质量管理","检验执行","过程检验（IPQC）","首件检验、巡检、CCP 点监控"],
+["质量管理","检验执行","成品检验（FQC/OQC）","出厂理化与微生物指标检验、放行审批、按批次出具检验报告"],
+["质量管理","检验执行","不合格品与退料处置","返工、让步接收、报废、隔离，处置审批与台账"],
+["质量管理","检验执行","留样管理","留样登记、绑定成品批次、留样数量与到期日、存放位置"],
+["质量管理","追溯与召回","产品追溯","正向：工单→领料批次→成品批次→出库→客户；反向追溯"],
+["质量管理","追溯与召回","召回管理","召回启动、影响批次锁定冻结、客户与渠道通知、监管上报记录"],
+["质量管理","追溯与召回","检验报告与合格证","按批次出具出厂检验报告/合格证"],
+["设备与能源","设备管理","设备类型","设备分类主数据，供台账、点检模板与保养计划关联"],
+["设备与能源","设备管理","设备档案","全生命周期电子档案：基础参数、技术资料、安装位置、运行状态"],
+["设备与能源","设备管理","点检与保养","日/周/月点检表、保养计划、扫码点检、到期与漏检提醒"],
+["设备与能源","设备管理","维修工单","报修、派工、备件领用、维修记录、停机时长归集"],
+["销售管理","客户档案","客户档案","客户名称、编号、类型、结算方式、配送线路与顺序、收货地址、信用额度、账期天数"],
+["销售管理","客户档案","客户联系人","多联系人、多角色与联系方式，可设默认联系人"],
+["销售管理","客户经营","线索与商机","潜在线索录入、分配、跟进与转化；商机阶段与预计金额"],
+["销售管理","客户经营","客户公海与待办","闲置客户资源池、按规则申请领取、今日待跟进任务"],
+["销售管理","客户经营","销售目标与达成","月度目标按客户/线路/业务员分解，跟踪达成率"],
+["销售管理","客户经营","客户专属价","按客户配置商品专属价、阶梯价，支持批量导入与启停"],
+["销售管理","客户经营","销售合同","合同起草、审批流转、电子归档、合同台账与到期提醒"],
+["销售管理","客户经营","销售订单","多渠道接单，一个订单可包含多个商品明细；按日期、客户查询；详情可修改配送时间"],
+["销售管理","客户经营","销售发货","按订单生成发货单与出库单，拣货、复核、装车交接"],
+["销售管理","客户经营","销售退货","退货申请、质检判定、退款与冲减应收、退货原因登记"],
+["销售管理","客户经营","订单跟踪","一键联查订单对应的生产工单、入库单、出库单、配送单"],
+["销售管理","资金与回款","回款与应收","回款登记、回款计划、应收账龄、客户对账单"],
+["售后服务","客户服务","客户投诉","投诉工单：来源、类型、关联订单与批次、责任人、处理进度、回访记录"],
+["售后服务","客户服务","退换货受理","退货申请审核、退货入库、质检判定、回写库存与应收"],
+["售后服务","客户服务","客户回访与满意度","回访计划、满意度评分、问题闭环跟踪"],
+["财务管理","总账核算","凭证管理","凭证录入、审核、查询、按摘要/凭证号汇总"],
+["财务管理","总账核算","账簿查询","明细账、总账、科目余额表、多栏账、核算项目明细账/余额表"],
+["财务管理","总账核算","辅助核算","部门、项目、客户、供应商、存货多维辅助核算"],
+["财务管理","总账核算","期末结账","结账检查、试算平衡、损益结转、资产负债平衡，支持反结账"],
+["财务管理","总账核算","财务报表","资产负债表、利润表、现金流量表，支持月/季/年报"],
+["财务管理","应收应付","应收管理","应收台账、账龄分析、对账确认、坏账计提"],
+["财务管理","应收应付","应付管理","应付台账、账期与付款计划、付款审批"],
+["财务管理","应收应付","发票管理","进销项发票登记、开票申请、与订单/合同勾稽"],
+["财务管理","成本与费用","成本核算","按产品/批次归集原料、包材、人工、能耗与损耗"],
+["财务管理","成本与费用","费用与报销","费用申请、借款、报销、审批与凭证生成"],
+["财务管理","资金与出纳","资金管理","银行账户、收付款单、日记账、资金余额"],
+["财务管理","基础设置","账套与科目","账套、会计科目、凭证字、常用摘要、币别与汇率、财务初始余额"],
+["财务管理","基础设置","财务指标与分析","流动比率、毛利率、成本率、周转率等指标定义与看板"],
+["人力资源","人事管理","员工档案","基本信息、岗位、合同、兼职/外包标识、入离职状态、紧急联系人"],
+["人力资源","人事管理","人事异动","入职、转正、调岗、调薪、离职流程与交接"],
+["人力资源","考勤与排班","考勤管理","打卡记录、请假、月度汇总、考勤组与节假日设置"],
+["人力资源","考勤与排班","班次排班","多班次排班、班组排班表、临时换班"],
+["人力资源","薪酬管理","薪资管理","薪资档案、薪资组与计税规则、计薪设置、工资表模板与调薪模板"],
+["人力资源","薪酬管理","计件与工时工资","计件单价、按报工产量与工时自动计算"],
+["人力资源","培训与资质","培训与上岗资质","食品安全与操作培训计划、记录、考核、上岗资格"],
+["数据分析","经营分析","经营驾驶舱","收入、毛利、订单、回款、库存、产能、异常一屏总览"],
+["数据分析","经营分析","销售与客户分析","销售趋势、区域/线路、客户贡献与流失、产品销售结构"],
+["数据分析","经营分析","库存与效期分析","库存金额、周转天数、呆滞、近效期与过期金额"],
+["数据分析","经营分析","生产与效率分析","产量达成、工序瓶颈、停机原因、班组绩效"],
+["数据分析","经营分析","成本与损耗分析","单位成本构成、原料损耗率、得率、能耗成本"],
+["数据分析","经营分析","质量与食安分析","合格率、客诉率、召回次数、供应商来料质量"],
+["数据分析","经营分析","财务与资金分析","应收应付、账龄、毛利、订单毛利"],
+["数据分析","经营分析","配送分析","线路装载率、准时送达率、拒收率、配送成本"],
+["系统平台","系统管理","权限与组织","菜单、角色、用户、部门、岗位；数据权限"],
+["系统平台","系统管理","流程与审批引擎","表单设计、审批流配置、条件分支、加签转签、超时提醒"],
+["系统平台","系统管理","消息中心","站内信、短信、邮件、公告与消息模板"],
+["系统平台","系统管理","字典与参数","全局字典、系统参数、业务开关统一维护"],
+["系统平台","系统管理","编码规则","物料、客户、订单、批次、箱码的编码规则与流水号"],
+["系统平台","系统管理","接口与开放平台","小程序、支付、电子秤、财务软件、电商平台接口及调用日志"],
+["系统平台","系统运维","日志与审计","操作日志、登录日志、API 日志"],
+["系统平台","系统运维","数据备份与安全","定期备份、恢复演练、敏感数据脱敏、批量导出审批"],
+["系统平台","系统运维","定时任务与监控","作业调度、MySQL/Redis/JVM 监控与告警"],
+["系统平台","系统运维","版本与升级","服务端与APP 版本、灰度发布、更新日志"]
+];
+const MENUS = RAW.map(([l1,l2,l3,desc], id) => ({ id, l1, l2, l3, desc }));
+const STATUS = {pending:{text:"待审核",cls:"warn"},approved:{text:"已审核",cls:"success"},rejected:{text:"已驳回",cls:"danger"},done:{text:"已完成",cls:"info"},disabled:{text:"已停用",cls:"muted"}};
+
+/* ============ 字段定义 ============ */
+const T = {
+  category:{f:[{k:"code",l:"分类编码",t:"text",auto:"CL"},{k:"name",l:"分类名称",t:"text",req:1,demo:["原料","辅料","食品添加剂","包材","半成品","成品"]},{k:"parent",l:"上级分类",t:"select",opts:["无","原料","辅料","包材"],demo:["无","无","原料","包材","无","无"]},{k:"rule",l:"编码规则",t:"text",demo:["CL-{类别}-{流水}"]},{k:"sort",l:"排序号",t:"number",demo:[1,2,3,4,5,6]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用","启用","停用","启用"]}],c:["code","name","parent","rule","sort","status"]},
+  material:{f:[{k:"code",l:"物料编码",t:"text",auto:"M"},{k:"name",l:"物料名称",t:"text",req:1,demo:["高筋面粉","白砂糖","食用盐","活性酵母","黄油","全脂奶粉","鸡蛋液","山梨酸钾","复合包装袋","瓦楞纸箱"]},{k:"cat",l:"物料分类",t:"select",opts:["原料","辅料","添加剂","包材"],demo:["原料","辅料","辅料","原料","辅料","原料","原料","添加剂","包材","包材"]},{k:"spec",l:"规格",t:"text",demo:["25kg/袋","50kg/袋","10kg/箱","1kg/袋","25kg/箱","25kg/袋","20kg/桶","1kg/袋","个","个"]},{k:"unit",l:"单位",t:"select",opts:["kg","袋","箱","瓶","个"],demo:["kg","kg","kg","袋","箱"]},{k:"shelf",l:"保质期(天)",t:"number",demo:[180,365,90,30,720,365,60,730,365,365]},{k:"storage",l:"储存条件",t:"select",opts:["常温","冷藏","冷冻"],demo:["常温","常温","常温","常温","冷藏","常温","冷藏","常温","常温","常温"]},{k:"allergen",l:"过敏原",t:"text",demo:["无","无","无","无","乳制品","乳制品","蛋制品","无","无","无"]},{k:"standard",l:"执行标准",t:"text",demo:["GB/T 1355","GB/T 317","GB 5461","GB 31639","GB 19646","GB 19644","GB 2749","GB 1886.39","GB 4806.7","GB/T 6543"]},{k:"created",l:"创建日期",t:"date"}],c:["code","name","cat","spec","unit","shelf","storage"]},
+  product:{f:[{k:"code",l:"成品编码",t:"text",auto:"P"},{k:"name",l:"成品名称",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕"]},{k:"spec",l:"规格",t:"text",demo:["80g/个","400g/条","250g/盒","60g/个","70g/个","85g/个","450g/条","200g/盒"]},{k:"box",l:"箱规",t:"text",demo:["40个/箱","20条/箱","12盒/箱","30个/箱","30个/箱","40个/箱","20条/箱","12盒/箱"]},{k:"shelf",l:"保质期(天)",t:"number",demo:[3,5,7,3,4,3,5,7]},{k:"barcode",l:"条码",t:"text",demo:["6901234560001","6901234560002","6901234560003","6901234560004","6901234560005","6901234560006","6901234560007","6901234560008"]},{k:"ingredients",l:"配料表",t:"text",demo:["小麦粉、奶油、白砂糖","全麦粉、酵母","奶油奶酪、鸡蛋","小麦粉、椰蓉","小麦粉、黄油","小麦粉、红豆","小麦粉、肉松","小麦粉、抹茶粉"]},{k:"storage",l:"储存运输",t:"select",opts:["常温","冷藏","冷冻"],demo:["常温","常温","冷藏","常温","常温","常温","常温","冷藏"]},{k:"created",l:"创建日期",t:"date"}],c:["code","name","spec","box","shelf","barcode","storage"]},
+  unit:{f:[{k:"code",l:"单位编码",t:"text",auto:"U"},{k:"name",l:"单位名称",t:"text",req:1,demo:["千克","克","箱","袋","包","瓶","个"]},{k:"base",l:"基本单位",t:"select",opts:["是","否"],demo:["是","否","否","否","否","否","否"]},{k:"rate",l:"换算率",t:"number",demo:[1,1000,40,25,1,12,60]},{k:"mode",l:"换算方式",t:"select",opts:["固定换算","按称重浮动"],demo:["固定换算","固定换算","固定换算","固定换算","固定换算","固定换算","固定换算"]},{k:"remark",l:"备注",t:"text",demo:["基础单位","= 1000 克","= 40 个","= 25 kg","= 1 个","= 12 瓶","= 60 个"]}],c:["code","name","base","rate","mode","remark"]},
+  label:{f:[{k:"name",l:"模板名称",t:"text",req:1,demo:["主产品标签A","主产品标签B","小包装标签","礼盒标签","散装标签"]},{k:"version",l:"版本",t:"text",demo:["V1.0","V1.1","V1.0","V2.0","V1.0"]},{k:"product",l:"适用产品",t:"text",demo:["奶油面包","全麦吐司","芝士蛋糕","牛角可颂","所有面包类"]},{k:"batchRule",l:"批次号规则",t:"text",demo:["YYMMDD+流水","YYMMDD+流水","YYMMDD+流水","YYMMDD+流水","YYMMDD+流水"]},{k:"qrRule",l:"二维码规则",t:"text",demo:["URL+批次号","URL+批次号","URL+批次号","URL+批次号","URL+批次号"]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用","启用","停用"]}],c:["name","version","product","batchRule","qrRule","status"]},
+  bom:{f:[{k:"code",l:"配方编码",t:"text",auto:"BOM"},{k:"product",l:"产品名称",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂"]},{k:"version",l:"版本",t:"text",demo:["V1.0","V1.2","V2.0","V1.0","V1.1"]},{k:"main",l:"主料用量(kg)",t:"number",demo:[50,80,30,60,45]},{k:"aux",l:"辅料用量(kg)",t:"number",demo:[10,5,8,12,7]},{k:"additive",l:"添加剂(g)",t:"number",demo:[150,80,120,60,140]},{k:"pack",l:"包材(个)",t:"number",demo:[1000,800,600,1200,900]},{k:"yield",l:"得率(%)",t:"number",demo:[92,95,88,90,93]},{k:"loss",l:"损耗率(%)",t:"number",demo:[3,2,4,3,3]},{k:"created",l:"创建日期",t:"date"}],c:["code","product","version","main","aux","pack","yield","loss"]},
+  bomVersion:{f:[{k:"code",l:"变更单号",t:"text",auto:"ECN"},{k:"formula",l:"配方名称",t:"text",req:1,demo:["奶油面包配方","全麦吐司配方","芝士蛋糕配方"]},{k:"oldVer",l:"原版本",t:"text",demo:["V1.0","V1.1","V1.0"]},{k:"newVer",l:"新版本",t:"text",demo:["V1.1","V1.2","V2.0"]},{k:"content",l:"变更内容",t:"text",demo:["黄油用量由 8% 改为 9%","新增全麦粉替代 20% 小麦粉","奶油奶酪提升 5%"]},{k:"applicant",l:"申请人",t:"text",demo:["张三","李四","王五"]},{k:"date",l:"申请日期",t:"date"},{k:"status",l:"审批状态",t:"select",opts:["待审核","已审核","已驳回"],demo:["已审核","待审核","已审核"]}],c:["code","formula","oldVer","newVer","applicant","status"]},
+  bomCost:{f:[{k:"code",l:"配方编码",t:"text",auto:"BOM"},{k:"product",l:"产品名称",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"raw",l:"原料成本(元)",t:"number",demo:[1.20,0.80,2.50]},{k:"aux",l:"辅料成本(元)",t:"number",demo:[0.50,0.30,0.80]},{k:"pack",l:"包材成本(元)",t:"number",demo:[0.30,0.25,0.50]},{k:"total",l:"总成本(元)",t:"number",demo:[2.00,1.35,3.80]},{k:"price",l:"建议售价(元)",t:"number",demo:[3.50,2.50,6.00]}],c:["code","product","raw","aux","pack","total","price"]},
+  bomPerm:{f:[{k:"target",l:"授权对象",t:"text",req:1,demo:["研发部","生产部","质量部","销售部"]},{k:"type",l:"授权类型",t:"select",opts:["查看","编辑","导出"],demo:["查看","编辑","查看","查看"]},{k:"scope",l:"授权范围",t:"select",opts:["全部配方","指定产品","指定产线"],demo:["全部配方","指定产品","指定产品","全部配方"]},{k:"expire",l:"有效期至",t:"date"},{k:"watermark",l:"水印",t:"select",opts:["是","否"],demo:["是","是","是","否"]},{k:"desens",l:"脱敏",t:"select",opts:["是","否"],demo:["是","是","是","否"]}],c:["target","type","scope","expire","watermark","desens"]},
+  process:{f:[{k:"code",l:"工序编码",t:"text",auto:"PR"},{k:"name",l:"工序名称",t:"text",req:1,demo:["解冻","和面","蒸煮","冷却","杀菌","金检","包装"]},{k:"hours",l:"标准工时(分钟)",t:"number",demo:[30,45,60,20,40,15,25]},{k:"post",l:"岗位",t:"text",demo:["解冻工","和面工","蒸煮工","冷却工","杀菌工","金检工","包装工"]},{k:"mustCheck",l:"是否必检",t:"select",opts:["是","否"],demo:["否","是","是","否","是","是","否"]},{k:"desc",l:"工序说明",t:"text",demo:["常温解冻 4h","低速 8min 高速 5min","100℃ 25min","风冷 30min","85℃ 15min","Fe1.2","真空包装"]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用","启用","启用","启用","启用"]}],c:["code","name","hours","post","mustCheck","status"]},
+  route:{f:[{k:"code",l:"路线编码",t:"text",auto:"RT"},{k:"product",l:"产品名称",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"seq",l:"工序顺序",t:"text",demo:["和面→发酵→烘烤→冷却→包装","和面→发酵→烘烤→冷却→包装","和面→烘烤→冷却→包装"]},{k:"prev",l:"上工序",t:"text",demo:["和面","发酵","烘烤"]},{k:"next",l:"下工序",t:"text",demo:["发酵","烘烤","冷却"]},{k:"rule",l:"交接规则",t:"select",opts:["上工序合格方可流转","直接流转"],demo:["上工序合格方可流转","上工序合格方可流转","直接流转"]}],c:["code","product","seq","prev","next","rule"]},
+  routeVersion:{f:[{k:"version",l:"版本号",t:"text",req:1,demo:["V1.0","V1.1","V2.0"]},{k:"product",l:"产品",t:"text",demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"content",l:"变更内容",t:"text",demo:["烘烤时间 15→18min","增加金检工序","调整发酵温度"]},{k:"impact",l:"影响范围",t:"text",demo:["奶油面包线","全麦吐司线","芝士蛋糕线"]},{k:"date",l:"生效日期",t:"date"},{k:"status",l:"审批状态",t:"select",opts:["待审核","已审核","已驳回"],demo:["已审核","待审核","已审核"]}],c:["version","product","content","impact","status"]},
+  mps:{f:[{k:"code",l:"计划编号",t:"text",auto:"MPS"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包"]},{k:"line",l:"产线",t:"select",opts:["一号线","二号线","三号线"],demo:["一号线","二号线","一号线","三号线"]},{k:"team",l:"班组",t:"select",opts:["A班","B班","C班"],demo:["A班","B班","A班","C班"]},{k:"month",l:"计划月份",t:"text",demo:["2026-11","2026-11","2026-12","2026-12"]},{k:"qty",l:"计划产量",t:"number",demo:[5000,8000,3000,6000]},{k:"status",l:"状态",t:"select",opts:["草稿","已下达","执行中","已完成"],demo:["执行中","已下达","草稿","已完成"]}],c:["code","product","line","team","month","qty","status"]},
+  mrp:{f:[{k:"code",l:"需求编号",t:"text",auto:"MRP"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"bom",l:"BOM版本",t:"text",demo:["V1.0","V1.2","V2.0"]},{k:"net",l:"净需求(kg)",t:"number",demo:[1800,2600,900]},{k:"purchase",l:"建议采购(kg)",t:"number",demo:[1000,1500,500]},{k:"picking",l:"建议领料(kg)",t:"number",demo:[800,1100,400]}],c:["code","product","bom","net","purchase","picking"]},
+  purchaseReq:{f:[{k:"code",l:"申请单号",t:"text",auto:"PR"},{k:"applicant",l:"申请人",t:"text",req:1,demo:["王芳","李强","张敏","刘洋"]},{k:"dept",l:"部门",t:"select",opts:["生产部","采购部","质量部","仓储部"],demo:["生产部","采购部","质量部","仓储部"]},{k:"material",l:"物料",t:"text",demo:["高筋面粉","白砂糖","食用盐","黄油"]},{k:"qty",l:"数量(kg)",t:"number",demo:[500,300,200,150]},{k:"date",l:"需求日期",t:"date"},{k:"status",l:"审批状态",t:"select",opts:["待审核","已审核","已驳回"],demo:["待审核","已审核","已审核","已驳回"]}],c:["code","applicant","dept","material","qty","date","status"]},
+  purchaseOrder:{f:[{k:"code",l:"订单编号",t:"text",auto:"PO"},{k:"supplier",l:"供应商",t:"text",req:1,demo:["中粮食品","益海嘉里","圣牧乳业","双汇供应链","新希望"]},{k:"material",l:"物料",t:"text",demo:["高筋面粉","白砂糖","黄油","全脂奶粉","鸡蛋液"]},{k:"qty",l:"数量(kg)",t:"number",demo:[1000,500,200,300,400]},{k:"price",l:"单价(元)",t:"number",demo:[3.2,5.8,28.5,25.6,12.0]},{k:"amount",l:"金额(元)",t:"number",demo:[3200,2900,5700,7680,4800]},{k:"delivery",l:"交期",t:"date"},{k:"status",l:"状态",t:"select",opts:["待下单","已下单","部分到货","已收货","已完成","已取消"],demo:["已下单","部分到货","已收货","待下单","已完成"]}],c:["code","supplier","material","qty","amount","delivery","status"]},
+  purchaseReturn:{f:[{k:"code",l:"退货单号",t:"text",auto:"RPO"},{k:"po",l:"关联采购单",t:"text",req:1,demo:["PO202601","PO202602","PO202603"]},{k:"supplier",l:"供应商",t:"text",demo:["中粮食品","益海嘉里","圣牧乳业"]},{k:"material",l:"物料",t:"text",demo:["高筋面粉","白砂糖","黄油"]},{k:"qty",l:"退货数量(kg)",t:"number",demo:[50,30,20]},{k:"reason",l:"退货原因",t:"select",opts:["不合格","规格错误","数量短缺","包装破损"],demo:["不合格","规格错误","数量短缺"]},{k:"date",l:"退货日期",t:"date"}],c:["code","po","supplier","material","qty","reason"]},
+  supplier:{f:[{k:"code",l:"供应商编号",t:"text",auto:"S"},{k:"name",l:"供应商名称",t:"text",req:1,demo:["中粮食品有限公司","益海嘉里集团","圣牧乳业","双汇供应链","新希望六和"]},{k:"license",l:"营业执照",t:"text",demo:["911100001","913100002","911100003","913100004","911100005"]},{k:"supply",l:"供应物料",t:"text",demo:["面粉、糖","食用油、糖","乳制品","肉类","蛋制品"]},{k:"account",l:"账期(天)",t:"number",demo:[30,45,30,60,30]},{k:"level",l:"评级",t:"select",opts:["A","B","C","待评估"],demo:["A","A","B","B","待评估"]},{k:"contact",l:"联系人",t:"text",demo:["张经理","李总","王主管","赵经理","陈总"]},{k:"phone",l:"联系电话",t:"text",demo:["13800001111","13800002222","13800003333","13800004444","13800005555"]},{k:"created",l:"创建日期",t:"date"}],c:["code","name","supply","account","level","contact","phone"]},
+  supplierAccess:{f:[{k:"code",l:"准入编号",t:"text",auto:"SA"},{k:"supplier",l:"供应商",t:"text",req:1,demo:["中粮食品","益海嘉里","圣牧乳业","新希望"]},{k:"reviewDate",l:"评审日期",t:"date"},{k:"recheck",l:"复审日期",t:"date"},{k:"expire",l:"资质到期",t:"date"},{k:"status",l:"状态",t:"select",opts:["合格","不合格","待复审"],demo:["合格","合格","待复审","合格"]}],c:["code","supplier","reviewDate","recheck","expire","status"]},
+  inventory:{f:[{k:"material",l:"物料",t:"text",req:1,demo:["高筋面粉","白砂糖","食用盐","黄油","全脂奶粉","鸡蛋液","包装袋","奶油面包"]},{k:"warehouse",l:"仓库",t:"select",opts:["原料库","包材库","半成品库","成品库","冷库","留样库"],demo:["原料库","原料库","原料库","原料库","原料库","原料库","包材库","成品库"]},{k:"location",l:"库位",t:"text",demo:["A-01-01","A-01-02","A-01-03","A-02-01","A-02-02","A-02-03","B-01-01","C-01-01"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105","B20261105","B20261105","B20261105","B20261105","B20261105"]},{k:"avail",l:"可用量",t:"number",demo:[800,1200,600,300,900,1500,2000,400]},{k:"lock",l:"锁定量",t:"number",demo:[100,50,0,30,0,80,200,60]},{k:"check",l:"在检量",t:"number",demo:[0,0,100,0,50,0,0,0]}],c:["material","warehouse","location","batch","avail","lock","check"]},
+  finishIn:{f:[{k:"code",l:"入库单号",t:"text",auto:"IN"},{k:"wo",l:"工单号",t:"text",req:1,demo:["WO202601","WO202602","WO202603"]},{k:"product",l:"产品",t:"text",demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"box",l:"箱码",t:"text",demo:["BOX-0001","BOX-0002","BOX-0003"]},{k:"prodDate",l:"生产日期",t:"date"},{k:"expire",l:"有效期至",t:"date"}],c:["code","wo","product","batch","box","prodDate","expire"]},
+  otherInOut:{f:[{k:"code",l:"单号",t:"text",auto:"IO"},{k:"type",l:"类型",t:"select",opts:["盘盈","盘亏","赠品","样品","内部领用","报废"],demo:["盘盈","赠品","样品","内部领用","报废"]},{k:"warehouse",l:"仓库",t:"select",opts:["原料库","成品库","包材库"],demo:["原料库","成品库","包材库","原料库","成品库"]},{k:"material",l:"物料",t:"text",demo:["高筋面粉","奶油面包","包装袋","白砂糖","全麦吐司"]},{k:"qty",l:"数量",t:"number",demo:[20,50,100,30,10]},{k:"date",l:"单据日期",t:"date"},{k:"status",l:"审批状态",t:"select",opts:["待审核","已审核","已驳回"],demo:["已审核","待审核","已审核","已审核","已驳回"]}],c:["code","type","warehouse","material","qty","status"]},
+  transfer:{f:[{k:"code",l:"调拨单号",t:"text",auto:"TF"},{k:"from",l:"源仓库",t:"select",opts:["原料库","包材库","半成品库","成品库"],demo:["原料库","原料库","包材库","成品库"]},{k:"to",l:"目标仓库",t:"select",opts:["原料库","包材库","半成品库","成品库"],demo:["半成品库","成品库","成品库","冷库"]},{k:"material",l:"物料",t:"text",demo:["高筋面粉","白砂糖","包装袋","奶油面包"]},{k:"qty",l:"数量",t:"number",demo:[100,80,500,60]},{k:"date",l:"调拨日期",t:"date"},{k:"status",l:"状态",t:"select",opts:["在途","已确认","已取消"],demo:["已确认","在途","已确认","已确认"]}],c:["code","from","to","material","qty","status"]},
+  inventoryWarn:{f:[{k:"type",l:"预警类型",t:"select",opts:["安全库存下限","安全库存上限","近效期","过期","呆滞"],demo:["安全库存下限","安全库存上限","近效期","过期","呆滞"]},{k:"material",l:"物料",t:"text",req:1,demo:["高筋面粉","白砂糖","黄油","全脂奶粉","奶油面包"]},{k:"warehouse",l:"仓库",t:"select",opts:["原料库","成品库","冷库"],demo:["原料库","原料库","原料库","原料库","成品库"]},{k:"stock",l:"当前库存",t:"number",demo:[50,3000,20,15,5]},{k:"threshold",l:"阈值",t:"number",demo:[100,2000,30,30,10]},{k:"level",l:"预警等级",t:"select",opts:["高","中","低"],demo:["高","中","高","高","中"]}],c:["type","material","warehouse","stock","threshold","level"]},
+  stocktake:{f:[{k:"code",l:"盘点单号",t:"text",auto:"ST"},{k:"plan",l:"盘点方案",t:"text",req:1,demo:["月度盘点","周度盲盘","动态盘点","月度盘点"]},{k:"warehouse",l:"仓库",t:"select",opts:["原料库","包材库","成品库","冷库"],demo:["原料库","包材库","成品库","冷库"]},{k:"type",l:"盘点类型",t:"select",opts:["盲盘","明盘","动态盘点"],demo:["明盘","盲盘","动态盘点","明盘"]},{k:"diff",l:"差异数量",t:"number",demo:[2,0,-5,1]},{k:"date",l:"盘点日期",t:"date"},{k:"status",l:"审批状态",t:"select",opts:["待审核","已审核","已驳回"],demo:["已审核","待审核","已审核","已审核"]}],c:["code","plan","warehouse","type","diff","status"]},
+  boxcode:{f:[{k:"code",l:"编码",t:"text",auto:"BX"},{k:"type",l:"码类型",t:"select",opts:["箱码","托盘码","SN码"],demo:["箱码","箱码","托盘码","SN码"]},{k:"rule",l:"编码规则",t:"text",demo:["GS1-128","GS1-128","GS1-128","GS1-128"]},{k:"printed",l:"打印状态",t:"select",opts:["已打印","未打印"],demo:["已打印","已打印","已打印","未打印"]},{k:"bind",l:"绑定对象",t:"text",demo:["WO202601","WO202602","PLT-001","P202601"]},{k:"trace",l:"流转记录",t:"text",demo:["入库→出库→客户","入库→出库","入库→出库","入库"]}],c:["code","type","rule","printed","bind","trace"]},
+  warehouse:{f:[{k:"code",l:"仓库编码",t:"text",auto:"WH"},{k:"name",l:"仓库名称",t:"text",req:1,demo:["原料库","包材库","半成品库","成品库","冷库","留样库","不合格品隔离区"]},{k:"area",l:"库区",t:"text",demo:["A区","B区","C区","D区","冷区","留样区","隔离区"]},{k:"loc",l:"库位编码",t:"text",demo:["A-01-01","B-01-01","C-01-01","D-01-01","L-01-01","S-01-01","R-01-01"]},{k:"capacity",l:"容量(kg)",t:"number",demo:[5000,3000,2000,4000,1000,200,100]}],c:["code","name","area","loc","capacity"]},
+  deliveryLine:{f:[{k:"code",l:"线路编号",t:"text",auto:"DL"},{k:"name",l:"线路名称",t:"text",req:1,demo:["东城线","西城线","南城线","北城线"]},{k:"customers",l:"客户数",t:"number",demo:[12,8,15,10]},{k:"day",l:"配送日",t:"text",demo:["周一","周二","周三","周四"]},{k:"load",l:"载重(kg)",t:"number",demo:[2000,1500,2500,1800]},{k:"rate",l:"装载率(%)",t:"number",demo:[85,72,90,78]}],c:["code","name","customers","day","load","rate"]},
+  vehicle:{f:[{k:"plate",l:"车牌",t:"text",auto:"闽A"},{k:"type",l:"车辆类型",t:"text",req:1,demo:["冷藏车","厢式货车","面包车","冷藏车"]},{k:"load",l:"载重(kg)",t:"number",demo:[2000,3000,1000,2000]},{k:"check",l:"年检到期",t:"date"},{k:"driver",l:"司机",t:"text",demo:["张师傅","李师傅","王师傅","赵师傅"]},{k:"license",l:"驾照",t:"text",demo:["B2","A2","C1","B2"]}],c:["plate","type","load","check","driver","license"]},
+  deliveryTask:{f:[{k:"code",l:"任务号",t:"text",auto:"DT"},{k:"customer",l:"客户",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心","金鼎食品店"]},{k:"line",l:"线路",t:"text",demo:["东城线","西城线","南城线","北城线"]},{k:"driver",l:"司机",t:"text",demo:["张师傅","李师傅","王师傅","赵师傅"]},{k:"arrive",l:"送达时间",t:"text",demo:["09:30","10:15","11:00","13:20"]},{k:"date",l:"配送日期",t:"date"},{k:"status",l:"签收状态",t:"select",opts:["已签收","拒收","延期","待签收"],demo:["已签收","已签收","拒收","延期"]}],c:["code","customer","line","driver","arrive","status"]},
+  schedule:{f:[{k:"code",l:"排产编号",t:"text",auto:"SC"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包"]},{k:"line",l:"产线",t:"select",opts:["一号线","二号线","三号线"],demo:["一号线","二号线","一号线","三号线"]},{k:"team",l:"班组",t:"select",opts:["A班","B班","C班"],demo:["A班","B班","A班","C班"]},{k:"start",l:"开始时间",t:"date"},{k:"end",l:"结束时间",t:"date"},{k:"status",l:"状态",t:"select",opts:["已排产","执行中","已完成","已锁定"],demo:["执行中","已排产","已完成","已锁定"]}],c:["code","product","line","team","start","end","status"]},
+  workorder:{f:[{k:"code",l:"工单号",t:"text",auto:"WO"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包"]},{k:"formula",l:"配方版本",t:"text",demo:["V1.0","V1.2","V2.0","V1.0"]},{k:"route",l:"工艺路线",t:"text",demo:["RT-奶油面包","RT-全麦吐司","RT-芝士蛋糕","RT-椰蓉餐包"]},{k:"qty",l:"计划产量",t:"number",demo:[500,800,300,600]},{k:"team",l:"班组",t:"select",opts:["A班","B班","C班"],demo:["A班","B班","A班","C班"]},{k:"time",l:"开完工时间",t:"text",demo:["11-05 08:00~18:00","11-05 08:00~16:00","11-05 09:00~15:00","11-05 08:00~17:00"]},{k:"status",l:"状态",t:"select",opts:["待开工","生产中","已完工","已取消"],demo:["生产中","待开工","已完工","生产中"]}],c:["code","product","formula","qty","team","time","status"]},
+  teamTask:{f:[{k:"code",l:"任务号",t:"text",auto:"TT"},{k:"wo",l:"工单号",t:"text",req:1,demo:["WO202601","WO202602","WO202603"]},{k:"team",l:"班组",t:"select",opts:["A班","B班","C班"],demo:["A班","B班","A班"]},{k:"member",l:"个人",t:"text",demo:["张三","李四","王五"]},{k:"list",l:"任务清单",t:"text",demo:["和面 8min、发酵 30min","烘烤 18min、冷却 20min","打发奶油、裱花"]},{k:"date",l:"下发日期",t:"date"},{k:"status",l:"完成状态",t:"select",opts:["已完成","进行中","未开始"],demo:["已完成","进行中","未开始"]}],c:["code","wo","team","member","list","status"]},
+  picking:{f:[{k:"code",l:"领料单号",t:"text",auto:"PK"},{k:"wo",l:"工单号",t:"text",req:1,demo:["WO202601","WO202602","WO202603"]},{k:"bom",l:"BOM",t:"text",demo:["BOM202601","BOM202602","BOM202603"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"expire",l:"效期",t:"date"},{k:"qty",l:"数量(kg)",t:"number",demo:[300,450,150]},{k:"extra",l:"超领审批",t:"select",opts:["正常","超领已审批","超领未审批"],demo:["正常","正常","超领未审批"]}],c:["code","wo","bom","batch","qty","extra"]},
+  returnMaterial:{f:[{k:"code",l:"退料单号",t:"text",auto:"RM"},{k:"wo",l:"工单号",t:"text",req:1,demo:["WO202601","WO202602","WO202603"]},{k:"type",l:"退料类型",t:"select",opts:["余料退料","不良退料","其他退料"],demo:["余料退料","不良退料","其他退料"]},{k:"quality",l:"良品/不良品",t:"select",opts:["良品","不良品"],demo:["良品","不良品","良品"]},{k:"qty",l:"数量",t:"number",demo:[20,10,5]},{k:"date",l:"退料日期",t:"date"}],c:["code","wo","type","quality","qty"]},
+  reportWork:{f:[{k:"code",l:"报工单号",t:"text",auto:"RP"},{k:"process",l:"工序",t:"text",req:1,demo:["和面","烘烤","冷却","包装"]},{k:"finish",l:"完工数",t:"number",demo:[480,760,290,570]},{k:"defect",l:"不良数",t:"number",demo:[20,40,10,30]},{k:"hours",l:"工时(h)",t:"number",demo:[4,6,3,5]},{k:"device",l:"设备",t:"text",demo:["和面机A","隧道烤炉","速冻冷库","全自动包装机"]},{k:"operator",l:"操作人",t:"text",demo:["张三","李四","王五","赵六"]},{k:"date",l:"报工日期",t:"date"}],c:["code","process","finish","defect","hours","device","operator"]},
+  processFlow:{f:[{k:"code",l:"流转单号",t:"text",auto:"PF"},{k:"wo",l:"工单号",t:"text",req:1,demo:["WO202601","WO202602","WO202603"]},{k:"process",l:"工序",t:"text",demo:["和面","烘烤","冷却"]},{k:"wip",l:"在制数量",t:"number",demo:[500,800,300]},{k:"location",l:"当前位置",t:"text",demo:["一号车间","二号车间","三号车间"]},{k:"handover",l:"交接人",t:"text",demo:["张三","李四","王五"]},{k:"date",l:"交接日期",t:"date"}],c:["code","wo","process","wip","location","handover"]},
+  checkItem:{f:[{k:"code",l:"检测项编码",t:"text",auto:"CI"},{k:"name",l:"检测项名称",t:"text",req:1,demo:["水分","酸价","过氧化值","菌落总数","大肠菌群","重金属铅"]},{k:"standard",l:"标准值",t:"text",demo:["≤14%","≤3mg/g","≤0.25g/100g","≤1000CFU/g","≤10MPN/100g","≤0.2mg/kg"]},{k:"tolerance",l:"允差",t:"text",demo:["±0.5","±0.2","±0.02","—","—","±0.05"]},{k:"method",l:"检测方法",t:"text",demo:["GB 5009.3","GB 5009.229","GB 5009.227","GB 4789.2","GB 4789.3","GB 5009.12"]},{k:"rule",l:"判定规则",t:"text",demo:["≤标准值合格","≤标准值合格","≤标准值合格","≤标准值合格","≤标准值合格","≤标准值合格"]}],c:["code","name","standard","tolerance","method"]},
+  defect:{f:[{k:"code",l:"缺陷编码",t:"text",auto:"DF"},{k:"type",l:"缺陷类型",t:"text",req:1,demo:["外观缺陷","口感异常","异物混入","包装破损","变质"]},{k:"level",l:"严重等级",t:"select",opts:["轻微","一般","严重","致命"],demo:["轻微","一般","严重","严重","致命"]},{k:"handle",l:"处置方式",t:"select",opts:["返工","让步接收","报废","召回"],demo:["返工","让步接收","报废","返工","召回"]}],c:["code","type","level","handle"]},
+  qcPlan:{f:[{k:"code",l:"方案编码",t:"text",auto:"QP"},{k:"name",l:"方案名称",t:"text",req:1,demo:["原料进厂检验方案","面包出厂检验方案","过程巡检方案"]},{k:"target",l:"绑定对象",t:"text",demo:["面粉","奶油面包","烘烤工序"]},{k:"process",l:"工序",t:"text",demo:["来料","成品","烘烤"]},{k:"items",l:"检测项组合",t:"text",demo:["水分、酸价、过氧化值","菌落总数、大肠菌群","温度、时间"]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用"]}],c:["code","name","target","process","items","status"]},
+  qcTask:{f:[{k:"code",l:"任务号",t:"text",auto:"QT"},{k:"source",l:"来源单据",t:"text",req:1,demo:["PO202601","WO202602","SO202603"]},{k:"target",l:"物料/产品",t:"text",demo:["高筋面粉","奶油面包","全麦吐司"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"status",l:"状态",t:"select",opts:["待检","检验中","已完成","已取消"],demo:["待检","检验中","已完成","已完成"]}],c:["code","source","target","batch","status"]},
+  iqc:{f:[{k:"code",l:"检验单号",t:"text",auto:"IQC"},{k:"po",l:"采购单",t:"text",req:1,demo:["PO202601","PO202602","PO202603"]},{k:"material",l:"物料",t:"text",demo:["高筋面粉","白砂糖","黄油"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"sample",l:"抽检数",t:"number",demo:[20,15,10]},{k:"pass",l:"合格数",t:"number",demo:[19,15,9]},{k:"date",l:"检验日期",t:"date"},{k:"result",l:"结论",t:"select",opts:["合格","让步接收","退货"],demo:["合格","合格","让步接收"]}],c:["code","po","material","batch","sample","pass","result"]},
+  ipqc:{f:[{k:"code",l:"检验单号",t:"text",auto:"IPQC"},{k:"wo",l:"工单号",t:"text",req:1,demo:["WO202601","WO202602","WO202603"]},{k:"process",l:"工序",t:"text",demo:["烘烤","冷却","包装"]},{k:"ccp",l:"CCP点",t:"text",demo:["温度","时间","金属探测"]},{k:"value",l:"实测值",t:"text",demo:["180℃","25min","Fe 1.0mm"]},{k:"date",l:"检验日期",t:"date"},{k:"result",l:"结论",t:"select",opts:["合格","不合格"],demo:["合格","合格","不合格"]}],c:["code","wo","process","ccp","value","result"]},
+  fqc:{f:[{k:"code",l:"检验单号",t:"text",auto:"FQC"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"phys",l:"理化指标",t:"text",demo:["水分 12%","酸价 1.8","过氧化值 0.15"]},{k:"micro",l:"微生物",t:"text",demo:["菌落 500","大肠菌群 5","菌落 800"]},{k:"date",l:"检验日期",t:"date"},{k:"status",l:"放行状态",t:"select",opts:["待放行","已放行","不予放行"],demo:["已放行","已放行","待放行"]}],c:["code","product","batch","phys","micro","status"]},
+  rejectHandle:{f:[{k:"code",l:"处置单号",t:"text",auto:"RH"},{k:"material",l:"物料",t:"text",req:1,demo:["高筋面粉","奶油面包","全麦吐司"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"method",l:"处置方式",t:"select",opts:["返工","让步接收","报废","隔离"],demo:["返工","让步接收","报废","隔离"]},{k:"date",l:"处置日期",t:"date"},{k:"status",l:"审批状态",t:"select",opts:["待审核","已审核","已驳回"],demo:["待审核","已审核","已审核"]}],c:["code","material","batch","method","status"]},
+  sample:{f:[{k:"code",l:"留样编号",t:"text",auto:"LS"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"qty",l:"数量",t:"number",demo:[5,5,5]},{k:"expire",l:"到期日",t:"date"},{k:"location",l:"存放位置",t:"text",demo:["留样柜 A-01","留样柜 A-02","留样柜 B-01"]}],c:["code","product","batch","qty","expire","location"]},
+  trace:{f:[{k:"code",l:"追溯编码",t:"text",auto:"TR"},{k:"direction",l:"方向",t:"select",opts:["正向","反向"],demo:["正向","反向","正向"]},{k:"from",l:"起点",t:"text",demo:["WO202601","B20261105","客户：味美轩餐饮"]},{k:"to",l:"终点",t:"text",demo:["客户：味美轩餐饮","供应商：中粮食品","原料批次：B20261105"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"result",l:"追溯结果",t:"text",demo:["全部在库","已出库 200","已追溯 3 级"]}],c:["code","direction","from","to","batch","result"]},
+  recall:{f:[{k:"code",l:"召回编号",t:"text",auto:"RC"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"customer",l:"客户",t:"text",demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"qty",l:"数量",t:"number",demo:[200,150,80]},{k:"date",l:"启动日期",t:"date"},{k:"status",l:"处置状态",t:"select",opts:["待启动","已锁定","已召回","已结案"],demo:["已锁定","已召回","已结案"]}],c:["code","product","batch","customer","qty","status"]},
+  qcReport:{f:[{k:"code",l:"报告编号",t:"text",auto:"QR"},{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"date",l:"检验日期",t:"date"},{k:"result",l:"结论",t:"select",opts:["合格","不合格"],demo:["合格","合格","合格"]}],c:["code","product","batch","date","result"]},
+  deviceType:{f:[{k:"code",l:"类型编码",t:"text",auto:"DT"},{k:"name",l:"类型名称",t:"text",req:1,demo:["和面机","烤箱","醒发箱","包装机","冷库"]},{k:"desc",l:"说明",t:"text",demo:["用于面粉和面","用于面包烘烤","用于面团发酵","用于包装封口","用于冷藏存储"]}],c:["code","name","desc"]},
+  device:{f:[{k:"code",l:"设备编号",t:"text",auto:"DV"},{k:"name",l:"设备名称",t:"text",req:1,demo:["和面机A","隧道烤炉B","醒发箱C","全自动包装机","速冻冷库"]},{k:"type",l:"设备类型",t:"select",opts:["和面机","烤箱","醒发箱","包装机","冷库"],demo:["和面机","烤箱","醒发箱","包装机","冷库"]},{k:"param",l:"技术参数",t:"text",demo:["100L","30m 隧道","5m³","120包/min","-25℃"]},{k:"location",l:"安装位置",t:"text",demo:["一号车间","二号车间","三号车间","包装车间","冷库区"]},{k:"status",l:"状态",t:"select",opts:["运行","停用","维修中"],demo:["运行","运行","停用","运行","维修中"]}],c:["code","name","type","param","location","status"]},
+  inspect:{f:[{k:"code",l:"点检单号",t:"text",auto:"IN"},{k:"device",l:"设备",t:"text",req:1,demo:["和面机A","隧道烤炉B","醒发箱C"]},{k:"type",l:"类型",t:"select",opts:["点检","保养"],demo:["点检","保养","点检"]},{k:"item",l:"检查项目",t:"text",demo:["电机温度","皮带松紧","润滑状态"]},{k:"result",l:"结果",t:"select",opts:["正常","异常"],demo:["正常","正常","异常"]},{k:"operator",l:"执行人",t:"text",demo:["张三","李四","王五"]},{k:"time",l:"执行时间",t:"text",demo:["2026-11-05 08:00","2026-11-05 09:00","2026-11-05 10:00"]}],c:["code","device","type","item","result","operator","time"]},
+  repair:{f:[{k:"code",l:"工单号",t:"text",auto:"RP"},{k:"device",l:"设备",t:"text",req:1,demo:["和面机A","隧道烤炉B","醒发箱C"]},{k:"fault",l:"故障描述",t:"text",demo:["电机异响","温度不稳定","皮带断裂"]},{k:"reportTime",l:"报修时间",t:"text",demo:["2026-11-05 10:00","2026-11-05 14:00","2026-11-05 11:00"]},{k:"repairman",l:"维修人",t:"text",demo:["赵师傅","钱师傅","孙师傅"]},{k:"downtime",l:"停机时长(h)",t:"number",demo:[2,4,1]}],c:["code","device","fault","reportTime","repairman","downtime"]},
+  customer:{f:[{k:"code",l:"客户编号",t:"text",auto:"C"},{k:"name",l:"客户名称",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心","金鼎食品店","海纳贸易","幸福烘焙"]},{k:"type",l:"客户类型",t:"select",opts:["个体","配送公司","餐饮","平台"],demo:["餐饮","平台","配送公司","个体","餐饮","餐饮"]},{k:"settle",l:"结算方式",t:"select",opts:["现结","月结","季结"],demo:["月结","现结","月结","月结","季结","月结"]},{k:"line",l:"配送线路",t:"text",demo:["东城线","西城线","南城线","北城线","东城线","西城线"]},{k:"credit",l:"信用额度(元)",t:"number",demo:[50000,100000,200000,80000,150000,60000]},{k:"account",l:"账期(天)",t:"number",demo:[30,0,45,30,90,30]},{k:"created",l:"创建日期",t:"date"},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用","启用","启用","启用"]}],c:["code","name","type","settle","line","credit","account","status"]},
+  contact:{f:[{k:"name",l:"联系人",t:"text",req:1,demo:["刘经理","周总","吴主管","郑经理","孙总"]},{k:"customer",l:"客户",t:"text",demo:["味美轩餐饮","鲜果到家","城市配送中心","金鼎食品店","海纳贸易"]},{k:"role",l:"角色",t:"select",opts:["订货人","收货人","对账人"],demo:["订货人","收货人","对账人","订货人","收货人"]},{k:"phone",l:"联系电话",t:"text",demo:["13900001111","13900002222","13900003333","13900004444","13900005555"]},{k:"isDefault",l:"默认",t:"select",opts:["是","否"],demo:["是","否","是","否","是"]}],c:["name","customer","role","phone","isDefault"]},
+  opportunity:{f:[{k:"code",l:"商机编号",t:"text",auto:"OP"},{k:"name",l:"商机名称",t:"text",req:1,demo:["味美轩餐饮面包订单","鲜果到家合作","城市配送试点"]},{k:"stage",l:"阶段",t:"select",opts:["线索","初访","报价","谈判","赢单","输单"],demo:["报价","谈判","线索"]},{k:"amount",l:"预计金额(元)",t:"number",demo:[50000,120000,30000]},{k:"owner",l:"跟进人",t:"text",demo:["张三","李四","王五"]},{k:"date",l:"创建日期",t:"date"}],c:["code","name","stage","amount","owner"]},
+  seaPool:{f:[{k:"customer",l:"客户名称",t:"text",req:1,demo:["鑫源食品","金诚烘焙","老客户A","老客户B"]},{k:"lastFollow",l:"最后跟进时间",t:"text",demo:["2026-11-05 09:00","2026-11-05 10:00","2026-11-05 11:00","2026-11-05 12:00"]},{k:"task",l:"待办任务",t:"text",demo:["首次联系","二次跟进","方案报价","回访"]},{k:"status",l:"状态",t:"select",opts:["未跟进","跟进中","已转化"],demo:["未跟进","跟进中","未跟进","已转化"]}],c:["customer","lastFollow","task","status"]},
+  salesTarget:{f:[{k:"code",l:"目标编号",t:"text",auto:"TG"},{k:"owner",l:"业务员",t:"text",req:1,demo:["张三","李四","王五","赵六"]},{k:"month",l:"月份",t:"text",demo:["2026-11","2026-11","2026-12","2026-12"]},{k:"target",l:"目标金额(元)",t:"number",demo:[100000,80000,120000,90000]},{k:"done",l:"达成金额(元)",t:"number",demo:[85000,82000,45000,30000]},{k:"rate",l:"达成率(%)",t:"number",demo:[85,102,37.5,33.3]}],c:["code","owner","month","target","done","rate"]},
+  customerPrice:{f:[{k:"customer",l:"客户",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"product",l:"产品",t:"text",demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"type",l:"价格类型",t:"select",opts:["专属价","阶梯价"],demo:["专属价","阶梯价","专属价"]},{k:"price",l:"价格(元)",t:"number",demo:[3.2,2.3,5.8]},{k:"status",l:"启停状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用"]}],c:["customer","product","type","price","status"]},
+  salesContract:{f:[{k:"code",l:"合同编号",t:"text",auto:"CT"},{k:"customer",l:"客户",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"amount",l:"金额(元)",t:"number",demo:[120000,80000,60000]},{k:"signDate",l:"签订日期",t:"date"},{k:"expire",l:"到期日期",t:"date"},{k:"status",l:"状态",t:"select",opts:["生效中","已到期","草稿"],demo:["生效中","生效中","生效中"]}],c:["code","customer","amount","signDate","expire","status"]},
+
+  /* ★★ 销售订单：主表 + 商品明细 ★★ */
+  salesOrder: {
+    f:[
+      {k:"code",l:"订单号",t:"text",auto:"SO"},
+      {k:"customer",l:"客户名称",t:"text",req:1},
+      {k:"deliveryDate",l:"配送日期",t:"date"},
+      {k:"orderDate",l:"下单日期",t:"date"},
+      {k:"deliveryTime",l:"配送时间",t:"text"},
+      {k:"address",l:"配送地址",t:"text"},
+      {k:"orderUser",l:"下单人",t:"text"},
+      {k:"orderTime",l:"下单时间",t:"text"},
+      {k:"status",l:"状态",t:"select",opts:["待确认","待生产","生产中","已出库","配送中","已完成","已取消"]}
+    ],
+    c:["customer","deliveryDate","orderDate","status"],  // 列表列：客户名称、配送日期、下单日期、状态（明细列动态加上）
+    details:{
+      label:"商品详情",
+      fields:[
+        {k:"product",l:"商品名称",t:"text",req:1},
+        {k:"spec",l:"规格",t:"text"},
+        {k:"qty",l:"数量",t:"number",req:1},
+        {k:"unit",l:"单位",t:"select",opts:["箱","袋","个","盒","条"]},
+        {k:"price",l:"单价(元)",t:"number"},
+        {k:"subtotal",l:"小计(元)",t:"number"},
+        {k:"remark",l:"备注",t:"text"}
+      ]
+    }
+  },
+
+  salesShipment:{f:[{k:"code",l:"发货单号",t:"text",auto:"SH"},{k:"order",l:"订单",t:"text",req:1,demo:["SO202601","SO202602","SO202603"]},{k:"picker",l:"拣货人",t:"text",demo:["张三","李四","王五"]},{k:"checker",l:"复核人",t:"text",demo:["赵六","钱七","孙八"]},{k:"loadTime",l:"装车时间",t:"text",demo:["2026-11-05 08:00","2026-11-05 09:00","2026-11-05 10:00"]}],c:["code","order","picker","checker","loadTime"]},
+  salesReturn:{f:[{k:"code",l:"退货单号",t:"text",auto:"RT"},{k:"order",l:"订单",t:"text",req:1,demo:["SO202601","SO202602","SO202603"]},{k:"customer",l:"客户",t:"text",demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"reason",l:"退货原因",t:"text",demo:["包装破损","口感异常","临期"]},{k:"qc",l:"质检判定",t:"select",opts:["可返工","报废"],demo:["可返工","报废","可返工"]},{k:"refund",l:"退款金额(元)",t:"number",demo:[500,800,300]},{k:"date",l:"退货日期",t:"date"}],c:["code","order","customer","reason","qc","refund"]},
+  orderTrack:{f:[{k:"code",l:"订单号",t:"text",auto:"SO"},{k:"wo",l:"生产工单",t:"text",demo:["WO202601","WO202602","WO202603"]},{k:"in",l:"入库单",t:"text",demo:["IN202601","IN202602","IN202603"]},{k:"out",l:"出库单",t:"text",demo:["OUT202601","OUT202602","OUT202603"]},{k:"delivery",l:"配送单",t:"text",demo:["DT202601","DT202602","DT202603"]},{k:"status",l:"当前状态",t:"text",demo:["配送中","已完成","已出库"]}],c:["code","wo","in","out","delivery","status"]},
+  receivable:{f:[{k:"code",l:"回款单号",t:"text",auto:"RC"},{k:"customer",l:"客户",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"amount",l:"金额(元)",t:"number",demo:[20000,15000,8000]},{k:"date",l:"回款日期",t:"date"},{k:"age",l:"账龄(天)",t:"number",demo:[15,30,60]}],c:["code","customer","amount","date","age"]},
+  complaint:{f:[{k:"code",l:"投诉单号",t:"text",auto:"CP"},{k:"customer",l:"客户",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"source",l:"来源",t:"select",opts:["小程序","电话","业务员"],demo:["小程序","电话","业务员"]},{k:"type",l:"类型",t:"select",opts:["口感","异物","变质","包装破损"],demo:["口感","异物","变质","包装破损"]},{k:"batch",l:"关联批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"owner",l:"责任人",t:"text",demo:["张三","李四","王五"]},{k:"date",l:"投诉日期",t:"date"},{k:"status",l:"进度",t:"select",opts:["待处理","处理中","已完成","已结案"],demo:["处理中","已完成","待处理","已结案"]}],c:["code","customer","source","type","batch","owner","status"]},
+  afterReturn:{f:[{k:"code",l:"受理单号",t:"text",auto:"AR"},{k:"order",l:"原订单",t:"text",req:1,demo:["SO202601","SO202602","SO202603"]},{k:"customer",l:"客户",t:"text",demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"inStatus",l:"退货入库",t:"select",opts:["已入库","待入库"],demo:["已入库","待入库","已入库"]},{k:"qc",l:"质检判定",t:"select",opts:["可返工","报废"],demo:["可返工","报废","可返工"]},{k:"date",l:"受理日期",t:"date"}],c:["code","order","customer","inStatus","qc"]},
+  visit:{f:[{k:"code",l:"回访编号",t:"text",auto:"VS"},{k:"customer",l:"客户",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"score",l:"满意度评分",t:"number",demo:[5,4,3]},{k:"issue",l:"问题",t:"text",demo:["无","包装可改进","配送略慢"]},{k:"date",l:"回访日期",t:"date"},{k:"status",l:"闭环状态",t:"select",opts:["已闭环","跟进中"],demo:["已闭环","跟进中","已闭环"]}],c:["code","customer","score","issue","status"]},
+  voucher:{f:[{k:"code",l:"凭证号",t:"text",auto:"PZ"},{k:"date",l:"日期",t:"date",req:1},{k:"summary",l:"摘要",t:"text",demo:["采购原材料入库","销售商品出库","支付供应商货款"]},{k:"debit",l:"借方金额",t:"number",demo:[12000,8000,5000]},{k:"credit",l:"贷方金额",t:"number",demo:[0,0,5000]},{k:"status",l:"审核状态",t:"select",opts:["待审核","已审核","已作废"],demo:["已审核","待审核","已审核"]}],c:["code","date","summary","debit","credit","status"]},
+  ledger:{f:[{k:"type",l:"账簿类型",t:"select",opts:["明细账","总账","科目余额表","多栏账"],demo:["明细账","总账","科目余额表","多栏账"]},{k:"subject",l:"科目",t:"text",req:1,demo:["1001 库存现金","1002 银行存款","1122 应收账款"]},{k:"period",l:"期间",t:"text",demo:["2026-11","2026-11","2026-11"]},{k:"debit",l:"借方发生",t:"number",demo:[5000,12000,8000]},{k:"credit",l:"贷方发生",t:"number",demo:[3000,8000,5000]},{k:"balance",l:"余额",t:"number",demo:[2000,4000,3000]}],c:["type","subject","period","debit","credit","balance"]},
+  auxAccount:{f:[{k:"item",l:"核算项目",t:"text",req:1,demo:["销售部","生产部","项目A","项目B"]},{k:"dimension",l:"维度",t:"select",opts:["部门","项目","客户","供应商"],demo:["部门","部门","项目","项目"]},{k:"amount",l:"金额(元)",t:"number",demo:[12000,8000,5000,3000]},{k:"period",l:"期间",t:"text",demo:["2026-11","2026-11","2026-11","2026-11"]}],c:["item","dimension","amount","period"]},
+  closing:{f:[{k:"period",l:"期间",t:"text",req:1,demo:["2026-10","2026-11","2026-12"]},{k:"checkItem",l:"检查项",t:"text",demo:["凭证审核","试算平衡","资产负债平衡"]},{k:"result",l:"结果",t:"select",opts:["通过","未通过"],demo:["通过","通过","未通过"]},{k:"status",l:"状态",t:"select",opts:["已结账","未结账"],demo:["已结账","已结账","未结账"]}],c:["period","checkItem","result","status"]},
+  finReport:{f:[{k:"name",l:"报表名称",t:"text",req:1,demo:["资产负债表","利润表","现金流量表","自定义报表"]},{k:"type",l:"类型",t:"select",opts:["月报","季报","年报"],demo:["月报","月报","月报","季报"]},{k:"period",l:"期间",t:"text",demo:["2026-11","2026-11","2026-11","2026-Q4"]},{k:"created",l:"生成时间",t:"text",demo:["2026-11-05 20:00","2026-11-05 20:00","2026-11-05 20:00","2026-11-05 20:00"]}],c:["name","type","period","created"]},
+  arManage:{f:[{k:"customer",l:"客户",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","城市配送中心"]},{k:"amount",l:"应收金额(元)",t:"number",demo:[120000,80000,60000]},{k:"age",l:"账龄(天)",t:"number",demo:[15,45,90]},{k:"date",l:"对账日期",t:"date"},{k:"confirm",l:"对账状态",t:"select",opts:["已对账","未对账"],demo:["已对账","未对账","已对账"]}],c:["customer","amount","age","confirm"]},
+  apManage:{f:[{k:"supplier",l:"供应商",t:"text",req:1,demo:["中粮食品","益海嘉里","圣牧乳业"]},{k:"amount",l:"应付金额(元)",t:"number",demo:[50000,30000,20000]},{k:"plan",l:"付款计划",t:"date"},{k:"status",l:"状态",t:"select",opts:["待审批","已审批","已付款"],demo:["已审批","待审批","已付款"]}],c:["supplier","amount","plan","status"]},
+  invoice:{f:[{k:"code",l:"发票号",t:"text",auto:"INV"},{k:"type",l:"类型",t:"select",opts:["进项","销项"],demo:["销项","销项","进项","进项"]},{k:"party",l:"往来单位",t:"text",req:1,demo:["味美轩餐饮","鲜果到家","中粮食品","益海嘉里"]},{k:"amount",l:"金额(元)",t:"number",demo:[20000,15000,8000,5000]},{k:"date",l:"开票日期",t:"date"},{k:"status",l:"勾稽状态",t:"select",opts:["已勾稽","未勾稽"],demo:["已勾稽","未勾稽","已勾稽","已勾稽"]}],c:["code","type","party","amount","status"]},
+  costCalc:{f:[{k:"product",l:"产品",t:"text",req:1,demo:["奶油面包","全麦吐司","芝士蛋糕"]},{k:"batch",l:"批次",t:"text",demo:["B20261105","B20261105","B20261105"]},{k:"raw",l:"原料成本",t:"number",demo:[1.2,0.8,2.5]},{k:"pack",l:"包材成本",t:"number",demo:[0.3,0.25,0.5]},{k:"labor",l:"人工成本",t:"number",demo:[0.2,0.15,0.3]},{k:"energy",l:"能耗成本",t:"number",demo:[0.1,0.08,0.15]},{k:"loss",l:"损耗成本",t:"number",demo:[0.05,0.04,0.08]},{k:"unit",l:"单位成本",t:"number",demo:[1.85,1.32,3.53]}],c:["product","batch","raw","pack","labor","energy","unit"]},
+  expense:{f:[{k:"code",l:"报销单号",t:"text",auto:"EX"},{k:"applicant",l:"申请人",t:"text",req:1,demo:["张三","李四","王五"]},{k:"type",l:"费用类型",t:"select",opts:["差旅","办公","招待","其他"],demo:["差旅","办公","招待","其他"]},{k:"amount",l:"金额(元)",t:"number",demo:[2000,500,1500,300]},{k:"date",l:"申请日期",t:"date"},{k:"status",l:"审批状态",t:"select",opts:["待审核","已审核","已驳回"],demo:["已审核","待审核","已审核","已驳回"]}],c:["code","applicant","type","amount","status"]},
+  fund:{f:[{k:"account",l:"账户",t:"text",req:1,demo:["工行基本户","建行一般户","招行专户"]},{k:"code",l:"收付款单号",t:"text",auto:"FD"},{k:"amount",l:"金额(元)",t:"number",demo:[50000,30000,20000]},{k:"balance",l:"账户余额(元)",t:"number",demo:[150000,80000,30000]},{k:"date",l:"记账日期",t:"date"}],c:["account","code","amount","balance"]},
+  accountSubject:{f:[{k:"account",l:"账套",t:"text",req:1,demo:["龙巢食品账套","龙巢食品账套","龙巢食品账套"]},{k:"code",l:"科目编码",t:"text",demo:["1001","1002","1122"]},{k:"name",l:"科目名称",t:"text",demo:["库存现金","银行存款","应收账款"]},{k:"direction",l:"方向",t:"select",opts:["借","贷"],demo:["借","借","借"]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用"]}],c:["account","code","name","direction","status"]},
+  finIndicator:{f:[{k:"name",l:"指标名称",t:"text",req:1,demo:["流动比率","毛利率","成本率","周转率"]},{k:"definition",l:"指标定义",t:"text",demo:["流动资产/流动负债","毛利/收入","成本/收入","营业成本/平均存货"]},{k:"target",l:"目标值",t:"text",demo:["≥1.5","≥30%","≤70%","≥5次"]},{k:"actual",l:"实际值",t:"text",demo:["1.62","32.5%","68.3%","5.8次"]}],c:["name","definition","target","actual"]},
+  employee:{f:[{k:"code",l:"工号",t:"text",auto:"E"},{k:"name",l:"姓名",t:"text",req:1,demo:["张伟","李娜","王强","刘洋","陈静","杨帆","赵磊","周敏"]},{k:"dept",l:"部门",t:"select",opts:["生产部","质量部","采购部","销售部","财务部","人事部","仓储部"],demo:["生产部","质量部","采购部","销售部","财务部","人事部","仓储部","生产部"]},{k:"position",l:"岗位",t:"text",demo:["班组长","质检员","采购专员","销售经理","会计","人事专员","仓管员","操作工"]},{k:"contract",l:"合同类型",t:"select",opts:["正式","兼职","外包"],demo:["正式","正式","正式","正式","正式","正式","正式","外包"]},{k:"date",l:"入职日期",t:"date"},{k:"status",l:"入离职状态",t:"select",opts:["在职","离职"],demo:["在职","在职","在职","在职","在职","在职","在职","在职"]}],c:["code","name","dept","position","contract","status"]},
+  hrChange:{f:[{k:"code",l:"异动单号",t:"text",auto:"HC"},{k:"employee",l:"员工",t:"text",req:1,demo:["张伟","李娜","王强"]},{k:"type",l:"异动类型",t:"select",opts:["入职","转正","调岗","调薪","离职"],demo:["转正","调岗","调薪"]},{k:"from",l:"原部门",t:"text",demo:["生产部","质量部","采购部"]},{k:"to",l:"新部门",t:"text",demo:["生产部","生产部","采购部"]},{k:"date",l:"生效日期",t:"date"}],c:["code","employee","type","from","to","date"]},
+  attendance:{f:[{k:"employee",l:"员工",t:"text",req:1,demo:["张伟","李娜","王强","刘洋"]},{k:"date",l:"日期",t:"date"},{k:"checkIn",l:"打卡时间",t:"text",demo:["08:02","08:15","08:01","迟到 08:45"]},{k:"status",l:"考勤状态",t:"select",opts:["正常","迟到","早退","缺勤"],demo:["正常","迟到","正常","迟到"]}],c:["employee","date","checkIn","status"]},
+  shift:{f:[{k:"code",l:"排班单号",t:"text",auto:"SH"},{k:"team",l:"班组",t:"text",req:1,demo:["A班","B班","C班"]},{k:"shift",l:"班次",t:"select",opts:["早班","中班","夜班"],demo:["早班","中班","夜班"]},{k:"date",l:"日期",t:"date"},{k:"status",l:"状态",t:"select",opts:["已排班","调班"],demo:["已排班","已排班","调班"]}],c:["code","team","shift","date","status"]},
+  salary:{f:[{k:"employee",l:"员工",t:"text",req:1,demo:["张伟","李娜","王强","刘洋"]},{k:"month",l:"月份",t:"text",demo:["2026-11","2026-11","2026-11","2026-11"]},{k:"gross",l:"应发(元)",t:"number",demo:[8500,7200,6800,9200]},{k:"net",l:"实发(元)",t:"number",demo:[7600,6400,6100,8300]},{k:"status",l:"发放状态",t:"select",opts:["已发放","待发放"],demo:["已发放","已发放","待发放","已发放"]}],c:["employee","month","gross","net","status"]},
+  pieceWage:{f:[{k:"employee",l:"员工",t:"text",req:1,demo:["张伟","李娜","王强","刘洋"]},{k:"wo",l:"工单号",t:"text",demo:["WO202601","WO202602","WO202603","WO202604"]},{k:"process",l:"工序",t:"text",demo:["和面","烘烤","包装","冷却"]},{k:"output",l:"产量",t:"number",demo:[500,800,1000,600]},{k:"hours",l:"工时(h)",t:"number",demo:[4,6,5,3]},{k:"wage",l:"计件工资(元)",t:"number",demo:[150,240,200,180]}],c:["employee","wo","process","output","hours","wage"]},
+  training:{f:[{k:"code",l:"培训编号",t:"text",auto:"TR"},{k:"employee",l:"员工",t:"text",req:1,demo:["张伟","李娜","王强","刘洋"]},{k:"project",l:"培训项目",t:"text",demo:["食品安全法规","操作规范","设备维护","消防演练"]},{k:"date",l:"培训日期",t:"date"},{k:"result",l:"考核结果",t:"select",opts:["优秀","合格","不合格"],demo:["合格","优秀","合格","优秀"]},{k:"qualified",l:"上岗资格",t:"select",opts:["有","无"],demo:["有","有","有","有"]}],c:["code","employee","project","result","qualified"]},
+  permission:{f:[{k:"user",l:"用户",t:"text",req:1,demo:["admin","zhangwei","lina","wangqiang"]},{k:"role",l:"角色",t:"select",opts:["管理员","销售","生产","质量","财务"],demo:["管理员","销售","生产","质量"]},{k:"dept",l:"部门",t:"text",demo:["信息部","销售部","生产部","质量部"]},{k:"scope",l:"数据权限范围",t:"text",demo:["全部","本部门","本人","本仓库"]}],c:["user","role","dept","scope"]},
+  workflow:{f:[{k:"code",l:"流程编码",t:"text",auto:"WF"},{k:"name",l:"流程名称",t:"text",req:1,demo:["采购订单审批","销售退货审批","请假审批"]},{k:"form",l:"关联表单",t:"text",demo:["采购订单","销售退货单","请假单"]},{k:"nodes",l:"节点数",t:"number",demo:[3,3,2]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用"]}],c:["code","name","form","nodes","status"]},
+  message:{f:[{k:"type",l:"消息类型",t:"select",opts:["站内信","短信","邮件","公告"],demo:["站内信","短信","邮件","公告"]},{k:"title",l:"标题",t:"text",req:1,demo:["采购订单已审批","库存预警","工资条已发放","系统升级公告"]},{k:"receiver",l:"接收人",t:"text",demo:["张三","李四","王五","全体"]},{k:"date",l:"发送时间",t:"text",demo:["2026-11-05 09:00","2026-11-05 10:00","2026-11-05 11:00","2026-11-05 12:00"]},{k:"status",l:"发送状态",t:"select",opts:["已发送","发送中","失败"],demo:["已发送","已发送","已发送","已发送"]}],c:["type","title","receiver","status"]},
+  dict:{f:[{k:"code",l:"字典编码",t:"text",auto:"DC"},{k:"name",l:"字典名称",t:"text",req:1,demo:["客户类型","退货原因","配送方式","商机阶段"]},{k:"value",l:"字典值",t:"text",demo:["个体,配送公司,餐饮,平台","包装破损,口感异常","自提,配送","线索,初访,报价"]},{k:"sort",l:"排序",t:"number",demo:[1,2,3,4]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用","启用"]}],c:["code","name","value","sort","status"]},
+  codeRule:{f:[{k:"code",l:"规则编码",t:"text",auto:"CR"},{k:"scope",l:"适用范围",t:"text",req:1,demo:["物料","客户","订单","批次"]},{k:"prefix",l:"前缀",t:"text",demo:["M","C","SO","B"]},{k:"length",l:"流水长度",t:"number",demo:[4,4,6,4]},{k:"current",l:"当前值",t:"text",demo:["1001","3001","202611","20261105"]}],c:["code","scope","prefix","length","current"]},
+  api:{f:[{k:"code",l:"接口编码",t:"text",auto:"API"},{k:"name",l:"接口名称",t:"text",req:1,demo:["小程序下单接口","称重设备数据同步","财务软件凭证推送","电商平台订单同步"]},{k:"type",l:"类型",t:"select",opts:["REST","Webhook","MQ"],demo:["REST","MQ","REST","Webhook"]},{k:"calls",l:"调用次数",t:"number",demo:[1024,256,512,128]},{k:"status",l:"状态",t:"select",opts:["启用","停用"],demo:["启用","启用","启用","启用"]}],c:["code","name","type","calls","status"]},
+  log:{f:[{k:"type",l:"日志类型",t:"select",opts:["操作日志","登录日志","API日志"],demo:["操作日志","登录日志","API日志","操作日志"]},{k:"user",l:"用户",t:"text",req:1,demo:["admin","zhangwei","lina","wangqiang"]},{k:"action",l:"操作",t:"text",demo:["新增物料","登录系统","调用接口","修改配方"]},{k:"ip",l:"IP",t:"text",demo:["192.168.1.10","192.168.1.11","10.0.0.1","192.168.1.12"]},{k:"time",l:"时间",t:"text",demo:["2026-11-05 10:00:00","2026-11-05 10:05:00","2026-11-05 10:10:00","2026-11-05 10:15:00"]}],c:["type","user","action","ip","time"]},
+  backup:{f:[{k:"code",l:"备份编号",t:"text",auto:"BK"},{k:"time",l:"备份时间",t:"text",req:1,demo:["2026-11-05 02:00","2026-11-05 02:10","2026-11-05 02:20"]},{k:"size",l:"大小(GB)",t:"number",demo:[1.2,1.3,1.4]},{k:"status",l:"状态",t:"select",opts:["成功","失败"],demo:["成功","成功","成功"]}],c:["code","time","size","status"]},
+  cron:{f:[{k:"name",l:"任务名称",t:"text",req:1,demo:["数据同步","报表生成","库存预警","邮件推送"]},{k:"cron",l:"Cron表达式",t:"text",demo:["0 0 2 * * ?","0 30 3 * * ?","0 0 * * * ?","0 */10 * * * ?"]},{k:"status",l:"状态",t:"select",opts:["运行中","已暂停"],demo:["运行中","运行中","运行中","已暂停"]},{k:"lastRun",l:"最近执行",t:"text",demo:["2026-11-05 02:00","2026-11-05 03:30","2026-11-05 10:00","2026-11-05 10:10"]}],c:["name","cron","status","lastRun"]},
+  version:{f:[{k:"code",l:"版本号",t:"text",req:1,demo:["v1.0.0","v1.0.1","v1.1.0","v2.0.0"]},{k:"type",l:"类型",t:"select",opts:["服务端","APP"],demo:["服务端","APP","服务端","APP"]},{k:"scope",l:"发布范围",t:"text",demo:["全部","灰度 10%","全部","灰度 50%"]},{k:"date",l:"发布日期",t:"date"},{k:"status",l:"状态",t:"select",opts:["已发布","灰度中","未发布"],demo:["已发布","灰度中","已发布","未发布"]}],c:["code","type","scope","status"]}
+};
+
+const TPL_OF = {
+  "物料分类与编码规则":"category","物料主数据":"material","成品主数据":"product","计量单位与换算":"unit","标签模板":"label",
+  "产品配方（多级BOM）":"bom","配方版本与变更":"bomVersion","配方成本":"bomCost","配方权限与保密":"bomPerm",
+  "工序库":"process","工艺路线":"route","工艺版本管理":"routeVersion","生产计划（MPS）":"mps","物料需求计划（MRP）":"mrp",
+  "采购申请":"purchaseReq","采购订单":"purchaseOrder","采购退货":"purchaseReturn","供应商档案":"supplier","合格供应商准入":"supplierAccess",
+  "库存现有量":"inventory","完工入库":"finishIn","其他出入库":"otherInOut","调拨与移库":"transfer","库存预警":"inventoryWarn",
+  "盘点":"stocktake","箱码与托盘码":"boxcode","仓库、库区与库位":"warehouse",
+  "配送线路与排线":"deliveryLine","车辆与司机":"vehicle","配送任务与签收":"deliveryTask",
+  "生产排产":"schedule","生产工单":"workorder","班组任务":"teamTask","生产领料":"picking","生产退料":"returnMaterial",
+  "生产报工":"reportWork","工序流转与交接":"processFlow","车间生产看板":"_chart",
+  "检测项设置":"checkItem","缺陷库":"defect","质检方案":"qcPlan","待检任务":"qcTask","来料检验（IQC）":"iqc","过程检验（IPQC）":"ipqc",
+  "成品检验（FQC/OQC）":"fqc","不合格品与退料处置":"rejectHandle","留样管理":"sample","产品追溯":"trace","召回管理":"recall","检验报告与合格证":"qcReport",
+  "设备类型":"deviceType","设备档案":"device","点检与保养":"inspect","维修工单":"repair",
+  "客户档案":"customer","客户联系人":"contact","线索与商机":"opportunity","客户公海与待办":"seaPool","销售目标与达成":"salesTarget",
+  "客户专属价":"customerPrice","销售合同":"salesContract","销售订单":"salesOrder","销售发货":"salesShipment","销售退货":"salesReturn",
+  "订单跟踪":"orderTrack","回款与应收":"receivable",
+  "客户投诉":"complaint","退换货受理":"afterReturn","客户回访与满意度":"visit",
+  "凭证管理":"voucher","账簿查询":"ledger","辅助核算":"auxAccount","期末结账":"closing","财务报表":"finReport",
+  "应收管理":"arManage","应付管理":"apManage","发票管理":"invoice","成本核算":"costCalc","费用与报销":"expense",
+  "资金管理":"fund","账套与科目":"accountSubject","财务指标与分析":"finIndicator",
+  "员工档案":"employee","人事异动":"hrChange","考勤管理":"attendance","班次排班":"shift","薪资管理":"salary",
+  "计件与工时工资":"pieceWage","培训与上岗资质":"training",
+  "经营驾驶舱":"_chart","销售与客户分析":"_chart","库存与效期分析":"_chart","生产与效率分析":"_chart",
+  "成本与损耗分析":"_chart","质量与食安分析":"_chart","财务与资金分析":"_chart","配送分析":"_chart",
+  "权限与组织":"permission","流程与审批引擎":"workflow","消息中心":"message","字典与参数":"dict","编码规则":"codeRule",
+  "接口与开放平台":"api","日志与审计":"log","数据备份与安全":"backup","定时任务与监控":"cron","版本与升级":"version"
+};
+const getTpl = row => T[TPL_OF[row.l3] || "material"];
+
+/* ============ 全局状态 ============ */
+const state = { keyword:"", activeId:null, tabs:[], expandedL1:new Set(), expandedL2:new Set(), collapsed:false,
+  data:{}, page:{}, pageSize:{}, q:{}, fStatus:{}, selected:{}, chartDim:{},
+  dateFrom:{}, dateTo:{}  // 销售订单日期范围
+};
+state.expandedL1.add(MENUS[0].l1); state.expandedL2.add(MENUS[0].l1+"||"+MENUS[0].l2);
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const hl = text => { const safe = esc(text); if(!state.keyword) return safe; const k = state.keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); try { return safe.replace(new RegExp(k,"gi"), m=>`<mark>${m}</mark>`);} catch(e){ return safe;} };
+function toast(msg){ const el=$("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("show"),2000); }
+const fmtMoney = n => (Number(n)||0).toLocaleString("zh-CN",{maximumFractionDigits:2});
+const uid = () => Date.now()+Math.floor(Math.random()*1000);
+const genCode = (auto,i) => auto + String(1001+i);
+const isSalesOrder = row => row.l3 === "销售订单";
+
+/* ============ 数据生成 ============ */
+const PRODUCT_POOL = ["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕"];
+const SPEC_POOL = ["80g/个","400g/条","250g/盒","60g/个","70g/个","85g/个","450g/条","200g/盒"];
+const PRICE_POOL = [3.5,2.5,6.0,2.8,3.2,3.0,3.8,5.5];
+const QTY_POOL = [50,100,80,200,120,150,60,90];
+const SO_CUSTOMERS = ["味美轩餐饮","鲜果到家","城市配送中心","金鼎食品店","海纳贸易","幸福烘焙"];
+const SO_ADDRESSES = ["厦门市思明区湖滨南路 100 号","厦门市湖里区金尚路 200 号","厦门市思明区厦禾路 88 号","厦门市集美区杏林湾路 66 号","厦门市海沧区滨湖北路 9 号","厦门市同安区祥平街道 128 号"];
+const SO_USERS = ["张三","李四","王五","赵六","钱七"];
+const SO_TIMES = ["09:00-12:00","13:00-17:00","08:00-10:00","14:00-16:00","10:00-12:00","15:00-18:00"];
+const SO_STATUS = ["待确认","待生产","生产中","已出库","配送中","已完成"];
+
+function ensureData(row){
+  if (state.data[row.id]) return state.data[row.id];
+  const tpl = getTpl(row);
+  const count = 15 + (row.id % 8);
+  const list = [];
+  const statuses = ["pending","approved","rejected","pending","approved","done","pending","approved"];
+  for (let i = 0; i < count; i++){
+    const hh = String(8+(i%10)).padStart(2,"0");
+    const mm = String((i*7)%60).padStart(2,"0");
+    const item = { id: row.id*10000+i, _status: statuses[i % statuses.length], _created: `2026-11-05 ${hh}:${mm}:00` };
+
+    if (isSalesOrder(row)){
+      // ★ 销售订单专用数据
+      item.customer = SO_CUSTOMERS[i % SO_CUSTOMERS.length];
+      item.deliveryDate = dateStr(i);              // 配送日期
+      item.orderDate = dateStr(i - 1);             // 下单日期（早于配送日期）
+      item.deliveryTime = SO_TIMES[i % SO_TIMES.length];
+      item.address = SO_ADDRESSES[i % SO_ADDRESSES.length];
+      item.orderUser = SO_USERS[i % SO_USERS.length];
+      item.orderTime = `2026-11-05 ${hh}:${mm}`;
+      item.status = SO_STATUS[i % SO_STATUS.length];
+      // 商品明细 2~5 条
+      const detailCount = 2 + (i % 4);
+      const details = [];
+      for (let j = 0; j < detailCount; j++){
+        const pi = (i + j) % PRODUCT_POOL.length;
+        const qty = QTY_POOL[pi];
+        const price = PRICE_POOL[pi];
+        const subtotal = Number((qty * price).toFixed(2));
+        details.push({ product: PRODUCT_POOL[pi], spec: SPEC_POOL[pi], qty, unit: "箱", price, subtotal, remark: "" });
+      }
+      item.details = details;
+      list.push(item);
+      continue;
+    }
+
+    tpl.f.forEach(f => {
+      if (f.auto) item[f.k] = genCode(f.auto, i);
+      else if (f.t === "date") item[f.k] = dateStr(i);
+      else if (f.demo){ let v = f.demo[i%f.demo.length]; if(typeof v==="string") v = fixDateText(v,i); item[f.k]=v; }
+      else if (f.t === "number") item[f.k] = (i+1)*10;
+      else item[f.k] = "示例" + (i+1);
+    });
+    list.push(item);
+  }
+  state.data[row.id] = list;
+  return list;
+}
+
+/* ============ 侧边栏 ============ */
+const menuNav = $("menuNav"), sidebarEl = $("sidebar");
+function filteredMenus(){
+  if (!state.keyword) return MENUS;
+  const k = state.keyword.toLowerCase();
+  return MENUS.filter(m => m.l1.toLowerCase().includes(k) || m.l2.toLowerCase().includes(k) || m.l3.toLowerCase().includes(k) || m.desc.toLowerCase().includes(k));
+}
+function buildTree(rows){
+  const map = new Map();
+  rows.forEach(r => { if(!map.has(r.l1)) map.set(r.l1,new Map()); const m2=map.get(r.l1); if(!m2.has(r.l2)) m2.set(r.l2,[]); m2.get(r.l2).push(r); });
+  return map;
+}
+function renderSidebar(){
+  const st = menuNav.scrollTop;
+  const rows = filteredMenus(), tree = buildTree(rows);
+  if (state.collapsed){
+    let html="";
+    tree.forEach((_,l1) => { html += `<div class="m1"><div class="m1-h" data-tl1="${esc(l1)}" title="${esc(l1)}"><span class="m1-icon">${esc(l1.slice(0,1))}</span></div></div>`; });
+    menuNav.innerHTML = html || '<div class="menu-empty">无匹配</div>';
+    return;
+  }
+  if (!tree.size){ menuNav.innerHTML = '<div class="menu-empty">没有匹配的菜单</div>'; return; }
+  const forceOpen = !!state.keyword;
+  let html = "";
+  tree.forEach((l2map, l1) => {
+    const open = forceOpen || state.expandedL1.has(l1);
+    const total = Array.from(l2map.values()).reduce((s,a)=>s+a.length,0);
+    html += `<div class="m1 ${open?"open":""}"><div class="m1-h" data-tl1="${esc(l1)}"><span class="caret">▸</span><span class="mlabel">${hl(l1)}</span><span class="mcount">${total}</span></div><div class="m1-b">`;
+    l2map.forEach((list, l2) => {
+      const key = l1+"||"+l2;
+      const open2 = forceOpen || state.expandedL2.has(key);
+      html += `<div class="m2 ${open2?"open":""}"><div class="m2-h" data-tl2="${esc(key)}"><span class="caret">▸</span><span class="mlabel">${hl(l2)}</span><span class="mcount">${list.length}</span></div><div class="m2-b">`;
+      list.forEach(r => { html += `<div class="m3 ${state.activeId===r.id?"active":""}" data-mid="${r.id}"><span class="dot"></span><span class="mlabel">${hl(r.l3)}</span></div>`; });
+      html += `</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  menuNav.innerHTML = html;
+  menuNav.scrollTop = st;
+}
+
+/* ============ Tab / 面包屑 ============ */
+const tabbarEl = $("tabbar"), crumbEl = $("crumb");
+function renderTabs(){
+  if (!state.tabs.length){ tabbarEl.innerHTML = '<div class="tabbar-empty">打开左侧菜单后，标签会显示在这里</div>'; return; }
+  tabbarEl.innerHTML = state.tabs.map(t => `<div class="tab ${t.id===state.activeId?"active":""}" data-tab="${t.id}"><span>${esc(t.l3)}</span><button class="t-x" data-close="${t.id}">×</button></div>`).join("");
+}
+function renderCrumb(){
+  if (state.activeId == null){ crumbEl.innerHTML = `<span class="lnk" data-home="1">首页</span><span class="sep">/</span><b>概览</b>`; return; }
+  const r = MENUS[state.activeId];
+  crumbEl.innerHTML = `<span class="lnk" data-home="1">首页</span><span class="sep">/</span><span class="lnk" data-cl1="${esc(r.l1)}">${esc(r.l1)}</span><span class="sep">/</span><span class="lnk" data-cl2="${esc(r.l1+"||"+r.l2)}">${esc(r.l2)}</span><span class="sep">/</span><b>${esc(r.l3)}</b>`;
+}
+
+/* ============ SVG 图表 ============ */
+const COLORS = ["#3b82f6","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#ec4899","#84cc16","#f97316","#14b8a6"];
+function svgBar(data){
+  const W=640,H=280,pad={t:28,r:20,b:42,l:48}; const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  const max=Math.max(...data.map(d=>d.value),1)*1.2; const slot=iW/data.length,bw=slot*0.52;
+  let grid=""; for(let i=0;i<=4;i++){const y=pad.t+iH/4*i,v=Math.round(max-max/4*i);grid+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="currentColor" stroke-opacity=".1" stroke-dasharray="3 3"/><text x="${pad.l-8}" y="${y+4}" text-anchor="end" font-size="10.5" fill="currentColor" opacity=".55">${v}</text>`;}
+  let bars=""; data.forEach((d,i)=>{const h=Math.max(2,d.value/max*iH);const x=pad.l+slot*i+(slot-bw)/2;const y=pad.t+iH-h;const color=d.color||COLORS[i%COLORS.length];bars+=`<g><rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="5" fill="${color}"><animate attributeName="height" from="0" to="${h}" dur=".7s" fill="freeze"/><animate attributeName="y" from="${pad.t+iH}" to="${y}" dur=".7s" fill="freeze"/></rect><text x="${x+bw/2}" y="${y-8}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".78" font-weight="700">${d.value}</text><text x="${x+bw/2}" y="${H-16}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".6">${esc(d.label)}</text></g>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="color:var(--text)">${grid}${bars}</svg>`;
+}
+function svgLine(data,color="#3b82f6"){
+  const W=640,H=280,pad={t:28,r:24,b:42,l:48}; const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  const max=Math.max(...data.map(d=>d.value),1)*1.2; const step=iW/(data.length-1||1);
+  let grid=""; for(let i=0;i<=4;i++){const y=pad.t+iH/4*i,v=Math.round(max-max/4*i);grid+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="currentColor" stroke-opacity=".1" stroke-dasharray="3 3"/><text x="${pad.l-8}" y="${y+4}" text-anchor="end" font-size="10.5" fill="currentColor" opacity=".55">${v}</text>`;}
+  const pts=data.map((d,i)=>({x:pad.l+step*i,y:pad.t+iH-d.value/max*iH,v:d.value,l:d.label}));
+  const line=pts.map((p,i)=>(i?"L":"M")+p.x+","+p.y).join(" "); const area=line+` L${pts[pts.length-1].x},${pad.t+iH} L${pts[0].x},${pad.t+iH} Z`;
+  const gid="g"+color.replace("#","");
+  let dots=""; pts.forEach((p,i)=>{dots+=`<circle cx="${p.x}" cy="${p.y}" r="4.5" fill="var(--panel)" stroke="${color}" stroke-width="2.5"><title>${esc(p.l)}：${p.v}</title></circle><text x="${p.x}" y="${H-16}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".6">${esc(p.l)}</text>`;if(i===0||i===pts.length-1||i===Math.floor(pts.length/2))dots+=`<text x="${p.x}" y="${p.y-11}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".78" font-weight="700">${p.v}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="color:var(--text)"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity=".35"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>${grid}<path d="${area}" fill="url(#${gid})"/><path d="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg>`;
+}
+function svgPie(data){
+  const W=320,H=280,cx=150,cy=140,r=100; const total=data.reduce((s,d)=>s+d.value,0)||1;
+  let angle=-Math.PI/2,paths=""; data.forEach((d,i)=>{const a=d.value/total*Math.PI*2;const x1=cx+r*Math.cos(angle),y1=cy+r*Math.sin(angle);const x2=cx+r*Math.cos(angle+a),y2=cy+r*Math.sin(angle+a);const large=a>Math.PI?1:0;const color=d.color||COLORS[i%COLORS.length];paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z" fill="${color}" stroke="var(--panel)" stroke-width="2" stroke-linejoin="round"><title>${esc(d.label)}：${d.value}（${(d.value/total*100).toFixed(1)}%）</title></path>`;angle+=a;});
+  let legend=data.map((d,i)=>{const color=d.color||COLORS[i%COLORS.length];return `<div style="display:flex;align-items:center;gap:6px;font-size:12px"><span style="width:9px;height:9px;border-radius:3px;background:${color}"></span><span style="color:var(--sub);flex:1">${esc(d.label)}</span><b style="color:var(--text)">${(d.value/total*100).toFixed(1)}%</b></div>`;}).join("");
+  return `<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><svg viewBox="0 0 ${W} ${H}" style="max-width:280px;flex:1;min-width:200px">${paths}</svg><div style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:130px">${legend}</div></div>`;
+}
+function svgDonut(data,opt={}){
+  const W=320,H=280,cx=160,cy=140,r=88,sw=32; const total=data.reduce((s,d)=>s+d.value,0)||1; const C=2*Math.PI*r;
+  let offset=0,arcs=""; data.forEach((d,i)=>{const len=d.value/total*C;const color=d.color||COLORS[i%COLORS.length];arcs+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-offset}" transform="rotate(-90 ${cx} ${cy})"><title>${esc(d.label)}：${d.value}（${(d.value/total*100).toFixed(1)}%）</title></circle>`;offset+=len;});
+  const mainL=opt.label||"总计",mainV=opt.value||total;
+  let legend=data.map((d,i)=>{const color=d.color||COLORS[i%COLORS.length];return `<div style="display:flex;align-items:center;gap:6px;font-size:12px"><span style="width:9px;height:9px;border-radius:3px;background:${color}"></span><span style="color:var(--sub);flex:1">${esc(d.label)}</span><b style="color:var(--text)">${d.value}</b></div>`;}).join("");
+  return `<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><svg viewBox="0 0 ${W} ${H}" style="max-width:280px;flex:1;min-width:200px"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="currentColor" stroke-opacity=".06" stroke-width="${sw}"/>${arcs}<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".55">${esc(mainL)}</text><text x="${cx}" y="${cy+20}" text-anchor="middle" font-size="22" font-weight="700" fill="currentColor">${mainV}</text></svg><div style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:130px">${legend}</div></div>`;
+}
+function svgHBar(data){
+  const W=640,H=Math.max(200,data.length*38+40); const pad={t:16,r:70,b:20,l:120}; const iW=W-pad.l-pad.r;
+  const max=Math.max(...data.map(d=>d.value),1); const rowH=(H-pad.t-pad.b)/data.length;
+  let bars=""; data.forEach((d,i)=>{const y=pad.t+rowH*i+rowH*0.2;const h=rowH*0.6;const w=d.value/max*iW;const color=d.color||COLORS[i%COLORS.length];bars+=`<g><text x="${pad.l-10}" y="${y+h/2+4}" text-anchor="end" font-size="12" fill="currentColor" opacity=".72">${esc(d.label)}</text><rect x="${pad.l}" y="${y}" width="${iW}" height="${h}" rx="4" fill="currentColor" opacity=".06"/><rect x="${pad.l}" y="${y}" width="${w}" height="${h}" rx="4" fill="${color}"><animate attributeName="width" from="0" to="${w}" dur=".7s" fill="freeze"/></rect><text x="${pad.l+w+10}" y="${y+h/2+4}" font-size="12" fill="currentColor" opacity=".78" font-weight="700">${d.value}</text></g>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="color:var(--text)">${bars}</svg>`;
+}
+function svgStacked(data){
+  const W=640,H=280,pad={t:28,r:20,b:42,l:48}; const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  const slot=iW/data.length,bw=slot*0.55; const totals=data.map(d=>d.values.reduce((s,v)=>s+v,0)); const max=Math.max(...totals,1)*1.2;
+  let grid=""; for(let i=0;i<=4;i++){const y=pad.t+iH/4*i,v=Math.round(max-max/4*i);grid+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="currentColor" stroke-opacity=".1" stroke-dasharray="3 3"/><text x="${pad.l-8}" y="${y+4}" text-anchor="end" font-size="10.5" fill="currentColor" opacity=".55">${v}</text>`;}
+  let bars=""; data.forEach((d,i)=>{let acc=0;const x=pad.l+slot*i+(slot-bw)/2;d.values.forEach((v,j)=>{const h=v/max*iH;const y=pad.t+iH-acc-h;const color=COLORS[j%COLORS.length];bars+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="2" fill="${color}"><animate attributeName="height" from="0" to="${h}" dur=".6s" fill="freeze"/><animate attributeName="y" from="${pad.t+iH}" to="${y}" dur=".6s" fill="freeze"/></rect>`;acc+=h;});bars+=`<text x="${x+bw/2}" y="${H-16}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".6">${esc(d.label)}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="color:var(--text)">${grid}${bars}</svg>`;
+}
+
+/* ============ 概览 ============ */
+function overviewHTML(){
+  const l1Set = new Set(MENUS.map(m=>m.l1));
+  const l2Set = new Set(MENUS.map(m=>m.l1+"||"+m.l2));
+  const l1map = new Map();
+  MENUS.forEach(m => { if(!l1map.has(m.l1)) l1map.set(m.l1,{l2:new Set(),n:0}); const o=l1map.get(m.l1); o.l2.add(m.l2); o.n++; });
+  let cards=""; l1map.forEach((o,l1)=>{cards+=`<div class="l1-card" data-card="${esc(l1)}"><h3>${esc(l1)}</h3><div class="meta"><span><b>${o.l2.size}</b> 个二级</span><span><b>${o.n}</b> 个功能</span></div><div class="tags">${Array.from(o.l2).slice(0,4).map(x=>`<span class="tagline">${esc(x)}</span>`).join("")}</div></div>`;});
+  return `<div class="hero"><h1>标准版 · 后台概览</h1><p>每个功能页按业务定制专属字段，每行均可查看完整详情；销售订单支持按日期/客户查询，一单多商品明细，配送时间可在详情中修改。</p><div class="hero-actions"><button class="hero-btn primary" id="quickOpen">打开物料主数据</button><button class="hero-btn" id="quickOrder">打开销售订单</button><button class="hero-btn" id="quickChart">打开经营驾驶舱</button></div></div><div class="stats"><div class="stat"><div class="stat-ico s-blue">▤</div><div><div class="stat-num">${l1Set.size}</div><div class="stat-label">一级业务模块</div></div></div><div class="stat"><div class="stat-ico s-green">▥</div><div><div class="stat-num">${l2Set.size}</div><div class="stat-label">二级功能分组</div></div></div><div class="stat"><div class="stat-ico s-amber">▦</div><div><div class="stat-num">${MENUS.length}</div><div class="stat-label">三级功能菜单</div></div></div><div class="stat"><div class="stat-ico s-violet">◈</div><div><div class="stat-num">v1.0</div><div class="stat-label">当前版本</div></div></div></div><div class="section-title"><h2>业务模块 <span class="sub">点击卡片进入对应模块</span></h2></div><div class="l1-grid">${cards}</div>`;
+}
+
+/* ============ 列表页 ============ */
+function getPageSize(id){ return state.pageSize[id] || 10; }
+function getCurPage(id){ return state.page[id] || 1; }
+
+function filterRowsForRow(row, tpl){
+  const all = state.data[row.id];
+  const q = (state.q[row.id] || "").toLowerCase();
+  const f = state.fStatus[row.id] || "";
+  const so = isSalesOrder(row);
+  const dateFrom = state.dateFrom[row.id] || "";
+  const dateTo = state.dateTo[row.id] || "";
+  return all.filter(r => {
+    if (q){
+      if (so){
+        if (!String(r.customer || "").toLowerCase().includes(q)) return false;
+      } else {
+        const hit = tpl.c.some(c => String(r[c] ?? "").toLowerCase().includes(q))
+          || (r.details && r.details.some(d => JSON.stringify(d).toLowerCase().includes(q)))
+          || (STATUS[r._status] || {}).text.includes(q);
+        if (!hit) return false;
+      }
+    }
+    if (f && r._status !== f) return false;
+    if (so){
+      const d = r.deliveryDate || "";
+      if (dateFrom && d < dateFrom) return false;
+      if (dateTo && d > dateTo) return false;
+    }
+    return true;
+  });
+}
+
+function listPageHTML(row){
+  ensureData(row);
+  const tpl = getTpl(row);
+  const all = state.data[row.id];
+  const so = isSalesOrder(row);
+  const filtered = filterRowsForRow(row, tpl);
+  const ps = getPageSize(row.id);
+  const totalPages = Math.max(1, Math.ceil(filtered.length/ps));
+  const cur = Math.min(getCurPage(row.id), totalPages);
+  state.page[row.id] = cur;
+  const pageRows = filtered.slice((cur-1)*ps, cur*ps);
+  const sel = state.selected[row.id] || new Set();
+  const allChecked = pageRows.length > 0 && pageRows.every(r => sel.has(r.id));
+
+  // 列头
+  let headers = "";
+  if (so){
+    headers = `<th>客户名称</th><th>配送日期</th><th>下单日期</th><th>状态</th><th>明细</th>`;
+  } else {
+    headers = tpl.c.map(c => { const f = tpl.f.find(x => x.k === c); return `<th>${esc(f?f.l:c)}</th>`; }).join("");
+  }
+
+  // 行
+  const bodyRows = pageRows.length ? pageRows.map(r => {
+    const checked = sel.has(r.id) ? "checked" : "";
+    if (so){
+      const dcount = (r.details || []).length;
+      const stTag = `<span class="tag ${STATUS[r._status]?.cls || 'muted'}">${esc(r.status || '')}</span>`;
+      return `<tr class="${sel.has(r.id)?"selected":""}" data-row-id="${r.id}">
+        <td class="col-check"><input type="checkbox" data-check="${r.id}" ${checked}></td>
+        <td title="${esc(r.customer)}"><b>${esc(r.customer)}</b></td>
+        <td>${esc(r.deliveryDate || "—")}</td>
+        <td>${esc(r.orderDate || "—")}</td>
+        <td>${stTag}</td>
+        <td><span class="detail-badge">${dcount} 项</span></td>
+        <td style="color:var(--sub);font-size:12px">${esc(r._created || "")}</td>
+        <td class="col-actions"><div class="actions">
+          <button class="btn btn-sm" data-detail="${r.id}">详情</button>
+          <button class="btn btn-sm" data-edit="${r.id}">编辑</button>
+          <button class="btn btn-sm btn-ok" data-audit="${r.id}" ${(r._status==="pending"||r._status==="rejected")?"":"disabled"}>审核</button>
+          <button class="btn btn-sm btn-danger" data-del="${r.id}">删除</button>
+        </div></td></tr>`;
+    }
+    const tds = tpl.c.map(c => {
+      const f = tpl.f.find(x => x.k === c);
+      let v = r[c];
+      if (f && f.t === "number" && typeof v === "number" && /金额|价格|成本|单价/.test(f.l)) v = fmtMoney(v);
+      const title = v == null ? "" : String(v);
+      if (c === tpl.c[0]) return `<td title="${esc(title)}"><b>${esc(v ?? "—")}</b></td>`;
+      return `<td title="${esc(title)}">${esc(v ?? "—")}</td>`;
+    }).join("");
+    const st = r._status;
+    const si = STATUS[st] || { text: st, cls: "muted" };
+    return `<tr class="${sel.has(r.id)?"selected":""}" data-row-id="${r.id}">
+      <td class="col-check"><input type="checkbox" data-check="${r.id}" ${checked}></td>
+      ${tds}
+      <td><span class="tag ${si.cls}">${si.text}</span></td>
+      <td style="color:var(--sub);font-size:12px">${esc(r._created || "")}</td>
+      <td class="col-actions"><div class="actions">
+        <button class="btn btn-sm" data-detail="${r.id}">详情</button>
+        <button class="btn btn-sm" data-edit="${r.id}">编辑</button>
+        <button class="btn btn-sm btn-ok" data-audit="${r.id}" ${(st==="pending"||st==="rejected")?"":"disabled"}>审核</button>
+        <button class="btn btn-sm btn-danger" data-del="${r.id}">删除</button>
+      </div></td></tr>`;
+  }).join("") : `<tr class="empty-row"><td colspan="${(so?8:tpl.c.length+4)}">暂无数据，点击右上角「新增」创建第一条记录</td></tr>`;
+
+  // 分页
+  let pagesHtml = "";
+  let from = Math.max(1, cur-3), to = Math.min(totalPages, from+6);
+  if (to-from+1 < 7) from = Math.max(1, to-6);
+  for (let i=from;i<=to;i++) pagesHtml += `<button class="pg ${i===cur?"active":""}" data-pg="${i}">${i}</button>`;
+
+  // 工具栏（销售订单特殊处理）
+  let toolbarHtml;
+  if (so){
+    toolbarHtml = `
+      <div class="toolbar">
+        <input class="tb-search" id="qInput" placeholder="搜索客户名称..." value="${esc(state.q[row.id]||"")}">
+        <span class="date-sep">配送日期</span>
+        <input type="date" id="dateFromInput" value="${esc(state.dateFrom[row.id]||"")}" title="起始日期">
+        <span class="date-sep">至</span>
+        <input type="date" id="dateToInput" value="${esc(state.dateTo[row.id]||"")}" title="结束日期">
+        <select id="fStatus"><option value="">全部状态</option>
+          ${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${state.fStatus[row.id]===k?"selected":""}>${v.text}</option>`).join("")}
+        </select>
+        <button class="btn" id="resetBtn">重置</button>
+        <div class="spacer"></div>
+        <span style="font-size:12.5px;color:var(--mute)">共 ${filtered.length} 条筛选结果</span>
+      </div>`;
+  } else {
+    toolbarHtml = `
+      <div class="toolbar">
+        <input class="tb-search" id="qInput" placeholder="搜索关键字..." value="${esc(state.q[row.id]||"")}">
+        <select id="fStatus"><option value="">全部状态</option>
+          ${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${state.fStatus[row.id]===k?"selected":""}>${v.text}</option>`).join("")}
+        </select>
+        <button class="btn" id="resetBtn">重置</button>
+        <div class="spacer"></div>
+        <span style="font-size:12.5px;color:var(--mute)">共 ${filtered.length} 条筛选结果 · 点行查看详情</span>
+      </div>`;
+  }
+
+  return `<div class="page-head">
+    <div><h2>${esc(row.l3)} <span class="badge">${all.length} 条</span></h2>
+      <p>${esc(row.l1)} / ${esc(row.l2)}　·　${esc(row.desc)}</p></div>
+    <div class="page-actions">
+      <button class="btn btn-primary" id="addBtn">＋ 新增</button>
+      <button class="btn btn-ok" id="batchAuditBtn" ${sel.size?"":"disabled"}>批量审核 (${sel.size})</button>
+      <button class="btn btn-danger" id="batchDelBtn" ${sel.size?"":"disabled"}>批量删除 (${sel.size})</button>
+      <button class="btn" id="exportBtn">导出 CSV</button></div></div>
+    ${toolbarHtml}
+    <div class="tbl-wrap"><table class="tbl"><thead><tr>
+      <th class="col-check"><input type="checkbox" id="checkAll" ${allChecked?"checked":""}></th>
+      ${headers}<th>创建时间</th><th class="col-actions">操作</th>
+    </tr></thead><tbody>${bodyRows}</tbody></table>
+    <div class="pager">
+      <span>第 ${cur} / ${totalPages} 页</span>
+      <select id="pageSizeSel">${[10,20,50].map(n=>`<option value="${n}" ${ps===n?"selected":""}>${n} 条/页</option>`).join("")}</select>
+      <div class="pages">
+        <button class="pg" data-pg="1" ${cur===1?"disabled":""}>首页</button>
+        <button class="pg" data-pg="${cur-1}" ${cur===1?"disabled":""}>上一页</button>
+        ${pagesHtml}
+        <button class="pg" data-pg="${cur+1}" ${cur===totalPages?"disabled":""}>下一页</button>
+        <button class="pg" data-pg="${totalPages}" ${cur===totalPages?"disabled":""}>末页</button>
+      </div></div></div>`;
+}
+
+/* ============ 详情弹窗 ============ */
+function openSalesOrderDetail(row, id){
+  const target = state.data[row.id].find(r => r.id === id);
+  if (!target) return;
+  const stCls = STATUS[target._status]?.cls || "muted";
+  const stTxt = STATUS[target._status]?.text || target._status;
+  const details = target.details || [];
+  const totalQty = details.reduce((s,d)=>s+Number(d.qty||0),0);
+  const totalAmount = details.reduce((s,d)=>s+Number(d.subtotal||0),0);
+
+  const detailRows = details.length ? details.map((d,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><b>${esc(d.product||"")}</b></td>
+      <td>${esc(d.spec||"—")}</td>
+      <td>${esc(d.qty||0)}</td>
+      <td>${esc(d.unit||"—")}</td>
+      <td>${fmtMoney(d.price)}</td>
+      <td><b>${fmtMoney(d.subtotal)}</b></td>
+      <td>${esc(d.remark||"—")}</td>
+    </tr>`).join("") : `<tr><td colspan="8" style="text-align:center;color:var(--mute);padding:20px">暂无商品明细</td></tr>`;
+
+  openModal({
+    title: `订单详情 · ${esc(target.code)}`,
+    body: `
+      <div class="detail-status">
+        <span>订单状态：<span class="tag ${stCls}">${esc(stTxt)}</span></span>
+        <span>明细数：<b>${details.length}</b> 项</span>
+      </div>
+      <div class="detail-grid">
+        <div class="dk">订单号</div><div class="dv"><b>${esc(target.code)}</b></div>
+        <div class="dk">客户名称</div><div class="dv">${esc(target.customer||"—")}</div>
+        <div class="dk">配送时间</div><div class="dv">
+          <input id="detailDeliveryTime" value="${esc(target.deliveryTime||"")}" style="padding:6px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--panel2);color:var(--text);font-size:13px;width:200px;outline:none">
+          <button class="btn btn-sm btn-primary" id="saveDeliveryTime" type="button" style="margin-left:8px">保存</button>
+        </div>
+        <div class="dk">配送地址</div><div class="dv">${esc(target.address||"—")}</div>
+        <div class="dk">下单人</div><div class="dv">${esc(target.orderUser||"—")}</div>
+        <div class="dk">下单时间</div><div class="dv">${esc(target.orderTime||"—")}</div>
+        <div class="dk">配送日期</div><div class="dv">${esc(target.deliveryDate||"—")}</div>
+        <div class="dk">下单日期</div><div class="dv">${esc(target.orderDate||"—")}</div>
+      </div>
+      <div class="detail-sub-title">商品详情（${details.length} 项）</div>
+      <div class="detail-sub-wrap">
+        <table class="detail-sub-table">
+          <thead><tr><th>序号</th><th>商品名称</th><th>规格</th><th>数量</th><th>单位</th><th>单价(元)</th><th>小计(元)</th><th>备注</th></tr></thead>
+          <tbody>${detailRows}</tbody>
+        </table>
+      </div>
+      <div class="detail-total">合计：数量 <b>${totalQty}</b>　金额 <b>${fmtMoney(totalAmount)}</b> 元</div>
+      <div class="detail-actions">
+        <button class="btn" id="detEdit" type="button">编辑订单</button>
+        <button class="btn btn-ok" id="detAudit" type="button" ${(target._status==="pending"||target._status==="rejected")?"":"disabled"}>审核</button>
+        <button class="btn btn-danger" id="detDel" type="button">删除订单</button>
+      </div>
+    `,
+    buttons: [{ id:"close", text:"关闭", onClick: closeModal }]
+  });
+
+  // ★ 保存配送时间
+  const saveBtn = document.getElementById("saveDeliveryTime");
+  if (saveBtn) saveBtn.onclick = () => {
+    const v = document.getElementById("detailDeliveryTime").value.trim();
+    if (!v){ toast("配送时间不能为空"); return; }
+    target.deliveryTime = v;
+    toast("配送时间已保存");
+  };
+  document.getElementById("detEdit").onclick = () => { closeModal(); openFormModal(row, target, true); };
+  const ab = document.getElementById("detAudit");
+  if (ab && !ab.disabled) ab.onclick = () => { closeModal(); openAuditModal(row, id); };
+  document.getElementById("detDel").onclick = () => { closeModal(); confirmDelete([id], row); };
+}
+
+function openDetailModal(row, id){
+  if (isSalesOrder(row)){ openSalesOrderDetail(row, id); return; }
+  const tpl = getTpl(row);
+  const target = state.data[row.id].find(r => r.id === id);
+  if (!target) return;
+  let rowsHtml = tpl.f.map(f => {
+    let v = target[f.k];
+    if (v == null || v === "") v = "—";
+    if (f.t === "number" && /金额|价格|成本|单价/.test(f.l)) v = fmtMoney(v);
+    return `<div class="dk">${esc(f.l)}</div><div class="dv" title="${esc(v)}">${esc(v)}</div>`;
+  }).join("");
+  let detailsHtml = "";
+  if (tpl.details && target.details && target.details.length){
+    const dfs = tpl.details.fields;
+    const rows2 = target.details.map(d => `<tr>${dfs.map(f => {
+      let v = d[f.k]; if (v == null || v === "") v = "—";
+      if (f.t === "number" && /金额|价格|成本|单价|小计/.test(f.l)) v = fmtMoney(v);
+      return `<td>${esc(v)}</td>`;
+    }).join("")}</tr>`).join("");
+    detailsHtml = `<div class="detail-sub-title">${esc(tpl.details.label)}（${target.details.length} 项）</div><div class="detail-sub-wrap"><table class="detail-sub-table"><thead><tr>${dfs.map(f=>`<th>${esc(f.l)}</th>`).join("")}</tr></thead><tbody>${rows2}</tbody></table></div>`;
+  }
+  const si = STATUS[target._status] || { text: target._status, cls: "muted" };
+  openModal({
+    title: `详情 · ${row.l3}`,
+    body: `<div class="detail-grid">${rowsHtml}</div>${detailsHtml}<div class="detail-status"><span>状态：<span class="tag ${si.cls}">${si.text}</span></span><span>创建时间：<b>${esc(target._created||"")}</b></span><span>记录ID：<b>${esc(target.id)}</b></span></div><div class="detail-actions"><button class="btn" id="detEdit">编辑此条</button><button class="btn btn-ok" id="detAudit" ${(target._status==="pending"||target._status==="rejected")?"":"disabled"}>审核此条</button><button class="btn btn-danger" id="detDel">删除此条</button></div>`,
+    buttons: [{ id:"close", text:"关闭", onClick: closeModal }]
+  });
+  document.getElementById("detEdit").onclick = () => { closeModal(); openFormModal(row, target, true); };
+  const ab = document.getElementById("detAudit");
+  if (ab && !ab.disabled) ab.onclick = () => { closeModal(); openAuditModal(row, id); };
+  document.getElementById("detDel").onclick = () => { closeModal(); confirmDelete([id], row); };
+}
+
+/* ============ 图表页 ============ */
+function isChartPage(row){ return TPL_OF[row.l3] === "_chart" || row.l1 === "数据分析"; }
+const CHART_CFG = {
+  "经营驾驶舱": { kpi:[["销售收入","326.8","万元",8.2],["毛利额","98.4","万元",5.6],["订单数","1,286","单",12.3],["回款额","312.5","万元",-2.1]], titles:["月度销售收入（万元）","产量与销售趋势","成本构成","订单状态分布","产品销量排行","仓储库存分布","部门人效（万元/人）"] },
+  "销售与客户分析": { kpi:[["销售额","326.8","万元",8.2],["客户数","486","个",3.5],["订单均价","2,540","元/单",-1.8],["流失率","4.2","%",-0.6]], titles:["月度销售额（万元）","客户回款趋势（万元）","客户类型占比","订单状态","产品销售排行","区域销量分布","销售员业绩（万元）"] },
+  "库存与效期分析": { kpi:[["库存金额","218.6","万元",-3.1],["周转天数","32","天",-2.0],["呆滞金额","12.4","万元",15.6],["临期金额","6.8","万元",-8.3]], titles:["库存金额趋势（万元）","出入库趋势（箱）","仓库库存占比","效期分布","呆滞物料排行","物料分类占比","仓库周转率"] },
+  "生产与效率分析": { kpi:[["产量","18,600","箱",6.4],["达成率","96.8","%",1.2],["停机时长","42","小时",-12.5],["不良率","1.8","%",-0.4]], titles:["月度产量趋势（箱）","工序效率（%）","停机原因占比","工单状态","班组产出排行","产线负荷率","设备 OEE"] },
+  "成本与损耗分析": { kpi:[["总成本","228.4","万元",3.2],["成本率","69.9","%",1.1],["损耗率","3.2","%",-0.5],["得率","94.1","%",0.8]], titles:["月度成本（万元）","损耗率趋势（%）","成本构成","损耗类型","物料损耗排行","产线成本对比","能源成本趋势"] },
+  "质量与食安分析": { kpi:[["合格率","98.6","%",0.4],["客诉数","26","件",-15.2],["召回次数","1","次",0],["来料合格率","97.2","%",1.2]], titles:["合格率趋势（%）","客诉数量趋势","缺陷类型占比","检验状态","供应商来料合格率","工序合格率","客诉原因分布"] },
+  "财务与资金分析": { kpi:[["收入","326.8","万元",8.2],["应收账款","86.4","万元",5.6],["现金余额","142.3","万元",3.2],["毛利率","30.1","%",1.8]], titles:["收入趋势（万元）","资金流（万元）","费用构成","应收账龄","客户应收排行","付款账龄","业务线毛利"] },
+  "配送分析": { kpi:[["配送单量","1,842","单",6.8],["准时率","96.2","%",1.5],["拒收率","0.8","%",-0.3],["装载率","82.4","%",2.1]], titles:["配送单量趋势","准时送达率（%）","拒收原因占比","车辆装载率","线路配送量排行","客户配送量排行","配送成本（元/单）"] }
+};
+function chartPageHTML(row){
+  const cfg = CHART_CFG[row.l3] || CHART_CFG["经营驾驶舱"];
+  const seed = row.id % 7;
+  const dim = state.chartDim[row.id] || "月";
+  const n = dim === "月" ? 6 : dim === "周" ? 7 : 4;
+  const labels = dim === "月" ? ["1月","2月","3月","4月","5月","6月"] : dim === "周" ? ["周一","周二","周三","周四","周五","周六","周日"] : ["Q1","Q2","Q3","Q4"];
+  const barData = labels.map((l,i)=>({label:l,value:60+((seed*13+i*11)%80)}));
+  const lineData = labels.map((l,i)=>({label:l,value:80+((seed*17+i*9)%70)}));
+  const pieData = [{label:"原料成本",value:45+seed},{label:"包材成本",value:18+(seed%8)},{label:"人工成本",value:20},{label:"能耗成本",value:9+(seed%5)},{label:"损耗成本",value:8}];
+  const donutData = [{label:"已完成",value:68+seed},{label:"进行中",value:22},{label:"待审核",value:8},{label:"异常",value:2+(seed%4)}];
+  const hbarData = ["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司"].map((l,i)=>({label:l,value:180+((seed*31+i*47)%220)})).sort((a,b)=>b.value-a.value);
+  const stackedData = labels.slice(0,Math.min(n,6)).map((l,i)=>({label:l,values:[50+((seed*7+i*5)%30),30+((seed*5+i*4)%20),20+((seed*3+i*3)%15)]}));
+  const rankData = hbarData.slice(0,6);
+  const kpiHTML = cfg.kpi.map((k,i)=>{const cls=["k-blue","k-green","k-amber","k-violet"][i%4];const trend=k[3];const tCls=trend>0?"up":trend<0?"down":"flat";const arrow=trend>0?"↑":trend<0?"↓":"→";return `<div class="kpi ${cls}"><div class="kpi-head"><div><div class="kpi-label">${esc(k[0])}</div><div class="kpi-val">${k[1]}<small>${k[2]}</small></div></div></div><div class="kpi-trend ${tCls}">${arrow} ${Math.abs(trend)}%</div></div>`;}).join("");
+  const chartFullWidth = [0,1,2,3,4,5,6].map(i=>{const t=cfg.titles[i]||"图表";const cls=i<4?"":"chart-full";let body;if(i===0)body=svgBar(barData);else if(i===1)body=svgLine(lineData,"#10b981");else if(i===2)body=svgPie(pieData);else if(i===3)body=svgDonut(donutData,{label:"任务总数",value:donutData.reduce((s,d)=>s+d.value,0)});else if(i===4)body=svgHBar(hbarData.slice(0,5));else if(i===5)body=svgStacked(stackedData);else body=svgLine(barData.map(d=>({label:d.label,value:Math.round(d.value*1.15)})),"#8b5cf6");const tName={0:"柱状图",1:"折线图",2:"饼图",3:"环形图",4:"横向柱状图",5:"堆叠柱",6:"对比折线"}[i]||"图表";return `<div class="chart-card ${cls}"><div class="chart-head"><h3><span class="ico">▤</span>${esc(t)}</h3><span class="chart-tip">${tName}</span></div><div class="chart-body">${body}</div></div>`;}).join("");
+  const rankHTML = rankData.map((d,i)=>{const pct=Math.round(d.value/rankData[0].value*100);return `<div class="rank-item"><div class="rank-no">${i+1}</div><div class="rank-name">${esc(d.label)}</div><div class="rank-bar"><i style="width:${pct}%"></i></div><div class="rank-val">${d.value}</div></div>`;}).join("");
+  const detailRows = hbarData.slice(0,6).map((d,i)=>`<tr><td>${esc(d.label)}</td><td>${d.value}</td><td>${(d.value*3.6).toFixed(1)}</td><td>${(d.value*0.9).toFixed(0)}</td><td><span class="tag ${i%3===0?"success":i%3===1?"warn":"info"}">${i%3===0?"已达成":i%3===1?"进行中":"关注"}</span></td></tr>`).join("");
+  return `<div class="page-head"><div><h2>${esc(row.l3)} <span class="badge">数据分析</span></h2><p>${esc(row.l1)} / ${esc(row.l2)}　·　${esc(row.desc)}　·　数据日期：2026-11-05</p></div><div class="page-actions"><button class="btn" id="chartRefresh">刷新数据</button><button class="btn btn-primary" id="chartExport">导出数据</button></div></div><div class="kpi-row">${kpiHTML}</div><div class="chart-filter"><select id="chartDimSel">${["月","周","季"].map(d=>`<option value="${d}" ${dim===d?"selected":""}>按${d}查看</option>`).join("")}</select><select id="chartRangeSel"><option>最近 6 个月</option><option>最近 12 个月</option><option>本年度</option></select><div class="seg" id="chartSeg"><button class="active" data-seg="overview">总览</button><button data-seg="trend">趋势</button><button data-seg="structure">结构</button></div></div><div class="chart-grid">${chartFullWidth}</div><div class="chart-grid" style="margin-top:16px"><div class="chart-card"><div class="chart-head"><h3><span class="ico">▤</span>Top 6 排行</h3><span class="chart-tip">排行榜</span></div><div class="rank-list">${rankHTML}</div></div><div class="chart-card"><div class="chart-head"><h3><span class="ico">▤</span>数据明细</h3><span class="chart-tip">明细表</span></div><table class="mini-tbl"><thead><tr><th>名称</th><th>数量</th><th>金额(万)</th><th>订单数</th><th>状态</th></tr></thead><tbody>${detailRows}</tbody></table></div></div>`;
+}
+
+/* ============ 页面渲染 ============ */
+const contentEl = $("content");
+function renderContent(){
+  if (state.activeId == null){ contentEl.innerHTML = overviewHTML(); return; }
+  const row = MENUS[state.activeId];
+  contentEl.innerHTML = isChartPage(row) ? chartPageHTML(row) : listPageHTML(row);
+}
+function renderAll(){ renderSidebar(); renderTabs(); renderCrumb(); renderContent(); }
+function openMenu(id){ const row=MENUS[id]; if(!row)return; state.activeId=id; if(!state.tabs.some(t=>t.id===id))state.tabs.push({id,l3:row.l3}); state.expandedL1.add(row.l1); state.expandedL2.add(row.l1+"||"+row.l2); renderAll(); contentEl.scrollTop=0; }
+function closeTab(id){ const idx=state.tabs.findIndex(t=>t.id===id); if(idx===-1)return; state.tabs.splice(idx,1); if(state.activeId===id){const next=state.tabs[idx]||state.tabs[idx-1];state.activeId=next?next.id:null;} renderAll(); }
+function goHome(){ state.activeId=null; renderAll(); contentEl.scrollTop=0; }
+
+/* ============ 弹窗 ============ */
+const modalWrap = $("modalWrap"), modalMask = $("modalMask");
+function closeModal(){ modalWrap.classList.remove("show"); modalMask.classList.remove("show"); }
+function openModal({title,body,buttons}){
+  $("modalTitle").textContent=title; $("modalBody").innerHTML=body;
+  $("modalFoot").innerHTML = (buttons||[]).map(b=>`<button class="btn ${b.cls||""}" data-mbtn="${b.id}">${b.text}</button>`).join("");
+  modalWrap.classList.add("show"); modalMask.classList.add("show");
+  (buttons||[]).forEach(b=>{const el=document.querySelector(`[data-mbtn="${b.id}"]`);if(el)el.onclick=b.onClick;});
+}
+$("modalClose").onclick = closeModal; modalMask.onclick = closeModal;
+
+/* ============ 表单 ============ */
+function fieldHTML(f, v){
+  const value = v == null ? "" : v;
+  const req = f.req ? `<span class="req">*</span>` : "";
+  let inner;
+  if (f.t === "select") inner = `<select data-fk="${f.k}"><option value="">请选择</option>${(f.opts||[]).map(o=>`<option value="${esc(o)}" ${value===o?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+  else if (f.t === "textarea") inner = `<textarea data-fk="${f.k}">${esc(value)}</textarea>`;
+  else inner = `<input type="${f.t||"text"}" data-fk="${f.k}" value="${esc(value)}" ${f.auto?"disabled":""}>`;
+  return `<div class="form-row"><label>${esc(f.l)} ${req}</label>${inner}</div>`;
+}
+function formHTML(fields, values){
+  if (fields.length < 4) return fields.map(f=>fieldHTML(f,values?values[f.k]:"")).join("");
+  return `<div class="form-grid">${fields.map(f=>`<div class="${f.t==="textarea"?"span2":""}">${fieldHTML(f,values?values[f.k]:"")}</div>`).join("")}</div>`;
+}
+function detailRowHTML(fields, values){
+  const tds = fields.map(f => {
+    const v = values ? (values[f.k] ?? "") : "";
+    let inp;
+    if (f.t === "select") inp = `<select data-df="${f.k}"><option value="">选择</option>${(f.opts||[]).map(o=>`<option value="${esc(o)}" ${v===o?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+    else if (f.t === "number"){ const ro = (f.k==="subtotal") ? "readonly" : ""; inp = `<input type="number" data-df="${f.k}" value="${esc(v)}" step="any" ${ro}>`; }
+    else inp = `<input type="text" data-df="${f.k}" value="${esc(v)}">`;
+    return `<td>${inp}</td>`;
+  }).join("");
+  return `<tr class="detail-row">${tds}<td><button class="btn btn-sm btn-danger" type="button" data-del-detail>删除</button></td></tr>`;
+}
+function detailFormHTML(detailsTpl, rows){
+  const fields = detailsTpl.fields;
+  const rowsHtml = (rows&&rows.length) ? rows.map(r=>detailRowHTML(fields,r)).join("") : "";
+  return `<div class="detail-form-section"><div class="detail-form-head"><div class="detail-form-title">${esc(detailsTpl.label)} <span class="cnt" id="detCount">${rows?rows.length:0}</span></div><button class="btn btn-sm btn-primary" type="button" id="addDetailRow">＋ 添加明细</button></div><div class="detail-form-wrap"><table class="detail-form-table"><thead><tr>${fields.map(f=>`<th>${esc(f.l)}${f.req?' <span class="req">*</span>':''}</th>`).join("")}<th style="width:60px">操作</th></tr></thead><tbody id="detailRows">${rowsHtml}</tbody></table><div class="detail-form-empty" id="detailEmpty" style="${rows&&rows.length?"display:none":""}">还没有明细，点击右上角「＋ 添加明细」</div></div><div class="detail-total">合计：数量 <b id="detTotalQty">0</b>　金额 <b id="detTotalAmount">0</b> 元</div></div>`;
+}
+function bindDetailForm(detailsTpl){
+  const tbody = document.getElementById("detailRows"); if (!tbody) return;
+  const fields = detailsTpl.fields;
+  function refreshMeta(){ const rows=tbody.querySelectorAll("tr.detail-row"); const cnt=document.getElementById("detCount"); if(cnt)cnt.textContent=rows.length; const empty=document.getElementById("detailEmpty"); if(empty)empty.style.display=rows.length?"none":"block"; }
+  function recalc(){
+    let totalQty=0, totalAmount=0;
+    tbody.querySelectorAll("tr.detail-row").forEach(tr=>{
+      const qty = parseFloat(tr.querySelector('[data-df="qty"]')?.value) || 0;
+      const price = parseFloat(tr.querySelector('[data-df="price"]')?.value) || 0;
+      const amtEl = tr.querySelector('[data-df="subtotal"]');
+      const amt = Number((qty*price).toFixed(2));
+      if (amtEl) amtEl.value = amt;
+      totalQty += qty; totalAmount += amt;
+    });
+    const qEl=document.getElementById("detTotalQty"); const aEl=document.getElementById("detTotalAmount");
+    if(qEl)qEl.textContent=totalQty; if(aEl)aEl.textContent=fmtMoney(totalAmount);
+  }
+  const addBtn = document.getElementById("addDetailRow");
+  if (addBtn) addBtn.onclick = () => { tbody.insertAdjacentHTML("beforeend", detailRowHTML(fields, null)); refreshMeta(); recalc(); };
+  tbody.addEventListener("click", e=>{ const del=e.target.closest("[data-del-detail]"); if(del){del.closest("tr").remove();refreshMeta();recalc();} });
+  tbody.addEventListener("input", recalc);
+  tbody.addEventListener("change", recalc);
+  refreshMeta(); recalc();
+}
+function readForm(fields){
+  const out = {};
+  fields.forEach(f=>{ const el=document.querySelector(`[data-fk="${f.k}"]`); if(!el)return; out[f.k] = f.t==="number"?(el.value===""?"":Number(el.value)):el.value.trim(); });
+  return out;
+}
+function readDetails(){
+  const tbody = document.getElementById("detailRows"); if(!tbody)return[];
+  const details=[];
+  tbody.querySelectorAll("tr.detail-row").forEach(tr=>{
+    const obj={}; let hasValue=false;
+    tr.querySelectorAll("[data-df]").forEach(el=>{ const k=el.dataset.df; let v=el.value; if(el.type==="number")v=v===""?"":Number(v);else v=String(v).trim(); obj[k]=v; if(v!==""&&v!=null)hasValue=true; });
+    if(hasValue)details.push(obj);
+  });
+  return details;
+}
+function validateForm(fields,data){ for(const f of fields) if(f.req&&(data[f.k]===""||data[f.k]==null)) return `请填写「${f.l}」`; return null; }
+
+function openFormModal(row, values, isEdit){
+  const tpl = getTpl(row);
+  const title = isEdit ? `编辑 · ${row.l3}` : `新增 · ${row.l3}`;
+  let bodyHtml = formHTML(tpl.f, values || {});
+  if (tpl.details) bodyHtml += detailFormHTML(tpl.details, values && values.details ? values.details : []);
+  openModal({
+    title, body: bodyHtml,
+    buttons: [
+      { id:"cancel", text:"取消", onClick: closeModal },
+      { id:"ok", text: isEdit ? "保存修改" : "确认新增", cls:"btn-primary", onClick: () => {
+        const data = readForm(tpl.f);
+        const err = validateForm(tpl.f, data);
+        if (err){ toast(err); return; }
+        let details = null;
+        if (tpl.details){
+          details = readDetails();
+          if (!details.length){ toast("请至少添加一条商品明细"); return; }
+          for (let i=0;i<details.length;i++){
+            for (const df of tpl.details.fields){
+              if (df.req && (details[i][df.k]===""||details[i][df.k]==null)){ toast(`第 ${i+1} 行明细：「${df.l}」不能为空`); return; }
+            }
+          }
+          details.forEach(d=>{
+            const q = Number(d.qty)||0;
+            const p = Number(d.price)||0;
+            d.subtotal = Number((q*p).toFixed(2));
+          });
+          data.details = details;
+        }
+        if (isEdit){
+          const target = state.data[row.id].find(r=>r.id===values.id);
+          if (target) Object.assign(target, data);
+          toast("已保存修改");
+        } else {
+          if (tpl.f.some(f=>f.auto)){ const af=tpl.f.find(f=>f.auto); data[af.k]=data[af.k]||genCode(af.auto,state.data[row.id].length+1000); }
+          tpl.f.forEach(f=>{ if (f.t==="date" && !data[f.k]) data[f.k]=dateStr(0); });
+          if (isSalesOrder(row)){
+            if (!data.orderTime) data.orderTime = `2026-11-05 ${new Date().toTimeString().slice(0,5)}`;
+            if (!data.status) data.status = "待确认";
+          }
+          state.data[row.id].unshift({ id: uid(), _status: "pending", _created: `2026-11-05 ${new Date().toTimeString().slice(0,8)}`, ...data });
+          toast("新增成功，状态：待审核");
+        }
+        closeModal(); renderContent();
+      }}
+    ]
+  });
+  if (tpl.details) bindDetailForm(tpl.details);
+}
+
+function openAuditModal(row, id){
+  const target = state.data[row.id].find(r=>r.id===id); if(!target)return;
+  let summary = "";
+  if (isSalesOrder(row)){
+    summary = `
+      <div><span class="k">订单号：</span><b>${esc(target.code)}</b></div>
+      <div><span class="k">客户：</span><b>${esc(target.customer)}</b></div>
+      <div><span class="k">配送日期：</span><b>${esc(target.deliveryDate)}</b></div>
+      <div><span class="k">明细：</span><b>${(target.details||[]).length} 项</b></div>`;
+  } else {
+    const tpl = getTpl(row);
+    summary = tpl.c.slice(0,4).map(c=>{ const f=tpl.f.find(x=>x.k===c); return `<div><span class="k">${esc(f?f.l:c)}：</span><b>${esc(target[c]??"—")}</b></div>`; }).join("");
+  }
+  openModal({
+    title: "审核确认",
+    body: `<div class="audit-info">${summary}<div><span class="k">当前状态：</span><span class="tag ${STATUS[target._status].cls}">${STATUS[target._status].text}</span></div></div><div class="form-row"><label>审核意见</label><textarea id="auditRemark" placeholder="请输入审核意见（可选）"></textarea></div>`,
+    buttons: [
+      { id:"cancel", text:"取消", onClick: closeModal },
+      { id:"reject", text:"驳回", cls:"btn-danger", onClick: () => { target._status="rejected"; toast("已驳回"); closeModal(); renderContent(); } },
+      { id:"pass", text:"审核通过", cls:"btn-ok", onClick: () => { target._status="approved"; toast("审核通过"); closeModal(); renderContent(); } }
+    ]
+  });
+}
+
+function confirmDelete(ids, row){
+  openModal({
+    title: "确认删除",
+    body: `<div class="audit-info">确定要删除选中的 <b>${ids.length}</b> 条记录吗？删除后不可恢复。</div>`,
+    buttons: [
+      { id:"cancel", text:"取消", onClick: closeModal },
+      { id:"ok", text:"确认删除", cls:"btn-danger", onClick: () => {
+        state.data[row.id] = state.data[row.id].filter(r=>!ids.includes(r.id));
+        if (state.selected[row.id]) ids.forEach(x=>state.selected[row.id].delete(x));
+        toast(`已删除 ${ids.length} 条记录`); closeModal(); renderContent();
+      }}
+    ]
+  });
+}
+
+/* ============ 导出 ============ */
+function csvEsc(v){ const s=String(v==null?"":v); return /[",\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+function exportCSV(row){
+  const all = state.data[row.id] || [];
+  let head, lines;
+  if (isSalesOrder(row)){
+    head = ["订单号","客户名称","配送日期","下单日期","配送时间","配送地址","下单人","下单时间","状态","商品名称","规格","数量","单位","单价(元)","小计(元)","备注"];
+    lines = [head.map(csvEsc).join(",")];
+    all.forEach(r=>{
+      if (r.details && r.details.length){
+        r.details.forEach(d=>{
+          lines.push([r.code,r.customer,r.deliveryDate,r.orderDate,r.deliveryTime,r.address,r.orderUser,r.orderTime,r.status,d.product,d.spec,d.qty,d.unit,d.price,d.subtotal,d.remark||""].map(csvEsc).join(","));
+        });
+      } else {
+        lines.push([r.code,r.customer,r.deliveryDate,r.orderDate,r.deliveryTime,r.address,r.orderUser,r.orderTime,r.status,"","","","","","",""].map(csvEsc).join(","));
+      }
+    });
+  } else {
+    const tpl = getTpl(row);
+    head = [...tpl.f.map(f=>f.l), "状态", "创建时间"];
+    lines = [head.map(csvEsc).join(",")];
+    all.forEach(r=>{ lines.push([...tpl.f.map(f=>r[f.k]??""), (STATUS[r._status]||{}).text||r._status, r._created||""].map(csvEsc).join(",")); });
+  }
+  const blob = new Blob(["\ufeff" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href = url; a.download = `${row.l3}_${Date.now()}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast(`已导出 CSV（${all.length} 条）`);
+}
+
+/* ============ 事件绑定 ============ */
+menuNav.addEventListener("click", e=>{
+  const m3=e.target.closest("[data-mid]"); if(m3){openMenu(Number(m3.dataset.mid));return;}
+  const m2=e.target.closest("[data-tl2]"); if(m2){const key=m2.dataset.tl2;if(state.expandedL2.has(key))state.expandedL2.delete(key);else state.expandedL2.add(key);renderSidebar();return;}
+  const m1=e.target.closest("[data-tl1]"); if(m1){const l1=m1.dataset.tl1;if(state.collapsed){state.collapsed=false;sidebarEl.classList.remove("collapsed");state.expandedL1.add(l1);renderSidebar();return;}if(state.expandedL1.has(l1))state.expandedL1.delete(l1);else state.expandedL1.add(l1);renderSidebar();}
+});
+
+$("toggleSidebar").onclick = () => { state.collapsed=!state.collapsed; sidebarEl.classList.toggle("collapsed",state.collapsed); renderSidebar(); toast(state.collapsed?"已收起侧边栏":"已展开侧边栏"); };
+$("expandAll").onclick = () => { MENUS.forEach(m=>{state.expandedL1.add(m.l1);state.expandedL2.add(m.l1+"||"+m.l2);}); if(state.collapsed){state.collapsed=false;sidebarEl.classList.remove("collapsed");} renderSidebar(); toast("已展开全部菜单"); };
+$("collapseAll").onclick = () => { state.expandedL1.clear(); state.expandedL2.clear(); renderSidebar(); toast("已折叠全部菜单"); };
+$("search").addEventListener("input", e=>{ state.keyword=e.target.value.trim(); renderSidebar(); });
+$("themeBtn").onclick = () => { document.body.classList.toggle("dark"); const dark=document.body.classList.contains("dark"); $("themeBtn").textContent=dark?"☀️":"🌙"; toast(dark?"已切换到深色主题":"已切换到浅色主题"); };
+$("userBox").onclick = () => toast("当前为演示账号：管理员");
+
+tabbarEl.addEventListener("click", e=>{
+  const c=e.target.closest("[data-close]"); if(c){e.stopPropagation();closeTab(Number(c.dataset.close));return;}
+  const t=e.target.closest("[data-tab]"); if(t)openMenu(Number(t.dataset.tab));
+});
+crumbEl.addEventListener("click", e=>{
+  if(e.target.closest("[data-home]")){goHome();return;}
+  const l1=e.target.closest("[data-cl1]"); if(l1){state.expandedL1.add(l1.dataset.cl1);renderSidebar();return;}
+  const l2=e.target.closest("[data-cl2]"); if(l2){const k=l2.dataset.cl2;state.expandedL1.add(k.split("||")[0]);state.expandedL2.add(k);renderSidebar();}
+});
+
+contentEl.addEventListener("click", e=>{
+  if(e.target.id==="quickOpen"){const t=MENUS.find(m=>m.l3==="物料主数据");if(t)openMenu(t.id);return;}
+  if(e.target.id==="quickOrder"){const t=MENUS.find(m=>m.l3==="销售订单");if(t)openMenu(t.id);return;}
+  if(e.target.id==="quickChart"){const t=MENUS.find(m=>m.l3==="经营驾驶舱");if(t)openMenu(t.id);return;}
+  const card=e.target.closest("[data-card]"); if(card){const l1=card.dataset.card;const first=MENUS.find(m=>m.l1===l1);if(first)openMenu(first.id);return;}
+  if(e.target.id==="chartRefresh"){renderContent();toast("已刷新图表数据");return;}
+  if(e.target.id==="chartExport"){
+    const row=MENUS[state.activeId]; const lines=["指标,数值,同比"];
+    ["销售收入","毛利","订单数","回款","库存"].forEach((k,i)=>lines.push(`${k},${100+i*20},${(i+1)*2}%`));
+    const blob=new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"});
+    const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download=`${row.l3}_${Date.now()}.csv`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); toast("图表数据已导出"); return;
+  }
+  if(state.activeId==null)return;
+  const row = MENUS[state.activeId];
+  if(isChartPage(row))return;
+
+  if(e.target.id==="addBtn"){openFormModal(row,null,false);return;}
+  if(e.target.id==="batchAuditBtn"){
+    const sel=state.selected[row.id]||new Set(); if(!sel.size){toast("请先勾选记录");return;}
+    openModal({title:"批量审核",body:`<div class="audit-info">确认要审核选中的 <b>${sel.size}</b> 条记录吗？</div>`,buttons:[
+      {id:"cancel",text:"取消",onClick:closeModal},
+      {id:"ok",text:"全部通过",cls:"btn-ok",onClick:()=>{state.data[row.id].forEach(r=>{if(sel.has(r.id))r._status="approved";});toast(`已审核 ${sel.size} 条记录`);closeModal();renderContent();}}
+    ]}); return;
+  }
+  if(e.target.id==="batchDelBtn"){const sel=state.selected[row.id]||new Set();if(!sel.size){toast("请先勾选记录");return;}confirmDelete(Array.from(sel),row);return;}
+  if(e.target.id==="exportBtn"){exportCSV(row);return;}
+  if(e.target.id==="resetBtn"){state.q[row.id]="";state.fStatus[row.id]="";state.dateFrom[row.id]="";state.dateTo[row.id]="";state.page[row.id]=1;renderContent();return;}
+
+  const detailBtn=e.target.closest("[data-detail]"); if(detailBtn){openDetailModal(row,Number(detailBtn.dataset.detail));return;}
+  const editBtn=e.target.closest("[data-edit]"); if(editBtn){const id=Number(editBtn.dataset.edit);const t=state.data[row.id].find(r=>r.id===id);if(t)openFormModal(row,t,true);return;}
+  const auditBtn=e.target.closest("[data-audit]"); if(auditBtn&&!auditBtn.disabled){openAuditModal(row,Number(auditBtn.dataset.audit));return;}
+  const delBtn=e.target.closest("[data-del]"); if(delBtn){confirmDelete([Number(delBtn.dataset.del)],row);return;}
+  const pg=e.target.closest("[data-pg]"); if(pg){state.page[row.id]=Number(pg.dataset.pg);renderContent();return;}
+
+  if(e.target.id==="checkAll"){
+    const checked=e.target.checked; const ps=getPageSize(row.id),cur=getCurPage(row.id);
+    const filtered = filterRowsForRow(row, getTpl(row));
+    const pageRows = filtered.slice((cur-1)*ps,cur*ps);
+    if(!state.selected[row.id])state.selected[row.id]=new Set();
+    pageRows.forEach(r=>checked?state.selected[row.id].add(r.id):state.selected[row.id].delete(r.id));
+    renderContent(); return;
+  }
+  const chk=e.target.closest("[data-check]");
+  if(chk){const id=Number(chk.dataset.check);if(!state.selected[row.id])state.selected[row.id]=new Set();if(chk.checked)state.selected[row.id].add(id);else state.selected[row.id].delete(id);renderContent();return;}
+
+  const tr=e.target.closest("tr[data-row-id]");
+  if(tr&&!e.target.closest("button")&&!e.target.closest("input")&&!e.target.closest(".col-actions")){openDetailModal(row,Number(tr.dataset.rowId));return;}
+
+  const segBtn=e.target.closest("#chartSeg button"); if(segBtn){document.querySelectorAll("#chartSeg button").forEach(b=>b.classList.remove("active"));segBtn.classList.add("active");toast("已切换："+segBtn.textContent);return;}
+});
+
+contentEl.addEventListener("input", e=>{
+  if(state.activeId==null)return;
+  const row=MENUS[state.activeId]; if(isChartPage(row))return;
+  if(e.target.id==="qInput"){state.q[row.id]=e.target.value.trim();state.page[row.id]=1;renderContent();}
+  if(e.target.id==="dateFromInput"){state.dateFrom[row.id]=e.target.value;state.page[row.id]=1;renderContent();}
+  if(e.target.id==="dateToInput"){state.dateTo[row.id]=e.target.value;state.page[row.id]=1;renderContent();}
+});
+contentEl.addEventListener("change", e=>{
+  if(state.activeId==null)return;
+  const row=MENUS[state.activeId];
+  if(isChartPage(row)){ if(e.target.id==="chartDimSel"){state.chartDim[row.id]=e.target.value;renderContent();toast("已切换维度："+e.target.value);} return; }
+  if(e.target.id==="fStatus"){state.fStatus[row.id]=e.target.value;state.page[row.id]=1;renderContent();}
+  if(e.target.id==="pageSizeSel"){state.pageSize[row.id]=Number(e.target.value);state.page[row.id]=1;renderContent();}
+});
+
+const backTop = $("backTop");
+backTop.onclick = () => contentEl.scrollTo({top:0,behavior:"smooth"});
+contentEl.addEventListener("scroll", () => backTop.classList.toggle("show", contentEl.scrollTop>260));
+document.addEventListener("keydown", e=>{ if(e.key==="Escape"){ if(modalWrap.classList.contains("show")){closeModal();return;} if(state.activeId!=null)closeTab(state.activeId); } });
+
+renderAll();
+</script>
+</body>
+</html>
