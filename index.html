@@ -7,44 +7,43 @@
 <style>
 :root{--bg:#f1f5f9;--panel:#fff;--panel2:#f8fafc;--text:#0f172a;--sub:#64748b;--mute:#94a3b8;--bd:#e2e8f0;--bd2:#eef2f7;--pri:#2563eb;--pri2:#1d4ed8;--priSoft:#eff6ff;--ok:#10b981;--okSoft:#ecfdf5;--warn:#f59e0b;--warnSoft:#fffbeb;--danger:#ef4444;--dangerSoft:#fef2f2;--info:#0ea5e9;--infoSoft:#f0f9ff;--sb:#0f172a;--sb2:#1e293b;--sbT:#cbd5e1;--sbS:#f8fafc;--sh:0 1px 3px rgba(15,23,42,.08);--sh2:0 8px 24px rgba(15,23,42,.12);--sh3:0 24px 60px rgba(15,23,42,.22);--r:12px}
 body.dark{--bg:#0b1220;--panel:#111a2e;--panel2:#0f172a;--text:#e2e8f0;--sub:#94a3b8;--mute:#64748b;--bd:#1e2a44;--bd2:#172036;--pri:#3b82f6;--priSoft:#122a44;--okSoft:#0d2b23;--warnSoft:#2b2211;--dangerSoft:#2b1215;--infoSoft:#0b2233;--sb:#070d1a;--sb2:#0f172a;--sbT:#94a3b8;--sbS:#f1f5f9}
-*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-size:14px;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;-webkit-font-smoothing:antialiased}button{font-family:inherit}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-size:14px;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}button{font-family:inherit}
 .app{display:flex;height:100vh;overflow:hidden}
-.sidebar{width:264px;flex-shrink:0;background:var(--sb);color:var(--sbT);display:flex;flex-direction:column;transition:width .22s;overflow:hidden}.sidebar.collapsed{width:68px}
+.sidebar{width:264px;flex-shrink:0;background:linear-gradient(180deg,#0e1930,#0a111f 70%);box-shadow:inset -1px 0 0 rgba(255,255,255,.04);color:var(--sbT);display:flex;flex-direction:column;transition:width .22s;overflow:hidden}.sidebar.collapsed{width:68px}
 .brand{display:flex;align-items:center;gap:10px;padding:16px 18px;min-height:60px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07)}
-.logo{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,#3b82f6,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 12px rgba(59,130,246,.4)}
-.brand-txt{overflow:hidden;white-space:nowrap}.brand-txt strong{display:block;font-size:14px;color:var(--sbS)}.brand-txt span{display:block;font-size:11px;opacity:.7;margin-top:1px}.sidebar.collapsed .brand-txt{display:none}
+.logo{width:42px;height:42px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 6px 16px rgba(212,175,55,.20)}.logo img{width:100%;height:100%;object-fit:contain;display:block}
+.brand-txt{overflow:hidden;white-space:nowrap}.brand-txt strong{display:block;font-size:15px;font-weight:600;letter-spacing:.6px;color:var(--sbS)}.brand-txt span{display:block;font-size:10.5px;letter-spacing:1.2px;opacity:.5;margin-top:3px}.sidebar.collapsed .brand-txt{display:none}
 .side-tools{display:flex;gap:6px;padding:10px 14px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.06)}
 .mini{flex:1;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--sbT);border-radius:7px;padding:6px 4px;font-size:11.5px;cursor:pointer;transition:all .15s;white-space:nowrap;overflow:hidden}.mini:hover{background:rgba(255,255,255,.14);color:#fff}
 .sidebar.collapsed .side-tools{justify-content:center;padding:10px 6px}.sidebar.collapsed .mini{flex:none;font-size:15px;padding:6px 10px}.sidebar.collapsed .mini .txt{display:none}
-.menu-nav{flex:1;overflow-y:auto;padding:8px 8px 24px;scrollbar-width:thin}.menu-nav::-webkit-scrollbar{width:6px}.menu-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px}
+.menu-nav{flex:1;overflow-y:auto;padding:14px 12px 30px;scrollbar-width:thin;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 14px,#000 calc(100% - 12px),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 14px,#000 calc(100% - 12px),transparent 100%)}.menu-nav::-webkit-scrollbar{width:6px}.menu-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:3px}
 .menu-empty{color:var(--sbT);opacity:.6;font-size:12.5px;padding:24px 12px;text-align:center}
-.m1{margin:0 0 6px;border-radius:10px;background:rgba(255,255,255,.04);overflow:hidden;position:relative}
-.m1::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#3b82f6,#06b6d4);opacity:0;transition:opacity .2s}.m1.open::before{opacity:1}
-.m1-h{display:flex;align-items:center;gap:8px;padding:11px 12px;cursor:pointer;color:#fff;font-weight:700;font-size:14px;letter-spacing:.2px;transition:background .15s;user-select:none;background:linear-gradient(90deg,rgba(59,130,246,.14),rgba(59,130,246,.02))}
-.m1-h:hover{background:linear-gradient(90deg,rgba(59,130,246,.26),rgba(59,130,246,.06))}
-.m1.open>.m1-h{background:linear-gradient(90deg,rgba(59,130,246,.3),rgba(59,130,246,.08))}
-.m1-h .caret{color:#93c5fd;opacity:.9}.m1-h .mlabel{color:#fff}.m1-h .mcount{background:rgba(255,255,255,.16);color:#f1f5f9;font-weight:600}
-.caret{width:14px;flex-shrink:0;text-align:center;font-size:10px;opacity:.65;transition:transform .18s}
-.m1.open>.m1-h>.caret,.m2.open>.m2-h>.caret{transform:rotate(90deg)}
+.m1{margin:0 0 1px;border-radius:10px}
+.m1-h{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;color:#eef3fb;font-weight:500;font-size:13.5px;letter-spacing:.3px;transition:background .18s,color .18s;user-select:none}
+.m1-h:hover{background:rgba(255,255,255,.05);color:#fff}
+.m1.open>.m1-h{color:#fff;background:transparent}
+.mi{flex-shrink:0;display:block}
+.m1-h .mi{width:18px;height:18px;color:#7d90ae;transition:color .18s}
+.m1-h:hover .mi,.m1.open>.m1-h .mi{color:#9ec1f5}
 .mlabel{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mcount{font-size:10.5px;padding:1px 6px;border-radius:999px;background:rgba(255,255,255,.1);color:var(--sbT);flex-shrink:0}
-.m1-b{display:none;padding:6px 6px 8px 10px}.m1.open>.m1-b{display:block}
-.m2{margin:4px 0;border-radius:8px}
-.m2-h{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:8px;cursor:pointer;color:#cbd5e1;font-size:13px;font-weight:600;transition:all .15s;user-select:none;background:rgba(255,255,255,.055);border-left:2px solid rgba(255,255,255,.12)}
-.m2-h:hover{background:rgba(255,255,255,.12);color:#f8fafc;border-left-color:#3b82f6}
-.m2.open>.m2-h{background:rgba(59,130,246,.16);color:#f8fafc;border-left-color:#06b6d4}
-.m2-h .mcount{background:rgba(255,255,255,.12);color:#cbd5e1;font-weight:500}
-.m2-b{display:none;padding:4px 0 6px 4px;margin-left:10px;border-left:1px dashed rgba(255,255,255,.16)}.m2.open>.m2-b{display:block}
-.m3{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer;color:#94a3b8;font-size:12.8px;transition:all .13s;position:relative}
-.m3:hover{background:rgba(255,255,255,.08);color:#e2e8f0}
-.m3 .dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5;flex-shrink:0}
-.m3.active{background:linear-gradient(90deg,rgba(59,130,246,.3),rgba(59,130,246,.06));color:#bfdbfe;font-weight:600}
-.m3.active .dot{background:#3b82f6;opacity:1;box-shadow:0 0 0 3px rgba(59,130,246,.25)}
-.m1-icon{display:none}
-.sidebar.collapsed .m1{background:transparent;border-radius:0;margin:2px 0}.sidebar.collapsed .m1::before{display:none}
-.sidebar.collapsed .m1-h{justify-content:center;padding:11px 0;background:transparent}.sidebar.collapsed .m1-h:hover{background:rgba(255,255,255,.08)}
-.sidebar.collapsed .m1-h .mlabel,.sidebar.collapsed .m1-h .mcount,.sidebar.collapsed .m1-h .caret{display:none}
-.sidebar.collapsed .m1-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.07);font-size:13px;font-weight:700;color:#e2e8f0}
+.caret-ico{width:13px;height:13px;flex-shrink:0;opacity:.33;transition:transform .22s,opacity .22s}
+.m1.open>.m1-h>.caret-ico{transform:rotate(-90deg);opacity:.62}
+.m1-b{display:none;padding:1px 0 8px 4px}.m1.open>.m1-b{display:block}
+.m2{margin:1px 0}
+.m2-h{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:8px;cursor:pointer;color:#c6d4e6;font-size:13px;font-weight:400;letter-spacing:.25px;transition:all .18s;user-select:none;border:1px solid transparent}
+.m2-h:hover{color:#f1f5f9;background:rgba(255,255,255,.05)}
+.m2.open>.m2-h{color:#e8eef9}
+.m2.cur>.m2-h{border-color:transparent;background:transparent;color:#e8eef9}
+.m2-h .mi{width:16px;height:16px;color:#7d90ae}
+.m2.open>.m2-h .mi,.m2.cur>.m2-h .mi{color:#a3bde6}
+.m2-b{display:none;padding:2px 0 6px 14px;margin-left:14px;border-left:1px solid rgba(255,255,255,.08)}.m2.open>.m2-b{display:block}
+.m3{display:flex;align-items:center;gap:9px;padding:8px 11px;margin:1px 0 1px 2px;border-radius:7px;cursor:pointer;color:#9aabc2;font-size:12.5px;font-weight:400;letter-spacing:.25px;transition:all .15s;border:1px solid transparent}
+.m3:hover{color:#e6edf8;background:rgba(255,255,255,.045)}
+.m3 .mi{width:15px;height:15px;opacity:.62}
+.m3.active{color:#fff;font-weight:500;background:rgba(59,130,246,.18);border-color:transparent;box-shadow:inset 2px 0 0 #3b82f6}
+.m3.active .mi{opacity:.95;color:#a8c8ff}
+.sidebar.collapsed .m1-h{justify-content:center;padding:12px 0}
+.sidebar.collapsed .m1-h .mlabel,.sidebar.collapsed .m1-h .caret-ico{display:none}
 .sidebar.collapsed .m1-b{display:none!important}
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
 .topbar{height:60px;flex-shrink:0;background:var(--panel);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:14px;padding:0 20px;z-index:20}
@@ -101,11 +100,11 @@ body.dark{--bg:#0b1220;--panel:#111a2e;--panel2:#0f172a;--text:#e2e8f0;--sub:#94
 .tbl tbody tr:last-child td{border-bottom:none}.tbl .empty-row td{text-align:center;color:var(--mute);padding:50px 0;cursor:default}
 .tbl .col-check{width:40px;cursor:default}.tbl .col-actions{width:1%;white-space:nowrap;text-align:right;cursor:default}
 .tbl input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--pri)}
+.tbl tfoot tr td{background:var(--panel2);font-weight:600;border-top:2px solid var(--bd);border-bottom:none;padding:10px 12px;color:var(--text);font-size:12.8px}
 .actions{display:inline-flex;gap:3px;justify-content:flex-end}
 .tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;padding:2px 9px;border-radius:999px;font-weight:500;white-space:nowrap}.tag::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
 .tag.warn{background:var(--warnSoft);color:#b45309}.tag.success{background:var(--okSoft);color:#047857}.tag.danger{background:var(--dangerSoft);color:#b91c1c}.tag.info{background:var(--infoSoft);color:#0369a1}.tag.muted{background:var(--panel2);color:var(--mute)}
 body.dark .tag.warn{color:#fbbf24}body.dark .tag.success{color:#34d399}body.dark .tag.danger{color:#f87171}body.dark .tag.info{color:#38bdf8}
-/* 关联标签 */
 .link-badge{display:inline-flex;align-items:center;gap:2px;margin-left:6px;font-size:10px;padding:1px 6px;border-radius:4px;background:#fee2e2;color:#dc2626;font-weight:700;cursor:pointer;border:1px solid #fecaca;transition:all .15s;vertical-align:middle}
 .link-badge:hover{background:#dc2626;color:#fff;border-color:#dc2626}
 body.dark .link-badge{background:#3d1a1e;color:#f87171;border-color:#7f1d1d}
@@ -116,13 +115,6 @@ body.dark .link-badge:hover{background:#dc2626;color:#fff}
 .pager .pg{min-width:30px;height:30px;padding:0 8px;border:1px solid var(--bd);background:var(--panel);border-radius:7px;color:var(--sub);cursor:pointer;font-size:12.5px;transition:all .15s}
 .pager .pg:hover{border-color:var(--pri);color:var(--pri)}.pager .pg.active{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}.pager .pg:disabled{opacity:.4;cursor:not-allowed}
 .pager select{padding:5px 8px;border:1px solid var(--bd);border-radius:7px;background:var(--panel);color:var(--text);font-size:12.5px;cursor:pointer}
-.hero{background:linear-gradient(120deg,#1d4ed8,#0ea5e9 65%,#06b6d4);border-radius:16px;padding:26px 30px;color:#fff;position:relative;overflow:hidden;margin-bottom:20px;box-shadow:0 14px 34px rgba(29,78,216,.28)}
-.hero::after{content:"";position:absolute;right:-40px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.12)}
-.hero::before{content:"";position:absolute;right:70px;bottom:-90px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.08)}
-.hero h1{margin:0 0 8px;font-size:22px;font-weight:700;position:relative}.hero p{margin:0;font-size:13.5px;opacity:.92;position:relative;max-width:660px;line-height:1.7}
-.hero-actions{display:flex;gap:10px;margin-top:16px;position:relative;flex-wrap:wrap}
-.hero-btn{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.16);color:#fff;padding:8px 16px;border-radius:9px;font-size:13px;cursor:pointer;transition:all .15s}.hero-btn:hover{background:rgba(255,255,255,.3)}
-.hero-btn.primary{background:#fff;color:#1d4ed8;border-color:#fff;font-weight:600}.hero-btn.primary:hover{background:#eff6ff}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
 .stat{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);display:flex;align-items:center;gap:14px;transition:all .18s}.stat:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
 .stat-ico{width:44px;height:44px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:19px}
@@ -140,12 +132,13 @@ body.dark .s-blue{background:#122a44;color:#60a5fa}body.dark .s-green{background
 .l1-card h3{margin:0 0 8px;font-size:14.5px;font-weight:700}
 .l1-card .meta{display:flex;gap:12px;font-size:12px;color:var(--sub);margin-bottom:10px}.l1-card .meta b{color:var(--pri);font-weight:700}
 .l1-card .tags{display:flex;flex-wrap:wrap;gap:5px}
-.tagline{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--panel2);color:var(--sub);border:1px solid var(--bd)}
+.tagline{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--panel2);color:var(--sub);border:1px solid var(--bd);cursor:pointer;transition:all .15s}
+.tagline:hover{background:var(--priSoft);color:var(--pri);border-color:rgba(37,99,235,.35)}
 .detail-grid{display:grid;grid-template-columns:120px 1fr;gap:0;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
 .detail-grid .dk{background:var(--panel2);padding:10px 14px;font-size:12.5px;color:var(--sub);font-weight:600;border-bottom:1px solid var(--bd2)}
 .detail-grid .dv{padding:10px 14px;font-size:13px;color:var(--text);border-bottom:1px solid var(--bd2);word-break:break-word}
 .detail-grid .dk:last-of-type,.detail-grid .dv:last-of-type{border-bottom:none}
-.detail-status{margin:0 0 14px;padding:12px 14px;background:var(--panel2);border-radius:10px;font-size:12.8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.detail-status{margin:14px 0;padding:12px 14px;background:var(--panel2);border-radius:10px;font-size:12.8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .detail-status b{color:var(--text)}
 .detail-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .detail-sub-title{font-size:13px;font-weight:600;margin:18px 0 8px;color:var(--text);display:flex;align-items:center;gap:8px}
@@ -155,8 +148,7 @@ body.dark .s-blue{background:#122a44;color:#60a5fa}body.dark .s-green{background
 .detail-sub-table th{background:var(--panel2);padding:9px 12px;text-align:left;color:var(--sub);font-weight:600;font-size:12px;white-space:nowrap;border-bottom:1px solid var(--bd)}
 .detail-sub-table td{padding:9px 12px;border-bottom:1px solid var(--bd2)}
 .detail-sub-table tr:last-child td{border-bottom:none}.detail-sub-table tbody tr:hover td{background:var(--panel2)}
-.detail-total{margin-top:10px;text-align:right;font-size:12.5px;color:var(--sub);padding:10px 14px;background:var(--panel2);border-radius:8px}
-.detail-total b{color:var(--text);font-size:14px;margin:0 4px}
+.detail-sub-table .detail-total-row td{background:var(--panel2);font-weight:600;color:var(--text)}
 .detail-form-section{margin-top:18px;padding-top:16px;border-top:1px dashed var(--bd)}
 .detail-form-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px}
 .detail-form-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
@@ -171,6 +163,8 @@ body.dark .s-blue{background:#122a44;color:#60a5fa}body.dark .s-green{background
 .detail-form-table input:focus,.detail-form-table select:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
 .detail-form-table input[readonly]{background:var(--bd2);color:var(--sub);cursor:not-allowed}
 .detail-form-empty{padding:28px;text-align:center;color:var(--mute);font-size:12.5px}
+.detail-total{padding:10px 14px;font-size:13px;color:var(--sub);display:flex;gap:20px;flex-wrap:wrap}
+.detail-total b{color:var(--pri);font-weight:700}
 .flow-wrap{display:flex;flex-direction:column;gap:16px}
 .flow-row{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:18px 22px;box-shadow:var(--sh)}
 .flow-row-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
@@ -245,12 +239,65 @@ body.dark .flow-node-sub{color:#94a3b8}
 mark{background:#fde68a;color:#78350f;border-radius:3px;padding:0 2px}body.dark mark{background:#a16207;color:#fef3c7}
 @media(max-width:1100px){.chart-grid{grid-template-columns:1fr}}
 @media(max-width:900px){.sidebar{position:fixed;left:0;top:0;bottom:0;z-index:100;box-shadow:var(--sh2)}.sidebar.collapsed{width:0;border:none}.top-search{width:150px}.user-info{display:none}.content{padding:16px 14px 80px}.form-grid{grid-template-columns:1fr}.modal{max-width:100%}.detail-grid{grid-template-columns:100px 1fr}}
+
+/* 专属样式：产品与物料 */
+.pm-layout{display:flex;gap:16px;align-items:flex-start}
+.pm-sidebar{width:220px;flex-shrink:0;background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:16px;box-shadow:var(--sh);min-height:600px}
+.pm-sidebar h4{margin:0 0 12px;font-size:14px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.pm-tree{list-style:none;padding:0;margin:0;font-size:13px;color:var(--sub)}
+.pm-tree li{margin-bottom:6px}
+.pm-tree .node-title{padding:6px 10px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s}
+.pm-tree .node-title:hover{background:var(--panel2);color:var(--text)}
+.pm-tree .node-title.active{background:var(--priSoft);color:var(--pri);font-weight:600}
+.pm-tree .children{padding-left:20px;margin-top:4px;border-left:1px dashed var(--bd);margin-left:10px}
+.pm-main{flex:1;min-width:0}
+.pm-search{background:var(--panel);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;box-shadow:var(--sh)}
+.pm-search .f-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sub)}
+.pm-search input,.pm-search select{padding:6px 12px;border:1px solid var(--bd);border-radius:6px;background:var(--panel2);color:var(--text);outline:none;font-size:13px;min-width:160px}
+.pm-search input:focus,.pm-search select:focus{border-color:var(--pri);background:var(--panel)}
+.pm-search .btns{display:flex;gap:8px;margin-top:10px;width:100%}
+.switch{position:relative;display:inline-block;width:40px;height:22px}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#cbd5e1;transition:.3s;border-radius:22px}
+.slider:before{position:absolute;content:"";height:16px;width:16px;left:3px;bottom:3px;background-color:white;transition:.3s;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+input:checked + .slider{background-color:#3b82f6}
+input:checked + .slider:before{transform:translateX(18px)}
+.table-mini{width:100%;border-collapse:collapse;font-size:13px}
+.table-mini th{background:#f8fafc;color:var(--sub);font-weight:600;padding:10px 12px;text-align:center;border:1px solid var(--bd)}
+.table-mini td{padding:10px 12px;text-align:center;border:1px solid var(--bd);color:var(--text)}
+.table-mini a{color:#2563eb;text-decoration:none;cursor:pointer}
+.table-mini a:hover{text-decoration:underline}
+.tag-product{background:#ecfdf5;color:#059669;border:1px solid #a7f3d0;padding:2px 6px;border-radius:4px;font-size:11px}
+.tag-material{background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;padding:2px 6px;border-radius:4px;font-size:11px}
+.pm-tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:16px;gap:20px}
+.pm-tabs .tab-item{padding:10px 0;font-size:14px;color:var(--sub);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.pm-tabs .tab-item:hover{color:var(--text)}
+.pm-tabs .tab-item.active{color:var(--pri);border-bottom-color:var(--pri);font-weight:600}
+.form-grid-pm{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px 24px}
+.form-grid-pm .f-row{display:flex;align-items:center;gap:12px}
+.form-grid-pm .f-row label{width:80px;text-align:right;color:var(--sub);font-size:13px;flex-shrink:0}
+.form-grid-pm .f-row label .req{color:var(--danger);margin-right:2px}
+.form-grid-pm .f-row input,.form-grid-pm .f-row select{flex:1;min-width:0;padding:6px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--panel2);color:var(--text);outline:none}
+.form-grid-pm .f-row input:focus,.form-grid-pm .f-row select:focus{border-color:var(--pri);background:var(--panel)}
+.form-grid-pm .f-row.span3{grid-column:1/-1}
+.form-grid-pm .f-row.span3 textarea{flex:1;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--panel2);color:var(--text);outline:none;resize:vertical;height:60px}
+
+/* 地图图标 */
+.map-icon{color:#3b82f6;font-size:14px;margin-left:6px;cursor:pointer;transition:transform .15s;display:inline-block;vertical-align:middle;}
+.map-icon:hover{transform:scale(1.2);color:#1d4ed8;}
+
+/* 二维码缩略图 */
+.qr-thumb{display:inline-block;vertical-align:middle;background:#fff;border:1px solid var(--bd);border-radius:4px;padding:2px;cursor:zoom-in;transition:transform .15s,border-color .15s}
+.qr-thumb:hover{transform:scale(1.1);border-color:var(--pri)}
+
+/* 全局取消粗体：Windows 的微软雅黑只有 Regular / Bold 两档，font-weight ≥500 会被渲染成粗体 */
+body,body *{font-weight:400!important}
 </style>
 </head>
 <body>
 <div class="app">
   <aside class="sidebar" id="sidebar">
-    <div class="brand"><div class="logo">龙</div><div class="brand-txt"><strong>龙巢食品 ERP</strong><span>标准版</span></div></div>
+    <div class="brand"><div class="logo"><img src="data:image/png;base64,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" alt="龙巢数字"></div><div class="brand-txt"><strong>龙巢食品 ERP</strong><span>标准版</span></div></div>
     <div class="side-tools"><button class="mini" id="expandAll">⊞ <span class="txt">展开</span></button><button class="mini" id="collapseAll">⊟ <span class="txt">折叠</span></button></div>
     <nav class="menu-nav" id="menuNav"></nav>
   </aside>
@@ -280,18 +327,142 @@ mark{background:#fde68a;color:#78350f;border-radius:3px;padding:0 2px}body.dark 
 const BASE_DATE = new Date(2026, 10, 5);
 function dateStr(o){const d=new Date(BASE_DATE);d.setDate(d.getDate()+o);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
 function fixDateText(s,o){return String(s).replace(/(20\d{2})-(\d{2})-(\d{2})/g,()=>dateStr(o));}
+function monthStr(o){const d=new Date(BASE_DATE);d.setDate(1);d.setMonth(d.getMonth()-o);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;}
+function dateTimeStr(o,h,m,s){return `${dateStr(o)} ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;}
+
+/* ============ 二维码编码器：byte 模式 / EC 级 M / 版本 1-10（自包含，无外部依赖） ============ */
+const qrMatrix=(function(){
+  const ECC=[10,16,26,18,24,16,18,22,22,26],BLK=[1,1,1,2,2,4,4,4,5,5],
+        TOT=[26,44,70,100,134,172,196,242,292,346],
+        ALIGN=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50]];
+  const EXP=new Uint8Array(512),LOG=new Uint8Array(256);
+  (function(){let x=1;for(let i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&0x100)x^=0x11D;}for(let i=255;i<512;i++)EXP[i]=EXP[i-255];})();
+  const mul=(a,b)=>(a===0||b===0)?0:EXP[LOG[a]+LOG[b]];
+  function genPoly(n){let g=[1];for(let i=0;i<n;i++){const t=new Array(g.length+1).fill(0);for(let j=0;j<g.length;j++){t[j]^=g[j];t[j+1]^=mul(g[j],EXP[i]);}g=t;}return g;}
+  function rsRem(data,gen){const res=new Array(gen.length-1).fill(0);for(const v of data){const f=v^res[0];res.shift();res.push(0);for(let i=0;i<res.length;i++)res[i]^=mul(gen[i+1],f);}return res;}
+  function fmtBits(mask){let rem=mask;for(let i=0;i<10;i++)rem=(rem<<1)^((rem>>>9)*0x537);return ((mask<<10)|rem)^0x5412;}
+  function verBits(v){let rem=v;for(let i=0;i<12;i++)rem=(rem<<1)^((rem>>>11)*0x1F25);return (v<<12)|rem;}
+  function encode(text){
+    const bytes=Array.from(new TextEncoder().encode(text));
+    let ver=0,dataCw=0;
+    for(let v=1;v<=10;v++){
+      const dc=TOT[v-1]-ECC[v-1]*BLK[v-1];
+      const cap=Math.floor((dc*8-(4+(v<10?8:16)))/8);
+      if(bytes.length<=cap){ver=v;dataCw=dc;break;}
+    }
+    if(!ver)return null;
+    const bits=[],push=(val,len)=>{for(let i=len-1;i>=0;i--)bits.push((val>>>i)&1);};
+    push(4,4);push(bytes.length,ver<10?8:16);
+    for(const b of bytes)push(b,8);
+    push(0,Math.min(4,dataCw*8-bits.length));
+    while(bits.length%8)bits.push(0);
+    const data=[];
+    for(let i=0;i<bits.length;i+=8){let b=0;for(let j=0;j<8;j++)b=(b<<1)|bits[i+j];data.push(b);}
+    for(let p=0xEC;data.length<dataCw;p^=0xEC^0x11)data.push(p);
+    const numBlocks=BLK[ver-1],eccLen=ECC[ver-1],shortLen=Math.floor(dataCw/numBlocks),
+          numLong=dataCw%numBlocks,numShort=numBlocks-numLong,gen=genPoly(eccLen);
+    const dBlocks=[],eBlocks=[];let ptr=0;
+    for(let b=0;b<numBlocks;b++){const len=shortLen+(b>=numShort?1:0);const d=data.slice(ptr,ptr+len);ptr+=len;dBlocks.push(d);eBlocks.push(rsRem(d,gen));}
+    const final=[],maxLen=shortLen+(numLong?1:0);
+    for(let i=0;i<maxLen;i++)for(let b=0;b<numBlocks;b++)if(i<dBlocks[b].length)final.push(dBlocks[b][i]);
+    for(let i=0;i<eccLen;i++)for(let b=0;b<numBlocks;b++)final.push(eBlocks[b][i]);
+    const size=ver*4+17,mods=[],fn=[];
+    for(let y=0;y<size;y++){mods.push(new Array(size).fill(false));fn.push(new Array(size).fill(false));}
+    const set=(x,y,dark)=>{if(x<0||y<0||x>=size||y>=size)return;mods[y][x]=dark;fn[y][x]=true;};
+    for(let i=0;i<size;i++){set(6,i,i%2===0);set(i,6,i%2===0);}
+    const finder=(cx,cy)=>{for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++){const d=Math.max(Math.abs(dx),Math.abs(dy));set(cx+dx,cy+dy,d!==2&&d!==4);}};
+    finder(3,3);finder(size-4,3);finder(3,size-4);
+    const pos=ALIGN[ver-1];
+    for(let i=0;i<pos.length;i++)for(let j=0;j<pos.length;j++){
+      const x=pos[j],y=pos[i];
+      if((x===6&&y===6)||(x===6&&y===size-7)||(x===size-7&&y===6))continue;
+      for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)set(x+dx,y+dy,Math.max(Math.abs(dx),Math.abs(dy))!==1);
+    }
+    if(ver>=7){const vb=verBits(ver);for(let i=0;i<18;i++){const bit=((vb>>i)&1)===1,a=size-11+i%3,b=Math.floor(i/3);set(a,b,bit);set(b,a,bit);}}
+    const drawFormat=(mask)=>{const bits=fmtBits(mask),gb=k=>((bits>>k)&1)===1;
+      for(let i=0;i<=5;i++)set(8,i,gb(i));
+      set(8,7,gb(6));set(8,8,gb(7));set(7,8,gb(8));
+      for(let i=9;i<15;i++)set(14-i,8,gb(i));
+      for(let i=0;i<8;i++)set(size-1-i,8,gb(i));
+      for(let i=8;i<15;i++)set(8,size-15+i,gb(i));
+      set(8,size-8,true);
+    };
+    const maskBit=(m,x,y)=>(m===0?((x+y)%2===0):m===1?(y%2===0):m===2?(x%3===0):m===3?((x+y)%3===0):
+      m===4?((Math.floor(x/3)+Math.floor(y/2))%2===0):m===5?(((x*y)%2)+((x*y)%3)===0):
+      m===6?((((x*y)%2)+((x*y)%3))%2===0):((((x+y)%2)+((x*y)%3))%2===0));
+    const place=(mask)=>{let i=0;
+      for(let right=size-1;right>=1;right-=2){
+        if(right===6)right=5;
+        for(let vert=0;vert<size;vert++){
+          for(let j=0;j<2;j++){
+            const x=right-j,upward=((right+1)&2)===0,y=upward?size-1-vert:vert;
+            if(!fn[y][x]&&i<final.length*8){
+              let bit=((final[i>>>3]>>>(7-(i&7)))&1)===1;
+              if(maskBit(mask,x,y))bit=!bit;
+              mods[y][x]=bit;i++;
+            }
+          }
+        }
+      }
+    };
+    const penalty=()=>{
+      let score=0;
+      for(let y=0;y<size;y++){let run=1;for(let x=1;x<=size;x++){if(x<size&&mods[y][x]===mods[y][x-1])run++;else{if(run>=5)score+=3+(run-5);run=1;}}}
+      for(let x=0;x<size;x++){let run=1;for(let y=1;y<=size;y++){if(y<size&&mods[y][x]===mods[y-1][x])run++;else{if(run>=5)score+=3+(run-5);run=1;}}}
+      for(let y=0;y<size-1;y++)for(let x=0;x<size-1;x++){const c=mods[y][x];if(c===mods[y][x+1]&&c===mods[y+1][x]&&c===mods[y+1][x+1])score+=3;}
+      const p1="10111010000",p2="00001011101";
+      for(let y=0;y<size;y++){let s="";for(let x=0;x<size;x++)s+=mods[y][x]?"1":"0";for(let i=0;i+11<=size;i++){const t=s.substr(i,11);if(t===p1||t===p2)score+=40;}}
+      for(let x=0;x<size;x++){let s="";for(let y=0;y<size;y++)s+=mods[y][x]?"1":"0";for(let i=0;i+11<=size;i++){const t=s.substr(i,11);if(t===p1||t===p2)score+=40;}}
+      let dark=0;for(let y=0;y<size;y++)for(let x=0;x<size;x++)if(mods[y][x])dark++;
+      score+=Math.floor(Math.abs(dark*100/(size*size)-50)/5)*10;
+      return score;
+    };
+    drawFormat(0);
+    let bestMask=0,bestScore=Infinity;
+    for(let m=0;m<8;m++){place(m);drawFormat(m);const sc=penalty();if(sc<bestScore){bestScore=sc;bestMask=m;}}
+    place(bestMask);drawFormat(bestMask);
+    return {size,get:(x,y)=>mods[y][x]};
+  }
+  return {encode};
+})();
+
+const qrCache=new Map();
+function qrSvg(text){
+  if(qrCache.has(text))return qrCache.get(text);
+  let svg="";
+  try{
+    const m=qrMatrix.encode(String(text));
+    if(m){
+      const q=4,n=m.size,t=n+q*2;let d="";
+      for(let y=0;y<n;y++){let x=0;while(x<n){if(m.get(x,y)){let run=1;while(x+run<n&&m.get(x+run,y))run++;d+=`M${x+q} ${y+q}h${run}v1h${-run}z`;x+=run;}else x++;}}
+      svg=`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 ${t} ${t}" shape-rendering="crispEdges"><rect width="${t}" height="${t}" fill="#ffffff"/><path d="${d}" fill="#0f172a"/></svg>`;
+    }
+  }catch(e){svg="";}
+  qrCache.set(text,svg);
+  return svg;
+}
+function qrDataURL(text){return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(qrSvg(text));}
+function qrThumbHTML(v,size){const s=size||38;return `<img class="qr-thumb" src="${qrDataURL(v)}" alt="二维码" width="${s}" height="${s}" data-qr="${esc(String(v))}" title="点击查看二维码">`;}
+function downloadQrPng(v){
+  const img=new Image();
+  img.onload=()=>{const c=document.createElement("canvas");c.width=img.width||360;c.height=img.height||360;
+    const g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0);
+    const a=document.createElement("a");a.href=c.toDataURL("image/png");a.download="qrcode.png";
+    document.body.appendChild(a);a.click();document.body.removeChild(a);toast("二维码已下载");};
+  img.onerror=()=>toast("二维码生成失败");
+  img.src=qrDataURL(v);
+}
+function openQrModal(v){
+  openModal({title:"二维码",body:`<div style="display:flex;flex-direction:column;align-items:center;gap:12px"><img src="${qrDataURL(v)}" alt="二维码" width="260" height="260" style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:6px"><div style="font-size:12.5px;color:var(--sub);word-break:break-all;text-align:center;max-width:420px">${esc(String(v))}</div></div>`,buttons:[{id:"qrDownload",text:"下载 PNG",cls:"btn-primary",onClick:()=>downloadQrPng(v)},{id:"close",text:"关闭",onClick:closeModal}]});
+}
 
 /* ============ 菜单数据 ============ */
 const M=(l1,l2,l3,p,b)=>({l1,l2,l3,p,b});
 const RAW=[
-M("产品与配方","物料与产品","物料主数据","上部查询条件区（分类、关键字、状态、是否有资质附件），中部物料列表，右侧详情抽屉展示基础信息、保质期与储存、附件三个页签。","新增、修改、删除、停用/启用、上传附件、复制新增、批量导入、打印物料卡"),
-M("产品与配方","物料与产品","成品主数据","上部筛选（分类、品牌、状态），中部成品列表，右侧详情含基本信息、箱规包装、配料与营养、储存运输四个页签。","新增、修改、删除、生成条码、上传图片与资质、同步至客户端、打印成品卡、批量导入导出"),
+M("产品与配方","物料与产品","产品与物料","左侧物料产品分类树，右侧列表查询与分页显示。点击物料编码可查看详情及页签。","新增、导入、导出、编辑、删除、标签打印"),
 M("产品与配方","物料与产品","计量单位与换算","左侧计量单位列表，右侧换算关系矩阵，顶部为物料与单位筛选。","新增单位、新增换算、修改、删除、启用/停用、批量导入换算关系、单位换算试算"),
 M("产品与配方","物料与产品","标签模板","上部为标签模板列表，右侧可视化模板设计区，下部为打印预览。","新增模板、字段绑定、条码/二维码设置、打印预览、打印测试、另存版本、设默认模板、启用/停用、导入导出模板文件"),
-M("产品与配方","配方管理","产品配方（多级BOM）","左侧产品树，右侧配方明细表格，上方为版本与得率汇总卡。","新增配方、多级展开、替代料设置、配方反查、用量校验、保存/提交审批、导入配方、打印配方表"),
-M("产品与配方","配方管理","配方版本与变更","上部为版本时间轴，中部为变更单列表，右侧为变更前后对照。","发起变更、变更对比、影响评估、提交审批、审批通过生效、停用/启用版本、变更台账导出"),
 M("产品与配方","配方管理","配方成本","上部为核算参数，中部为单位成本构成饼图与明细表，下部为按物料的价格来源明细。","重新核算、成本模拟、明细穿透、导出成本表、版本对比、同步至报价"),
-M("产品与配方","配方管理","配方权限与保密","上部为密级与角色矩阵，中部为授权清单，右侧为脱敏字段与操作日志。","分级授权、字段脱敏、导出审批、水印设置、授权回收、操作留痕"),
 M("工艺与标准","工艺管理","工序库","左侧工序分类树，右侧工序列表，点开为工序详情。","新增工序、维护必检项、排序、修改/停用、删除、批量导入工序库、打印工序卡"),
 M("工艺与标准","工艺管理","工艺路线","上部选择产品与版本，中部为工序卡片横向拖拽编排区，下部为交接规则与关键控制点。","新增路线、调整顺序、设置前后置、交接规则、CCP 标记、保存并校验、提交审批生效、复制到其他产品"),
 M("工艺与标准","工艺管理","工艺版本管理","上部为版本列表与状态标签，中部为变更影响评估结果，右侧为受影响产品与在制工单清单。","新建版本、影响评估、提交审批、生效切换、版本对比、停用旧版本、导出变更记录"),
@@ -402,12 +573,12 @@ M("业务流程","业务流程图","配方变更流程图","变更申请 → 影
 const MENUS = RAW.map((m,id)=>({id,l1:m.l1,l2:m.l2,l3:m.l3,desc:m.p||"",p:m.p||"",b:m.b||""}));
 const STATUS={pending:{text:"待审核",cls:"warn"},approved:{text:"已审核",cls:"success"},rejected:{text:"已驳回",cls:"danger"},done:{text:"已完成",cls:"info"},disabled:{text:"已停用",cls:"muted"}};
 
-/* ============ 单号生成规则（数字单号） ============ */
-const DOC_NO_KEYS = ["code","po","wo","orderNo","reqCode","batch","box","plt","inNo","outNo","delivery","reportNo","rwNo","docNo","certNo","no","boxSeq","src","barcode"];
+/* ============ 单号 & 关联映射 ============ */
+const DOC_NO_KEYS = ["code","po","wo","orderNo","reqCode","batch","box","inNo","outNo","reportNo","rwNo","docNo","certNo","no","barcode"];
 const CODE_PREFIX_BY_L3 = {
-  "物料主数据":"PM","成品主数据":"P","计量单位与换算":"U","标签模板":"LB",
-  "产品配方（多级BOM）":"BOM","配方版本与变更":"ECN","配方成本":"BC",
-  "工序库":"PR","工艺路线":"RT","工艺版本管理":"RV",
+  "产品与物料":"ITEM","计量单位与换算":"U","标签模板":"LB",
+  "配方成本":"BC",
+  "工序库":"PR","工艺路线":"RT","工艺版本管理":"BB",
   "生产计划（MPS）":"MPS","物料需求计划（MRP）":"MRP",
   "采购申请":"PR","采购订单":"PO","采购退货":"RPO","供应商档案":"S","合格供应商准入":"SA",
   "完工入库":"IN","其他出入库":"IO","调拨与移库":"TF","盘点":"ST","仓库、库区与库位":"WH",
@@ -428,8 +599,8 @@ const CODE_PREFIX_BY_L3 = {
   "权限与组织":"U","流程与审批引擎":"WF","消息中心":"MSG","字典与参数":"DC","编码规则":"CR",
   "接口与开放平台":"API","日志与审计":"LOG","数据备份与安全":"BK","定时任务与监控":"JOB","版本与升级":"V"
 };
-const NO_RULES = {"po":"PO","wo":"WO","orderNo":"SO","reqCode":"PR","inNo":"IN","outNo":"OUT","delivery":"DT","reportNo":"QR","rwNo":"RW","docNo":"AR","certNo":"CT","src":"SRC"};
-function isDocNoField(f){ return DOC_NO_KEYS.includes(f.k); }
+const NO_RULES = {"po":"PO","wo":"WO","orderNo":"SO","reqCode":"PR","inNo":"IN","outNo":"OUT","reportNo":"QR","rwNo":"RW","docNo":"AR","certNo":"CT","src":"SRC"};
+function isDocNoField(f){ return DOC_NO_KEYS.includes(f.k) && f.t !== "date"; }
 function genNumber(fieldKey, l3, i){
   if(fieldKey === "batch") return "B20261105" + String(i+1).padStart(3,"0");
   if(fieldKey === "box") return "BOX20261105" + String(i+1).padStart(4,"0");
@@ -437,11 +608,9 @@ function genNumber(fieldKey, l3, i){
   if(fieldKey === "boxSeq") return String(i+1).padStart(4,"0");
   if(fieldKey === "barcode") return "690123456" + String(i+1).padStart(4,"0");
   if(fieldKey === "no") return "INV20261105" + String(i+1).padStart(3,"0");
-  const prefix = CODE_PREFIX_BY_L3[l3] || NO_RULES[fieldKey] || "NO";
-  return prefix + "20261105" + String(i+1).padStart(4,"0");
+  const prefix = NO_RULES[fieldKey] || CODE_PREFIX_BY_L3[l3] || "NO";
+  return prefix + "20261020" + String(i+1).padStart(6,"0");
 }
-
-/* ============ 关联映射（含菜单/模块） ============ */
 const LINKS = {
   "采购订单.reqCode": { menu:"采购申请", module:"采购管理 / 采购业务", type:"上游来源单据" },
   "采购退货.po": { menu:"采购订单", module:"采购管理 / 采购业务", type:"原采购订单" },
@@ -497,28 +666,722 @@ const LINKS = {
 
 /* ============ 真实数据池 ============ */
 const REAL_PERSON = "龚先生";
-const REAL_NAMES = ["高筋面粉","白砂糖","奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕","中粮食品有限公司","益海嘉里集团","圣牧乳业","双汇供应链","新希望六和","味美轩餐饮","鲜果到家","城市配送中心","金鼎食品店","海纳贸易","幸福烘焙"];
+const POOL = {
+  product: ["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕","手撕包","丹麦酥","蓝莓贝果","黑森林蛋糕"],
+  material: ["高筋面粉","白砂糖","奶油奶酪","活性干酵母","无盐黄油","全脂奶粉","鸡蛋液","山梨酸钾","脱模油","复合包装袋","瓦楞纸箱","不干胶标签","保鲜膜","纸托","烘焙油纸","红豆沙","肉松","抹茶粉","椰蓉"],
+  supplier: ["中粮食品有限公司","益海嘉里集团","圣牧乳业","双汇供应链","新希望六和","海纳贸易","闽南粮油有限公司","鹭岛包装制品厂","鲜丰果业","安琪酵母股份","雅培乳品","双塔食品"],
+  customer: ["味美轩餐饮","鲜果到家","城市配送中心","金鼎食品店","海纳贸易","幸福烘焙","厦门航空配餐","鹭岛酒店","欢聚餐饮连锁","思明区第一幼儿园","海沧实验中学","集美大学食堂"],
+  contact: ["刘经理","周总","吴主管","郑经理","孙总","陈总","张经理","王主管","林总","黄经理"],
+  person: ["龚先生","陈志强","林小华","黄伟明","张美玲","刘建国","吴慧敏","郑凯文","林芳","赵鹏"],
+  team: ["A班","B班","C班"],
+  line: ["一线","二线","三线"],
+  process: ["和面","发酵","整形","烘烤","冷却","包装","金检"],
+  workshop: ["烘焙一车间","烘焙二车间","包装车间"],
+  position: ["班长","操作工","配料员","包装工","质检员","统计员"],
+  dept: ["生产部","采购部","销售部","品控部","仓储部","财务部","人事部"],
+  lineName: ["思明主城线","湖里工业园线","海沧港区线","集美大学城线","同安城南线","翔安新店线"],
+  lineArea: ["思明区-湖里区","海沧区-集美区","同安区-翔安区","思明区-翔安区","湖里区-集美区"],
+  vehicleType: ["4.2米厢式货车","5.2米冷藏车","3.5米常温车","依维柯"],
+  plate: ["闽D·8A266","闽D·6B519","闽D·3C678","闽D·9E120","闽D·5F803"],
+  driver: ["张师傅","李师傅","王师傅","赵师傅","孙师傅"],
+  vZone: ["常温区","冷藏区(0-4℃)","冷冻区(-18℃)"],
+  device: ["和面机1号","醒发箱2号","隧道烤炉3号","冷却塔1号","枕式包装机2号","金属探测仪1号"],
+  customerType: ["个体","配送公司","餐饮","平台"],
+  salaryGroup: ["月薪组","计件组","管理组"]
+};
 const REAL_SPECS = ["25kg/袋","50kg/袋","10kg/箱","1kg/袋","25kg/箱","80g/个","400g/条","250g/盒","60g/个","70g/个","85g/个","450g/条","200g/盒"];
 const REAL_ADDRS = ["厦门市思明区湖滨南路100号","厦门市湖里区金尚路200号","厦门市思明区厦禾路88号","厦门市集美区杏林湾路66号","厦门市海沧区滨湖北路9号","厦门市同安区祥平街道128号"];
 const REAL_PHONES = ["13800138001","13900139002","13700137003","13600136004","13500135005","15800158006"];
 const REAL_REASONS = ["客户催货","价格调整","质量问题","规格变更","库存不足","工艺优化","客户投诉","临期处理","生产计划变更","原料涨价"];
-const REAL_REMARKS = ["按标准流程执行","按客户特殊要求","按SOP操作","需重点跟进","已完成确认","待复核","满足要求","符合规范","按计划推进","按实际生产情况处理"];
+const REAL_REMARKS = ["客户要求加急配送，已排入优先批次","配方微调后重新核算，待品控复核","上批次尾料清理完毕，环境符合卫生标准","班前设备点检完成，参数正常","客户反馈口感偏甜，已记录待调整","按客户特殊包装要求执行，已确认样品","生产环境温湿度符合要求，记录已归档","按计划推进，当前进度符合预期","供应商更换批次，已完成来料检验","按工艺卡参数执行，过程记录已上传"];
 const REAL_CONTACTS = ["刘经理","周总","吴主管","郑经理","孙总","陈总","张经理"];
-function realText(f, i){
-  const l = f.l || "";
-  if (/客户联系人|供应商联系人|紧急联系人|收货联系人/.test(l)) return REAL_CONTACTS[i % REAL_CONTACTS.length];
-  if (/联系人/.test(l)) return REAL_CONTACTS[i % REAL_CONTACTS.length];
-  if (/人|员|申请|操作|负责|审核|审批|维修|检验|盘点|执行|回访|签收|交接|经办|制单|业务|跟进|责任|创建|派工|复核|拣货|发料|领料|销毁|收款|付款/.test(l)) return REAL_PERSON;
-  if (/电话|手机/.test(l)) return REAL_PHONES[i % REAL_PHONES.length];
-  if (/邮箱/.test(l)) return `gong${i+1}@longchao.com`;
-  if (/地址|收货|库位|安装位置/.test(l)) return REAL_ADDRS[i % REAL_ADDRS.length];
-  if (/原因/.test(l)) return REAL_REASONS[i % REAL_REASONS.length];
-  if (/规格/.test(l)) return REAL_SPECS[i % REAL_SPECS.length];
-  if (/名称|物料|产品|供应商|客户|商品|品牌/.test(l)) return REAL_NAMES[i % REAL_NAMES.length];
-  return REAL_REMARKS[i % REAL_REMARKS.length];
+const REAL_CHANGES = ["烘烤温度由180℃调整为185℃，烘烤时间缩短1分钟","配方中白砂糖比例由12%下调至10.5%，甜度降低","发酵时间由60分钟延长至75分钟，提升蓬松度","包装膜厚度由0.06mm调整为0.08mm，增加抗压性","新增金检工序，金属异物检出限调整为Fe φ1.5mm","奶油奶酪更换为进口品牌，供应商同步变更","冷却时间由30分钟延长至45分钟，中心温度≤25℃","和面加水量由42%调整为45%，改善面筋形成"];
+
+/* ============ 仓库/库位工具函数 ============ */
+function warehouseName(i){ return ["原料库","包材库","成品库","冷库","半成品库","不合格品库"][i%6]; }
+function warehouseArea(i){ return ["A区","B区","C区","D区"][i%4]; }
+function warehouseLoc(i){ return "货架" + ["01","02","03","04"][i%4] + "-" + ["01层","02层","03层"][i%3] + "-" + ["左侧","右侧","中间"][i%3]; }
+function fullLoc(i){ return warehouseName(i) + "-" + warehouseArea(i) + "-" + warehouseLoc(i); }
+function genVersionFor(l3, i){
+  if(l3 === "工艺版本管理") return "BB20261105" + String(i+1).padStart(3,"0");
+  if(l3 === "配方成本") return "V" + (1 + Math.floor(i/4)) + "." + (i%10);
+  return "V1." + (i%10);
 }
 
-/* ============ 流程图数据 ============ */
+/* ============ 全局字段真实值生成 ============ */
+function realText(f, i, l3){
+  const l = f.l || "", k = f.k || "";
+  // —— 版本号 ——
+  if(k === "version" && l3 === "工艺版本管理") return genVersionFor(l3, i);
+  if(k === "ver" && l3 === "配方成本") return genVersionFor(l3, i);
+
+  // —— 工艺版本管理·变更内容 ——
+  if(l3 === "工艺版本管理" && k === "content") return REAL_CHANGES[i % REAL_CHANGES.length];
+
+  // —— 物料编码 ——
+  if(/物料编码/.test(l)) return "ITEM202610200000" + String(29 - (i%29)).padStart(2,"0");
+
+  // —— 仓库、库区与库位 ——
+  if(l3 === "仓库、库区与库位"){
+    if(k === "name") return warehouseName(i);
+    if(k === "areaName") return warehouseArea(i) + "（常温）";
+    if(k === "areaCode") return "AREA-" + ["A","B","C","D"][i%4];
+    if(k === "locCode") return warehouseLoc(i);
+    if(k === "address") return ["厦门市同安区食品工业园1号","厦门市海沧区保税港区2号","厦门市集美区北部工业区3号","厦门市翔安区马巷镇4号"][i%4];
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+  }
+
+  // —— 仓库位置类字段 ——
+  if(/调出仓库|调入仓库/.test(l)) return fullLoc(i);
+  if(/仓库/.test(l) && !/编码/.test(l)) return fullLoc(i);
+  if(/^库位$|^库区$|库位编码|库区名称/.test(l)) return warehouseLoc(i);
+
+  // —— 配送线路 ——
+  if(l3 === "配送线路与排线"){
+    if(k === "name") return POOL.lineName[i%POOL.lineName.length];
+    if(k === "area") return POOL.lineArea[i%POOL.lineArea.length];
+    if(k === "customers") return POOL.customer[i%POOL.customer.length] + "、" + POOL.customer[(i+1)%POOL.customer.length] + "、" + POOL.customer[(i+2)%POOL.customer.length];
+    if(k === "vehicle") return POOL.plate[i%POOL.plate.length];
+    if(k === "driver") return POOL.driver[i%POOL.driver.length];
+  }
+
+  // —— 车辆与司机 ——
+  if(l3 === "车辆与司机"){
+    if(k === "plate") return POOL.plate[i%POOL.plate.length];
+    if(k === "vType") return POOL.vehicleType[i%POOL.vehicleType.length];
+    if(k === "zone") return POOL.vZone[i%POOL.vZone.length];
+    if(k === "fleet") return ["厦门龙巢配送一队","厦门龙巢配送二队"][i%2];
+    if(k === "driver") return POOL.driver[i%POOL.driver.length];
+    if(k === "dPhone") return REAL_PHONES[i%REAL_PHONES.length];
+  }
+
+  // —— 配送任务与签收 ——
+  if(l3 === "配送任务与签收"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "line") return POOL.lineName[i%POOL.lineName.length];
+    if(k === "driver") return POOL.driver[i%POOL.driver.length];
+    if(k === "vehicle") return POOL.plate[i%POOL.plate.length];
+    if(k === "eta") return ["上午 09:00-12:00","下午 13:00-17:00","上午 08:00-10:00","下午 14:00-16:00"][i%4];
+    if(k === "actual") return ["上午 10:15 送达","下午 14:32 送达","上午 09:48 送达","下午 15:20 送达"][i%4];
+    if(k === "signer") return POOL.contact[i%POOL.contact.length];
+    if(k === "goods") return POOL.product[i%POOL.product.length] + " × " + (10+i%40) + "箱";
+  }
+
+  // —— 生产计划（MPS） ——
+  if(l3 === "生产计划（MPS）"){
+    if(k === "line") return POOL.line[i%POOL.line.length];
+    if(k === "team") return POOL.team[i%POOL.team.length];
+    if(k === "product") return POOL.product[i%POOL.product.length];
+  }
+
+  // —— 生产排产 ——
+  if(l3 === "生产排产"){
+    if(k === "line") return POOL.line[i%POOL.line.length];
+    if(k === "team") return POOL.team[i%POOL.team.length];
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "planner") return POOL.person[i%POOL.person.length];
+  }
+
+  // —— 生产工单 ——
+  if(l3 === "生产工单"){
+    if(k === "soNo") return "SO20261020" + String(i+1).padStart(6,"0");
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "team") return POOL.team[i%POOL.team.length];
+    if(k === "line") return POOL.line[i%POOL.line.length];
+    if(k === "formulaVer") return "V1." + (i%5);
+    if(k === "routeVer") return "RT2026110500" + (i+1);
+  }
+
+  // —— 班组任务 ——
+  if(l3 === "班组任务"){
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "team") return POOL.team[i%POOL.team.length];
+    if(k === "process") return POOL.process[i%POOL.process.length];
+    if(k === "formula") return "面粉100kg、糖12kg、酵母1.5kg、黄油8kg";
+    if(k === "params") return "和面温度22℃、发酵湿度75%、烘烤180℃/25分钟";
+    if(k === "executor") return POOL.person[i%POOL.person.length];
+    if(k === "shift") return ["早班","中班","夜班"][i%3];
+  }
+
+  // —— 生产报工 ——
+  if(l3 === "生产报工"){
+    if(k === "process") return POOL.process[i%POOL.process.length];
+    if(k === "device") return POOL.device[i%POOL.device.length];
+    if(k === "operator") return POOL.person[i%POOL.person.length];
+    if(k === "badReason") return ["烘烤过度焦边","成型尺寸偏小","包装封口不严","冷却中心温度超标","金检报警"][i%5];
+  }
+
+  // —— 工序流转与交接 ——
+  if(l3 === "工序流转与交接"){
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "process") return POOL.process[i%POOL.process.length];
+    if(k === "handover") return POOL.person[i%POOL.person.length];
+    if(k === "receiver") return POOL.person[(i+1)%POOL.person.length];
+  }
+
+  // —— 生产领料 / 退料 ——
+  if(l3 === "生产领料"){
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "loc") return warehouseLoc(i);
+    if(k === "picker") return POOL.person[i%POOL.person.length];
+    if(k === "issuer") return POOL.person[(i+1)%POOL.person.length];
+  }
+  if(l3 === "生产退料"){
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "warehouse") return fullLoc(i);
+    if(k === "reason") return ["余料退回","规格变更退回","质量问题退料"][i%3];
+  }
+
+  // —— 工序库 / 工艺路线 ——
+  if(l3 === "计量单位与换算"){
+    if(k === "name") return ["千克","袋","箱","个","盒","升"][i%6];
+    if(k === "srcUnit") return ["kg","kg","袋","袋","袋","L"][i%6];
+    if(k === "dstUnit") return ["g","袋","箱","个","盒","mL"][i%6];
+    if(k === "weighRule") return ["取整到 0.001kg","按 25kg/袋 折算","按 4 袋/箱 折算","按 20 个/袋 折算","按 12 盒/袋 折算","按 1.03 密度折算为 kg"][i%6];
+  }
+  if(l3 === "标签模板"){
+    if(k === "name") return ["箱码标签（100×80mm）","产品外箱标签（4×6in）","配料表背标（100×150mm）","合格证标签（60×40mm）","托盘标签（100×100mm）","效期贴标（40×20mm）"][i%6];
+    if(k === "target") return ["奶油面包 / 味美轩餐饮","全麦吐司 / 鲜果到家","芝士蛋糕 / 金鼎食品店","牛角可颂 / 城市配送中心","通用模板 / 全部客户"][i%5];
+    if(k === "size") return ["100mm × 80mm","4in × 6in（101.6 × 152.4mm）","100mm × 150mm","60mm × 40mm","100mm × 100mm","40mm × 20mm"][i%6];
+    if(k === "ver") return "V1." + (i%6);
+    if(k === "fields") return ["产品名称、规格、批次、生产日期、保质期","箱码、产品名称、数量、工单号、生产日期","配料表、过敏原、净含量、贮存条件、生产商","产品名称、检验结论、签发日期、二维码"][i%4];
+    if(k === "printer") return ["Zebra ZT411 / 热敏纸 100×80mm / 碳带","Zebra ZD230 / 热敏纸 4×6in / 碳带","佳博 GP-1324D / 热敏纸 100×150mm","TSC TTP-244 Pro / 铜版纸 60×40mm / 碳带","Zebra ZT411 / 热敏纸 100×100mm / 碳带","TSC TTP-244 Pro / 热敏纸 40×20mm / 碳带"][i%6];
+  }
+  if(l3 === "工序库"){
+    if(k === "name") return POOL.process[i%POOL.process.length];
+    if(k === "workshop") return POOL.workshop[i%POOL.workshop.length];
+    if(k === "post") return POOL.position[i%POOL.position.length];
+    if(k === "checkItems") return ["温度、时间、外观","重量、尺寸、金检","密封性、喷码清晰度"][i%3];
+  }
+  if(l3 === "工艺路线"){
+    if(k === "ver") return "BV" + (10 + (i%POOL.product.length)) + ".0";
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "process") return POOL.process[i%POOL.process.length];
+    if(k === "line") return POOL.line[i%POOL.line.length];
+    if(k === "prev") return i === 0 ? "—" : POOL.process[(i-1)%POOL.process.length];
+    if(k === "ccp") return ["烘烤中心温度≥90℃","金检Fe φ1.5mm通过","冷却中心温度≤25℃"][i%3];
+  }
+
+  // —— 库存相关 ——
+  if(l3 === "库存现有量"){
+    if(k === "material") return "ITEM202610200000" + String(29 - (i%29)).padStart(2,"0");
+    if(k === "name") return POOL.material[i%POOL.material.length];
+    if(k === "warehouse") return warehouseName(i);
+    if(k === "area") return warehouseArea(i);
+    if(k === "loc") return warehouseLoc(i);
+  }
+  if(l3 === "其他出入库"){
+    if(k === "warehouse") return fullLoc(i);
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "reason") return ["车间领用试验品","客户赠品出库","过期物料报废","内部员工福利领用","样品送检"][i%5];
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+    if(k === "user") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "调拨与移库"){
+    if(k === "from") return fullLoc(i);
+    if(k === "to") return fullLoc(i+1);
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "reason") return ["仓库合并调整","客户订单需求调拨","效期批次优先出库","生产急需原料调拨"][i%4];
+    if(k === "signer") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "库存预警"){
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "warehouse") return fullLoc(i);
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "盘点"){
+    if(k === "warehouse") return warehouseName(i);
+    if(k === "area") return warehouseArea(i);
+    if(k === "loc") return warehouseLoc(i);
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "reason") return ["盘盈：到货未及时入账","盘亏：破损报废未登记","串批：同物料混放","扫码漏扫"][i%4];
+    if(k === "counter") return POOL.person[i%POOL.person.length];
+    if(k === "rechecker") return POOL.person[(i+1)%POOL.person.length];
+  }
+
+  // —— 采购模块 ——
+  if(l3 === "采购订单"){
+    if(k === "supplier") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "warehouse") return warehouseName(i);
+    if(k === "account") return ["月结30天","月结60天","现结","货到付款"][i%4];
+  }
+  if(l3 === "采购申请"){
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+    if(k === "applicant") return POOL.person[i%POOL.person.length];
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "supplier") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "purpose") return ["生产备料","新品试产","库存补货","客户订单备料"][i%4];
+    if(k === "budget") return ["生产费用","研发费用","管理费用"][i%3];
+  }
+  if(l3 === "采购退货"){
+    if(k === "supplier") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "qc") return ["微生物超标","水分超标","包装破损","临期拒收"][i%4];
+    if(k === "warehouse") return fullLoc(i);
+  }
+  if(l3 === "供应商档案"){
+    if(k === "name") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "supply") return POOL.material[i%POOL.material.length] + "、" + POOL.material[(i+3)%POOL.material.length];
+    if(k === "contact") return POOL.contact[i%POOL.contact.length];
+    if(k === "phone") return REAL_PHONES[i%REAL_PHONES.length];
+    if(k === "address") return ["厦门市同安区食品工业园1号","厦门市海沧区保税港区88号","福州市马尾区罗星路66号","泉州市丰泽区东海街道12号"][i%4];
+    if(k === "account") return ["月结30天","月结60天","现结"][i%3];
+    if(k === "bank") return ["中国建设银行厦门分行","中国工商银行厦门分行","中国银行厦门分行"][i%3];
+    if(k === "acctName") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "acctNo") return "6222 0244 0123 " + String(4000+i);
+    if(k === "certList") return "营业执照（2027-06-30到期）、食品生产许可证（2027-12-31到期）";
+  }
+  if(l3 === "合格供应商准入"){
+    if(k === "supplier") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "certOK") return ["证照齐套","缺少生产许可证","营业执照待年检"][i%3];
+    if(k === "sample") return ["样品检验合格","样品微生物超标","样品待复检"][i%3];
+    if(k === "scope") return POOL.material[i%POOL.material.length] + "（供应商准入范围）";
+  }
+
+  // —— 客户 / 销售 ——
+  if(l3 === "客户档案"){
+    if(k === "name") return POOL.customer[i%POOL.customer.length];
+    if(k === "type") return POOL.customerType[i%POOL.customerType.length];
+    if(k === "area") return POOL.lineArea[i%POOL.lineArea.length];
+    if(k === "line") return POOL.lineName[i%POOL.lineName.length];
+    if(k === "address") return REAL_ADDRS[i%REAL_ADDRS.length];
+    if(k === "phone") return REAL_PHONES[i%REAL_PHONES.length];
+    if(k === "salesman") return POOL.person[i%POOL.person.length];
+    if(k === "invoice") return "增值税专用发票 · 91350200MA2XXXXX" + i;
+    if(k === "latlng") return "118.0894,24.4798";
+  }
+  if(l3 === "客户联系人"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "name") return POOL.contact[i%POOL.contact.length];
+    if(k === "phone") return REAL_PHONES[i%REAL_PHONES.length];
+    if(k === "wechat") return "wx_" + (1000+i);
+    if(k === "position") return ["采购经理","店长","财务","仓库主管"][i%4];
+  }
+  if(l3 === "销售发货"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "line") return POOL.lineName[i%POOL.lineName.length];
+    if(k === "goods") return POOL.product[i%POOL.product.length];
+    if(k === "loc") return warehouseLoc(i);
+    if(k === "checker") return POOL.person[i%POOL.person.length];
+    if(k === "vehicle") return POOL.plate[i%POOL.plate.length];
+    if(k === "handover") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "销售退货"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "goods") return POOL.product[i%POOL.product.length];
+  }
+  if(l3 === "订单跟踪"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+  }
+  if(l3 === "回款与应收"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "writeOff") return "SO20261020" + String(i+1).padStart(6,"0") + " / INV20261105" + String(i+1).padStart(3,"0");
+    if(k === "account") return ["中国建设银行厦门分行-6227","中国银行厦门分行-6216"][i%2];
+  }
+  if(l3 === "客户投诉"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "content") return ["客户反馈面包口感偏干，疑似存放时间过长","包装内发现异物，已召回同批次","到货时外箱挤压变形","配送时间晚于约定1小时","蛋糕切面颜色不均"][i%5];
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+    if(k === "plan") return ["补发同规格商品并致歉","全额退款并回收问题批次","协调物流优化配送时间","安排品控上门复核"][i%4];
+    if(k === "visit") return "已电话回访，客户表示满意";
+  }
+  if(l3 === "退换货受理"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "goods") return POOL.product[i%POOL.product.length];
+    if(k === "reason") return ["客户反馈口感异常","临期退货","错发规格","客户取消订单"][i%4];
+    if(k === "handle") return ["同意退货并退款","同意换货补发","驳回，已与客户沟通"][i%3];
+  }
+  if(l3 === "客户回访与满意度"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "visitor") return POOL.person[i%POOL.person.length];
+    if(k === "issue") return ["客户反馈配送时效需提升","希望增加新品试吃","无问题，服务满意"][i%3];
+    if(k === "action") return ["已提交配送优化需求","已安排新品方案","保持现有服务"][i%3];
+  }
+  if(l3 === "线索与商机"){
+    if(k === "name") return POOL.customer[i%POOL.customer.length];
+    if(k === "contact") return POOL.contact[i%POOL.contact.length];
+    if(k === "intent") return POOL.product[i%POOL.product.length];
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "客户公海与待办"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "area") return POOL.lineArea[i%POOL.lineArea.length];
+    if(k === "claimer") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "销售目标与达成"){
+    if(k === "month") return monthStr(Math.floor(i/4));
+    if(k === "dim") return ["客户","线路","业务员","产品"][i%4];
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "客户专属价"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "applicant") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "销售合同"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+  }
+
+  // —— 检验 / 质检 ——
+  if(l3 === "检测项设置"){
+    if(k === "name") return ["水分","灰分","蛋白质","菌落总数","大肠菌群","净含量","感官"][i%7];
+    if(k === "std") return ["≤14.5%","≤0.75%","≥12.5%","≤100000 CFU/g","≤10 CFU/g"][i%5];
+    if(k === "method") return ["GB 5009.3 直接干燥法","GB 5009.4 灼烧法","GB 4789.2 平板计数法"][i%3];
+    if(k === "device") return ["电热鼓风干燥箱","马弗炉","恒温培养箱"][i%3];
+  }
+  if(l3 === "缺陷库"){
+    if(k === "name") return ["表面焦斑","形状不规整","内部夹生","异物混入","包装封口开裂","标签错贴"][i%6];
+    if(k === "cause") return ["烤箱温度不均","面团醒发不足","烘烤时间不够","筛网破损","封口温度偏低","人工贴标失误"][i%6];
+    if(k === "handle") return ["调整烤箱分区温度","延长醒发时间","延长烘烤时间","检查并更换筛网","调整封口参数","加强贴标复核"][i%6];
+    if(k === "process") return POOL.process[i%POOL.process.length];
+  }
+  if(l3 === "质检方案"){
+    if(k === "name") return ["来料检验方案（原料）","过程检验方案（烘烤）","成品出厂检验方案"][i%3];
+    if(k === "ver") return "QP-V1." + (i%5);
+    if(k === "level") return ["一般检验水平 II","特殊检验水平 S-2","一般检验水平 I"][i%3];
+    if(k === "aql") return ["1.0","2.5","4.0"][i%3];
+    if(k === "rule") return ["AQL 判定：不合格数 > Ac 则拒收","关键项 0 收 1 退","严重缺陷即判不合格"][i%3];
+    if(k === "items") return ["水分、灰分、蛋白质","感官、净含量、菌落总数"][i%2];
+    if(k === "scope") return ["所有面粉类原料","烘焙工序","所有成品"][i%3];
+  }
+  if(l3 === "待检任务"){
+    if(k === "src") return ["PO","WO","IN","IN"][i%4] + "20261020" + String(i+1).padStart(6,"0");
+    if(k === "due") return dateTimeStr(1,[10,12,14,16][i%4],[0,30][i%2],(i*17)%60);
+    if(k === "target") return POOL.material[i%POOL.material.length];
+    if(k === "items") return ["水分、灰分","菌落总数","感官、净含量"][i%3];
+    if(k === "inspector") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "来料检验（IQC）"){
+    if(k === "supplier") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "material") return POOL.material[i%POOL.material.length];
+    if(k === "result") return ["水分 12.3% / 灰分 0.62%","蛋白质 13.1% / 水分 11.9%","菌落总数 <100 CFU/g","感官正常，无异味"][i%4];
+    if(k === "disposal") return ["同意入库","让步接收，扣减 5% 货款","退回供应商"][i%3];
+    if(k === "inspector") return POOL.person[i%POOL.person.length];
+    if(k === "supplierBatch") return "SUP20261028" + String(i+1).padStart(3,"0");
+  }
+  if(l3 === "过程检验（IPQC）"){
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "process") return POOL.process[i%POOL.process.length];
+    if(k === "items") return ["烘烤温度 / 烘烤时间 / 中心温度","和面温度 / 面团 pH","金检灵敏度 / 包装密封性"][i%3];
+    if(k === "time") return dateTimeStr(0,8+(i%10),(i*7)%60,(i*23)%60);
+    if(k === "value") return ["185℃ / 25min / 92℃","22℃ / 6.1","Fe φ1.5mm 通过"][i%3];
+    if(k === "disposal") return ["参数在范围内，继续生产","温度偏高，调整后复检合格","停线调整，已复检"][i%3];
+    if(k === "inspector") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "成品检验（FQC/OQC）"){
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "items") return ["感官、净含量、菌落总数、大肠菌群","水分、酸价、过氧化值"][i%2];
+    if(k === "value") return ["符合 GB 7099 要求","水分 32.1%，酸价 1.2 mg/g"][i%2];
+    if(k === "approver") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "不合格品与退料处置"){
+    if(k === "target") return POOL.material[i%POOL.material.length] + " / " + POOL.product[i%POOL.product.length];
+    if(k === "item") return ["感官不合格（颜色偏深）","净含量不足","包装封口不严","微生物超标"][i%4];
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+    if(k === "src") return "SO20261020" + String(i+1).padStart(6,"0");
+    if(k === "execResult") return ["已返工并重新检验合格","已报废处理并登记","已退回供应商"][i%3];
+  }
+  if(l3 === "留样管理"){
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "loc") return "留样库-A区-货架0" + (1+i%3) + "-" + ["左侧","右侧"][i%2];
+    if(k === "sampler") return POOL.person[i%POOL.person.length];
+    if(k === "destroyer") return POOL.person[(i+1)%POOL.person.length];
+  }
+  if(l3 === "产品追溯"){
+    if(k === "target") return POOL.product[i%POOL.product.length];
+    if(k === "rawBatch") return "高筋面粉 · 批次 B20261020" + String(i+1).padStart(3,"0") + " · 中粮食品";
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "operator") return POOL.person[i%POOL.person.length];
+    if(k === "device") return POOL.device[i%POOL.device.length];
+  }
+  if(l3 === "召回管理"){
+    if(k === "target") return POOL.product[i%POOL.product.length] + " · 批次 B20261105" + String(i+1).padStart(3,"0");
+    if(k === "reason") return ["客户投诉发现异物","抽检微生物超标","供应商原料异常预警"][i%3];
+    if(k === "notify") return ["电话通知 + 小程序推送（2026-11-05 10:00）","短信通知 + 邮件（2026-11-05 09:30）"][i%2];
+    if(k === "disposal") return ["全部回收后集中销毁","回收后返工处理"][i%2];
+    if(k === "reportNo") return "市监召回备字[2026]第" + String(100+i) + "号";
+  }
+  if(l3 === "检验报告与合格证"){
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "inspector") return POOL.person[i%POOL.person.length];
+    if(k === "reviewer") return POOL.person[(i+1)%POOL.person.length];
+    if(k === "approver") return POOL.person[(i+2)%POOL.person.length];
+    if(k === "qr") return "https://longchao.com/q/QR20261020" + String(i+1).padStart(6,"0") + "?b=B20261105" + String(i+1).padStart(3,"0");
+    if(k === "standard") return ["GB 7099 糕点、面包","GB 2760 食品添加剂使用标准","GB 2762 污染物限量"][i%3];
+    if(k === "items") return ["水分 12.3% / 菌落总数 800 CFU/g / 感官正常","净含量 400g±2% / 大肠菌群未检出","过氧化值 0.18 g/100g / 酸价 1.2 mg/g"][i%3];
+    if(k === "valid") return dateStr(0) + " 至 " + dateStr(365);
+    if(k === "channel") return ["小程序扫码","官网下载","打印随货"][i%3];
+  }
+
+  // —— 设备 ——
+  if(l3 === "设备类型"){
+    if(k === "name") return ["和面机","醒发箱","隧道烤炉","冷却塔","包装机","金属探测仪"][i%6];
+    if(k === "inspectTpl") return ["日常点检表","周保养表","月度精度校验表"][i%3];
+    if(k === "maintainCycle") return ["每班","每周","每月"][i%3];
+    if(k === "parts") return ["轴承、皮带","加热管、温控器","刀片、封口条"][i%3];
+  }
+  if(l3 === "设备档案"){
+    if(k === "name") return POOL.device[i%POOL.device.length];
+    if(k === "model") return ["HM-750","XF-1200","TL-900","PK-450","MD-300"][i%5];
+    if(k === "qr") return "https://longchao.com/e/DV20261020" + String(i+1).padStart(6,"0");
+    if(k === "type") return ["和面机","醒发箱","隧道烤炉","包装机","金属探测仪"][i%5];
+    if(k === "maker") return ["上海鸿泰机械","广州旭众机械","江苏华宇设备"][i%3];
+    if(k === "loc") return ["烘焙一车间·A区","烘焙二车间·B区","包装车间·C区"][i%3];
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+    if(k === "params") return ["功率22kW，产能800kg/h","温度范围0-300℃，精度±1℃"][i%2];
+  }
+  if(l3 === "点检与保养"){
+    if(k === "device") return POOL.device[i%POOL.device.length];
+    if(k === "items") return ["温度/时间/转速在标准范围","链条润滑、皮带无松动","安全防护装置有效"][i%3];
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "维修工单"){
+    if(k === "device") return POOL.device[i%POOL.device.length];
+    if(k === "fault") return ["烤炉链条异响","和面机主轴漏油","包装机封口不牢","金检机误报警"][i%4];
+    if(k === "faultType") return ["机械故障","电气故障","工艺异常"][i%3];
+    if(k === "reporter") return POOL.person[i%POOL.person.length];
+    if(k === "repairer") return POOL.person[(i+1)%POOL.person.length];
+    if(k === "content") return ["更换链条并加注润滑脂","更换密封圈并清洁油路","调整封口温度至185℃","校准金检灵敏度"][i%4];
+    if(k === "parts") return ["轴承 6204 × 2","加热管 × 1","封口条 × 2"][i%3];
+    if(k === "accepter") return POOL.person[(i+2)%POOL.person.length];
+  }
+
+  // —— 财务 ——
+  if(l3 === "凭证管理"){
+    if(k === "summary") return ["采购入库结转成本","销售出库确认收入","计提本月折旧","发放员工工资","支付供应商货款"][i%5];
+    if(k === "subject") return ["1401 原材料","6001 主营业务收入","6602 管理费用","2211 应付职工薪酬","2202 应付账款"][i%5];
+    if(k === "aux") return ["部门：生产部","客户：" + POOL.customer[i%POOL.customer.length], "供应商：" + POOL.supplier[i%POOL.supplier.length]][i%3];
+    if(k === "maker") return POOL.person[i%POOL.person.length];
+    if(k === "auditor") return POOL.person[(i+1)%POOL.person.length];
+  }
+  if(l3 === "账簿查询"){
+    if(k === "subjectCode") return ["1001","1122","1401","2202","6001"][i%5];
+    if(k === "subjectName") return ["库存现金","应收账款","原材料","应付账款","主营业务收入"][i%5];
+    if(k === "period") return monthStr(0);
+    if(k === "aux") return ["部门：生产部","客户：" + POOL.customer[i%POOL.customer.length]][i%2];
+  }
+  if(l3 === "辅助核算"){
+    if(k === "period") return monthStr(0);
+    if(k === "name") return ["生产部","销售部","采购部"][i%3];
+    if(k === "partner") return POOL.customer[i%POOL.customer.length];
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+  }
+  if(l3 === "期末结账"){
+    if(k === "period") return monthStr(0);
+    if(k === "closer") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "财务报表"){
+    if(k === "name") return ["资产负债表","利润表","现金流量表","应收账款账龄表"][i%4];
+    if(k === "rowItem") return ["货币资金","应收账款","存货","营业收入","营业成本","管理费用"][i%6];
+    if(k === "period") return monthStr(0);
+    if(k === "org") return "厦门龙巢食品有限公司";
+    if(k === "maker") return POOL.person[i%POOL.person.length];
+    if(k === "auditor") return POOL.person[(i+1)%POOL.person.length];
+  }
+  if(l3 === "应收管理"){
+    if(k === "customer") return POOL.customer[i%POOL.customer.length];
+    if(k === "salesman") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "应付管理"){
+    if(k === "supplier") return POOL.supplier[i%POOL.supplier.length];
+    if(k === "way") return ["银行转账","承兑汇票","电汇"][i%3];
+    if(k === "invoice") return "INV-2026" + String(1000+i);
+  }
+  if(l3 === "发票管理"){
+    if(k === "party") return i%2 ? POOL.supplier[i%POOL.supplier.length] : POOL.customer[i%POOL.customer.length];
+    if(k === "taxNo") return "91350200" + String(1000000000 + i*7).slice(-10);
+    if(k === "related") return ["销售订单 SO20261105000001","采购订单 PO20261105000001"][i%2];
+  }
+  if(l3 === "成本核算"){
+    if(k === "target") return POOL.product[i%POOL.product.length];
+    if(k === "period") return "2026-10";
+  }
+  if(l3 === "费用与报销"){
+    if(k === "applicant") return POOL.person[i%POOL.person.length];
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+    if(k === "item") return ["差旅费","办公费","招待费","运费","培训费"][i%5];
+    if(k === "reason") return ["厦门-福州出差拜访客户","采购办公用品","客户来访接待","配送车辆加油","参加食品安全培训"][i%5];
+    if(k === "account") return "对公账户 中国建设银行厦门分行 6227***1234";
+    if(k === "invoice") return (1+i%3) + " 张，合计 " + fmtMoney((i+1)*1200) + " 元";
+  }
+  if(l3 === "资金管理"){
+    if(k === "account") return ["基本户","一般户","支付宝企业账户","微信商户号"][i%4];
+    if(k === "bank") return ["中国建设银行厦门分行","中国工商银行厦门分行","中国农业银行厦门分行"][i%3];
+    if(k === "acctNo") return "6222 0244 0123 " + String(4000+i);
+    if(k === "partner") return i%2 ? POOL.customer[i%POOL.customer.length] : POOL.supplier[i%POOL.supplier.length];
+    if(k === "way") return ["银行转账","电汇","承兑汇票"][i%3];
+    if(k === "purpose") return ["支付原料采购款","收取客户货款","支付员工报销"][i%3];
+    if(k === "operator") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "账套与科目"){
+    if(k === "name") return ["厦门龙巢食品有限公司","龙巢食品（福州）分公司"][i%2];
+    if(k === "subjectCode") return ["1001","1122","1401","2202","6001","6602"][i%6];
+    if(k === "subjectName") return ["库存现金","应收账款","原材料","应付账款","主营业务收入","管理费用"][i%6];
+  }
+  if(l3 === "财务指标与分析"){
+    if(k === "name") return ["毛利率","存货周转率","应收账款周转天数","费用率"][i%4];
+    if(k === "target") return ["38.0%","12.0 次","45 天","15.0%"][i%4];
+    if(k === "warn") return ["< 35.0%","< 10.0 次","> 60 天","> 18.0%"][i%4];
+    if(k === "period") return monthStr(0);
+    if(k === "formula") return ["(营业收入-营业成本)/营业收入","营业成本/平均存货","应收账款平均余额/营业收入*365"][i%3];
+    if(k === "subject") return ["6001 主营业务收入","1401 原材料","1122 应收账款"][i%3];
+    if(k === "owner") return POOL.person[i%POOL.person.length];
+  }
+
+  // —— 人力 ——
+  if(l3 === "员工档案"){
+    if(k === "name") return POOL.person[i%POOL.person.length];
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+    if(k === "position") return POOL.position[i%POOL.position.length];
+    if(k === "level") return ["P3","P4","P5","M1"][i%4];
+    if(k === "idNo") return "3502" + (1980+i%20) + "0" + (10+i%12) + "0" + (1000+i);
+    if(k === "phone") return REAL_PHONES[i%REAL_PHONES.length];
+    if(k === "bankCard") return "6222" + String(2020440123456000 + i);
+    if(k === "emergency") return POOL.contact[i%POOL.contact.length] + " " + REAL_PHONES[i%REAL_PHONES.length];
+    if(k === "healthCert") return "健康证 · 有效期至2027-0" + (1+i%9) + "-15";
+  }
+  if(l3 === "人事异动"){
+    if(k === "emp") return POOL.person[i%POOL.person.length];
+    if(k === "oldDept") return POOL.dept[i%POOL.dept.length] + " · " + POOL.position[i%POOL.position.length];
+    if(k === "newDept") return POOL.dept[(i+1)%POOL.dept.length] + " · " + POOL.position[(i+2)%POOL.position.length];
+    if(k === "reason") return ["岗位晋升","部门调整","个人申请","组织架构优化"][i%4];
+    if(k === "handover") return POOL.person[(i+1)%POOL.person.length];
+  }
+  if(l3 === "考勤管理"){
+    if(k === "group") return ["生产班组","仓储物流组","销售组","职能部门"][i%4];
+    if(k === "emp") return POOL.person[i%POOL.person.length];
+    if(k === "loc") return ["厦门市同安区食品工业园1号（厂区）","厦门市思明区湖滨南路100号（门店）"][i%2];
+    if(k === "leave") return ["事假 1 天","年假 0.5 天","病假 1 天","调休 0.5 天"][i%4];
+    if(k === "inTime") return ["07:58:12","08:16:03","07:59:41",""][i%4];
+    if(k === "outTime") return ["17:32:45","17:35:20","16:45:08",""][i%4];
+    if(k === "trip") return ["无","厦门-泉州当日往返","厦门-福州 2 天"][i%3];
+  }
+  if(l3 === "班次排班"){
+    if(k === "name") return ["早班","中班","夜班","长白班"][i%4];
+    if(k === "team") return POOL.team[i%POOL.team.length];
+    if(k === "emp") return POOL.person[i%POOL.person.length];
+    if(k === "swapReq") return POOL.person[i%POOL.person.length];
+    if(k === "shift") return ["早班","中班","夜班","长白班"][i%4];
+    if(k === "workTime") return ["06:00 - 14:00","14:00 - 22:00","22:00 - 06:00","08:00 - 17:00"][i%4];
+    if(k === "swapTo") return POOL.person[(i+1)%POOL.person.length];
+  }
+  if(l3 === "薪资管理"){
+    if(k === "group") return POOL.salaryGroup[i%POOL.salaryGroup.length];
+    if(k === "emp") return POOL.person[i%POOL.person.length];
+    if(k === "batch") return "代发批次 202610-" + String(i+1).padStart(2,"0");
+  }
+  if(l3 === "计件与工时工资"){
+    if(k === "plan") return ["奶油面包计件方案","吐司计件方案","包装计件方案"][i%3];
+    if(k === "product") return POOL.product[i%POOL.product.length];
+    if(k === "process") return POOL.process[i%POOL.process.length];
+    if(k === "emp") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "培训与上岗资质"){
+    if(k === "course") return ["食品安全法培训","烘焙操作规范","设备安全操作","HACCP体系","消防应急演练"][i%5];
+    if(k === "teacher") return ["陈志强","王敏（外聘）","李工"][i%3];
+    if(k === "attendees") return POOL.person[i%POOL.person.length] + "、" + POOL.person[(i+1)%POOL.person.length] + "、" + POOL.person[(i+2)%POOL.person.length];
+    if(k === "qualType") return ["食品加工上岗证","特种设备操作证","电工证"][i%3];
+    if(k === "certNo") return "QS-3502-" + String(2026000+i);
+  }
+
+  // —— 系统 ——
+  if(l3 === "权限与组织"){
+    if(k === "user") return "gong" + String(i+1).padStart(2,"0");
+    if(k === "name") return POOL.person[i%POOL.person.length];
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+    if(k === "position") return POOL.position[i%POOL.position.length];
+    if(k === "role") return ["系统管理员","采购主管","生产主管","仓库管理员","质检员","财务专员","销售业务员"][i%7];
+    if(k === "menus") return "产品与配方、采购管理、仓储物流、生产管理";
+  }
+  if(l3 === "流程与审批引擎"){
+    if(k === "name") return ["采购订单审批","配方变更审批","费用报销审批","供应商准入审批"][i%4];
+    if(k === "nodes") return ["申请人","部门主管","采购经理","财务复核","总经理"][i%5];
+    if(k === "approverRule") return ["按组织架构上级审批","指定角色审批","按金额分级审批"][i%3];
+    if(k === "form") return "金额≥5万元需总经理审批，附件必填";
+  }
+  if(l3 === "消息中心"){
+    if(k === "title") return ["订单已确认通知","发货通知","审批待办提醒","库存预警通知"][i%4];
+    if(k === "content") return ["尊敬的客户，您的订单【SO20261105xxxx】已确认，预计明日送达。","您有1条审批待办，请及时处理。","库存预警：【高筋面粉】低于安全库存，请及时补货。"][i%3];
+    if(k === "receiver") return ["客户联系人","业务员","仓库管理员","部门主管"][i%4];
+  }
+  if(l3 === "字典与参数"){
+    if(k === "name") return ["物料分类","客户类型","结算方式","仓库类型"][i%4];
+    if(k === "itemCode") return String(i+1).padStart(4,"0");
+    if(k === "itemName") return ["原材料","半成品","产成品","包材"][i%4];
+  }
+  if(l3 === "编码规则"){
+    if(k === "prefix") return ["ITEM","SO","PO","WO","B"][i%5];
+    if(k === "sample") return ["ITEM202611050001","SO202611050001","WO202611050001"][i%3];
+  }
+  if(l3 === "接口与开放平台"){
+    if(k === "name") return ["小程序订单同步","电子秤称重数据上报","微信支付回调","金蝶财务凭证推送"][i%4];
+    if(k === "url") return ["https://api.longchao.com/v1/order/sync","https://api.longchao.com/v1/scale/upload"][i%2];
+    if(k === "mapping") return "订单号→orderNo, 客户→customerName, 金额→totalAmount";
+  }
+  if(l3 === "日志与审计"){
+    if(k === "user") return POOL.person[i%POOL.person.length];
+    if(k === "dept") return POOL.dept[i%POOL.dept.length];
+    if(k === "module") return ["采购管理 / 采购订单","生产管理 / 生产工单","仓储物流 / 完工入库"][i%3];
+    if(k === "target") return "单号：" + ["PO20261105000001","WO20261105000001","IN20261105000001"][i%3];
+    if(k === "content") return ["审核通过采购订单","下达生产工单并打印流转卡","提交完工入库单"][i%3];
+    if(k === "result") return ["成功","成功","成功","失败：权限不足"][i%4];
+    if(k === "ip") return ["192.168.1."+(10+i%50),"10.10.2."+(20+i%30)][i%2];
+    if(k === "device") return ["Chrome 131 / Windows 11","Safari 18 / macOS 15","钉钉内置浏览器 / Android 14"][i%3];
+    if(k === "time") return "2026-11-05 1" + (i%10) + ":" + String(i*3%60).padStart(2,"0") + ":00";
+  }
+  if(l3 === "数据备份与安全"){
+    if(k === "task") return ["每日全量备份","每小时增量备份","业务库备份"][i%3];
+    if(k === "storage") return ["本地 NAS","阿里云 OSS 异地","腾讯云 COS"][i%3];
+    if(k === "restorePoint") return "2026-11-0" + (1+i%5) + " 02:00";
+    if(k === "drill") return "2026-10-" + (10+i%10) + " 恢复演练成功，耗时 32 分钟";
+  }
+  if(l3 === "定时任务与监控"){
+    if(k === "name") return ["库存预警扫描","经营日报生成","MRP 自动运算","供应商评级刷新"][i%4];
+    if(k === "cron") return ["0 0/30 * * * ?","0 0 8 * * ?","0 0 2 * * ?"][i%3];
+    if(k === "dep") return ["无","依赖：MRP 运算完成","依赖：库存快照生成"][i%3];
+    if(k === "notify") return POOL.person[i%POOL.person.length];
+  }
+  if(l3 === "版本与升级"){
+    if(k === "ver") return "v2." + (3 + Math.floor(i/3)) + "." + (i%10);
+    if(k === "client") return ["服务端","APP","小程序"][i%3];
+    if(k === "content") return ["优化采购订单审核流程","修复库存批次显示问题","新增质检报告电子签章"][i%3];
+    if(k === "module") return ["采购管理","仓储物流","质量管理"][i%3];
+    if(k === "gray") return ["10% 灰度用户","30% 灰度用户","全量"][i%3];
+    if(k === "pkg") return "build-2026.11.0" + (i%5);
+    if(k === "rollback") return "v2.3." + (i%3);
+  }
+
+  // —— 通用字段 ——
+  if(/^供应商$|供应商名称/.test(l)) return POOL.supplier[i%POOL.supplier.length];
+  if(/^客户$|客户名称/.test(l)) return POOL.customer[i%POOL.customer.length];
+  if(/^物料名称$|^物料$/.test(l)) return POOL.material[i%POOL.material.length];
+  if(/^产品名称$|^产品$/.test(l)) return POOL.product[i%POOL.product.length];
+  if(/联系人/.test(l)) return POOL.contact[i%POOL.contact.length];
+  if(/班组/.test(l)) return POOL.team[i%POOL.team.length];
+  if(/产线/.test(l)) return POOL.line[i%POOL.line.length];
+  if(/工序/.test(l)) return POOL.process[i%POOL.process.length];
+  if(/车间/.test(l)) return POOL.workshop[i%POOL.workshop.length];
+  if(/岗位/.test(l)) return POOL.position[i%POOL.position.length];
+  if(/部门/.test(l)) return POOL.dept[i%POOL.dept.length];
+  if(/线路名称|^线路$/.test(l)) return POOL.lineName[i%POOL.lineName.length];
+  if(/配送区域|^区域$/.test(l)) return POOL.lineArea[i%POOL.lineArea.length];
+  if(/司机/.test(l)) return POOL.driver[i%POOL.driver.length];
+  if(/车牌/.test(l)) return POOL.plate[i%POOL.plate.length];
+  if(/温区/.test(l)) return POOL.vZone[i%POOL.vZone.length];
+  if(/设备/.test(l)) return POOL.device[i%POOL.device.length];
+  if(/电话|手机/.test(l)) return REAL_PHONES[i%REAL_PHONES.length];
+  if(/邮箱/.test(l)) return `gong${i+1}@longchao.com`;
+  if(/地址|收货/.test(l)) return REAL_ADDRS[i%REAL_ADDRS.length];
+  if(/原因/.test(l)) return REAL_REASONS[i%REAL_REASONS.length];
+  if(/规格/.test(l)) return REAL_SPECS[i%REAL_SPECS.length];
+  if(/变更内容/.test(l)) return REAL_CHANGES[i%REAL_CHANGES.length];
+  if(/人|员|申请|操作|负责|审核|审批|维修|检验|盘点|执行|回访|签收|交接|经办|制单|业务|跟进|责任|创建|派工|复核|拣货|发料|领料|销毁|收款|付款/.test(l)) return REAL_PERSON;
+  return REAL_REMARKS[i%REAL_REMARKS.length];
+}
+
+/* ============ 流程图 ============ */
 const FLOWS = {
   "全局业务流程图":{desc:"覆盖产品设计、采购、生产、质量、销售、财务、售后的端到端业务流转",rows:[
     {title:"① 设计阶段",nodes:[{label:"产品与配方",sub:"物料 / 成品 / 配方"},{label:"工艺与标准",sub:"工序库 / 工艺路线"},{label:"计划管理",sub:"MPS / MRP"}]},
@@ -574,23 +1437,23 @@ const FLOWS = {
 /* ============ 字段定义 ============ */
 const F=(k,l,t,o,r,d)=>({k,l,t:t||"text",opts:o,req:r?1:0,demo:d});
 const T={
- "物料主数据":{f:[F("code","物料编码","text",0,1),F("name","物料名称","text",0,1,["高筋面粉","白砂糖","食用盐","黄油","奶油面包"]),F("cat","分类","select",["原料","辅料","添加剂","包材","半成品","成品"],1),F("spec","规格"),F("baseUnit","基本单位","select",["kg","袋","箱","瓶","个"]),F("auxUnit","辅助单位"),F("shelf","保质期(天)","number",0,1,[180,365,3,7,30]),F("storage","储存条件","select",["常温","冷藏","冷冻"],1),F("temp","温度区间"),F("allergen","过敏原"),F("standard","执行标准"),F("supplier","默认供应商"),F("safety","安全库存","number"),F("cert","资质附件"),F("created","创建日期","date"),F("status","状态","select",["启用","停用"])],c:["code","name","cat","spec","baseUnit","shelf","storage","status"]},
- "成品主数据":{f:[F("code","成品编码","text",0,1),F("name","成品名称","text",0,1,["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包"]),F("cat","分类"),F("brand","品牌"),F("spec","规格"),F("box","箱规"),F("shelf","保质期(天)","number"),F("barcode","条码"),F("ingredients","配料表"),F("nutrition","营养成分表"),F("transport","储存与运输温度"),F("license","生产许可证编号"),F("standard","执行标准"),F("price","售价","number"),F("created","创建日期","date"),F("status","状态","select",["启用","停用"])],c:["code","name","spec","box","shelf","barcode","price","status"]},
- "计量单位与换算":{f:[F("code","单位编码","text",0,1),F("name","单位名称","text",0,1,["千克","克","箱","袋","包","瓶","个"]),F("type","单位类型","select",["重量","体积","数量"]),F("scale","小数位","number"),F("base","是否基本单位","select",["是","否"]),F("mCode","物料编码"),F("srcUnit","源单位"),F("dstUnit","目标单位"),F("rate","换算率","number"),F("mode","换算方式","select",["固定换算","按称重浮动"]),F("weighRule","称重取值规则"),F("effDate","生效日期","date"),F("status","状态","select",["启用","停用"])],c:["code","name","type","base","mCode","srcUnit","dstUnit","rate","mode"]},
+ "产品与物料":{f:[
+   F("code","物料编码","text",0,1),F("name","物料名称","text",0,1),F("spec","规格型号"),F("unit","单位","select",["米","个","kg","箱","袋"]),F("cat","物料分类","select",["原材料","半成品","产成品","包材"]),F("type","物料/产品","select",["产品","物料"]),F("shelf","保质期(天)","number"),F("storage","储存条件","select",["常温","冷藏","冷冻"]),F("allergen","过敏原"),F("standard","执行标准"),F("supplier","默认供应商"),F("safe","安全库存","select",["是","否"]),F("status","状态","select",["开启","关闭"]),F("batch","批次管理","select",["开启","关闭"])
+ ],c:["code","name","spec","unit","cat","type","shelf","safe","status"]},
+ "计量单位与换算":{f:[F("code","单位编码","text",0,1),F("name","单位名称","text",0,1),F("type","单位类型","select",["重量","体积","数量"],0,["重量","重量","数量","数量","数量","体积"]),F("scale","小数位","number"),F("base","是否基本单位","select",["是","否"],0,["是","否","否","否","否","否"]),F("mCode","物料编码"),F("srcUnit","源单位"),F("dstUnit","目标单位"),F("rate","换算率","number",0,0,[1000,25,4,20,12,1000]),F("mode","换算方式","select",["固定换算","按称重浮动"],0,["固定换算","固定换算","固定换算","固定换算","固定换算","按称重浮动"]),F("weighRule","称重取值规则"),F("effDate","生效日期","date"),F("status","状态","select",["启用","停用"])],c:["code","name","type","base","mCode","srcUnit","dstUnit","rate","mode"]},
  "标签模板":{f:[F("code","模板编码","text",0,1),F("name","模板名称","text",0,1),F("target","适用产品/客户"),F("size","标签尺寸"),F("ver","版本号"),F("fields","字段清单"),F("printer","打印机与耗材"),F("status","状态","select",["启用","停用"])],c:["code","name","target","size","ver","printer","status"]},
- "产品配方（多级BOM）":{f:[F("code","配方编码","text",0,1),F("parent","父项产品","text",0,1),F("ver","配方版本"),F("qty","产出数量","number"),F("unit","单位","select",["kg","个","箱"]),F("yield","得率(%)","number"),F("loss","损耗率(%)","number"),F("subCode","子件物料编码"),F("subName","子件名称"),F("subQty","用量","number"),F("subUnit","子件单位"),F("subLoss","子件损耗率(%)","number"),F("process","投料工序"),F("isAlt","是否替代料","select",["是","否"]),F("altGroup","替代组"),F("altPri","替代优先级"),F("isPack","是否包材","select",["是","否"]),F("isAdd","是否添加剂","select",["是","否"])],c:["code","parent","ver","qty","unit","yield","loss","subName","subQty"]},
- "配方版本与变更":{f:[F("code","变更单号","text",0,1),F("product","产品","text",0,1),F("oldVer","原版本"),F("newVer","新版本"),F("type","变更类型","select",["配比调整","物料替换","工艺联动"]),F("reason","变更原因"),F("impact","影响范围"),F("applicant","申请人"),F("approver","审批人"),F("effDate","生效日期","date"),F("status","状态","select",["草稿","待审核","已审核","已驳回"])],c:["code","product","oldVer","newVer","type","applicant","effDate","status"]},
  "配方成本":{f:[F("product","产品","text",0,1),F("ver","配方版本"),F("qty","产出数量","number"),F("raw","原料成本(元)","number"),F("pack","包材成本(元)","number"),F("auxAdd","辅料与添加剂成本(元)","number"),F("labor","人工(元)","number"),F("mfg","制造费用(元)","number"),F("yieldLoss","得率损耗成本(元)","number"),F("unit","单位成本(元)","number"),F("mix","成本构成占比"),F("priceSrc","取价方式","select",["最新价","移动加权","标准价"]),F("calcDate","核算日期","date")],c:["product","ver","qty","raw","pack","labor","unit","priceSrc"]},
- "配方权限与保密":{f:[F("scope","产品范围","text",0,1),F("level","密级","select",["公开","内部","机密"]),F("role","授权角色/用户"),F("fields","可见字段范围"),F("desens","脱敏规则"),F("export","允许导出","select",["是","否"]),F("watermark","水印内容"),F("expire","有效期","date"),F("grantor","授权人"),F("status","状态","select",["启用","停用"])],c:["scope","level","role","fields","export","expire","grantor","status"]},
- "工序库":{f:[F("code","工序编码","text",0,1),F("name","工序名称","text",0,1,["解冻","和面","蒸煮","冷却","杀菌","金检","包装"]),F("type","工序类型","select",["前处理","热加工","冷却","包装","金检"]),F("workshop","所属车间"),F("hours","标准工时(分钟)","number"),F("params","标准温度/时间参数"),F("post","负责岗位"),F("mustCheck","是否必检","select",["是","否"]),F("checkItems","检验项"),F("desc","工序说明"),F("status","状态","select",["启用","停用"])],c:["code","name","type","hours","post","mustCheck","status"]},
+ "工序库":{f:[F("code","工序编码","text",0,1),F("name","工序名称","text",0,1),F("type","工序类型","select",["前处理","热加工","冷却","包装","金检"]),F("workshop","所属车间"),F("hours","标准工时(分钟)","number"),F("params","标准温度/时间参数"),F("post","负责岗位"),F("mustCheck","是否必检","select",["是","否"]),F("checkItems","检验项"),F("desc","工序说明"),F("status","状态","select",["启用","停用"])],c:["code","name","type","hours","post","mustCheck","status"]},
  "工艺路线":{f:[F("code","路线编码","text",0,1),F("product","产品","text",0,1),F("ver","版本"),F("seq","工序序号","number"),F("process","工序名称"),F("line","工作中心/产线"),F("hours","标准工时(分钟)","number"),F("prev","前置工序"),F("mustCheck","是否必检","select",["是","否"]),F("rule","交接规则","select",["上工序合格方可流转","直接流转"]),F("ccp","关键控制点(CCP)"),F("status","状态","select",["启用","停用"])],c:["code","product","ver","seq","process","line","hours","status"]},
- "工艺版本管理":{f:[F("ver","工艺版本号","text",0,1),F("product","产品","text",0,1),F("effDate","生效日期","date"),F("content","变更内容"),F("affected","影响产品数","number"),F("woCount","受影响工单数","number"),F("conclusion","评估结论"),F("approver","审批人"),F("status","状态","select",["草稿","待审核","已审核","已生效","已停用"])],c:["ver","product","effDate","content","affected","woCount","status"]},
+ "工艺版本管理":{f:[
+   F("version","版本号","text",0,1),F("product","产品","text",0,1),F("effDate","生效日期","date"),F("content","变更内容"),F("affected","影响产品数","number"),F("woCount","受影响工单数","number"),F("conclusion","评估结论"),F("approver","审批人"),F("status","状态","select",["草稿","待审核","已审核","已生效","已停用"])
+ ],c:["version","product","effDate","content","approver","status"]},
  "生产计划（MPS）":{f:[F("code","计划单号","text",0,1),F("period","计划周期","select",["月度","周度"]),F("product","产品","text",0,1),F("qty","计划数量","number"),F("delivery","交期","date"),F("line","产线"),F("team","班组"),F("shift","班次","select",["早班","中班","夜班"]),F("capacity","标准产能","number"),F("load","负荷率(%)","number"),F("kits","物料齐套状态","select",["齐套","缺料"]),F("status","状态","select",["草稿","已确认","已下达"])],c:["code","period","product","qty","delivery","line","load","status"]},
- "物料需求计划（MRP）":{f:[F("code","需求编号","text",0,1),F("material","物料","text",0,1),F("gross","毛需求","number"),F("stock","现有库存","number"),F("lock","锁定量","number"),F("intransit","在途量","number"),F("checking","在检量","number"),F("net","净需求","number"),F("lead","采购提前期(天)","number"),F("orderDate","建议采购日期","date"),F("supplier","建议供应商"),F("qty","建议数量","number"),F("planner","计划员"),F("exception","例外信息")],c:["code","material","gross","stock","net","orderDate","supplier","qty"]},
+ "物料需求计划（MRP）":{f:[F("code","需求编号","text",0,1),F("material","物料","text",0,1),F("stock","现有库存","number"),F("lock","锁定量","number"),F("intransit","在途量","number"),F("checking","在检量","number"),F("net","净需求","number"),F("lead","采购提前期(天)","number"),F("orderDate","建议采购日期","date"),F("supplier","建议供应商"),F("qty","建议数量","number"),F("planner","计划员"),F("exception","例外信息")],c:["code","material","stock","net","orderDate","supplier","qty"]},
  "采购申请":{f:[F("code","申请单号","text",0,1),F("dept","申请部门"),F("applicant","申请人"),F("reqDate","需求日期","date"),F("material","物料","text",0,1),F("spec","规格"),F("qty","申请数量","number"),F("supplier","建议供应商"),F("purpose","用途"),F("budget","预算科目"),F("urgent","紧急程度","select",["普通","紧急","特急"]),F("status","审批状态","select",["待审核","已审核","已驳回"]),F("ordered","已转订单数量","number")],c:["code","dept","applicant","reqDate","material","qty","status"]},
  "采购订单":{f:[F("code","订单号","text",0,1),F("reqCode","关联申请单"),F("supplier","供应商","text",0,1),F("orderDate","下单日期","date"),F("delivery","交期","date"),F("material","物料","text",0,1),F("spec","规格"),F("qty","数量","number"),F("price","单价(元)","number"),F("amount","含税金额(元)","number"),F("tax","税率(%)","number"),F("account","账期"),F("warehouse","到货仓库"),F("plan","到货计划"),F("received","已收货量","number"),F("status","状态","select",["待下单","已下单","部分到货","已收货","已完成","已取消"])],c:["code","reqCode","supplier","orderDate","material","qty","amount","status"]},
  "采购退货":{f:[F("code","退货单号","text",0,1),F("po","原采购订单","text",0,1),F("supplier","供应商"),F("date","退货日期","date"),F("material","物料"),F("batch","批次"),F("qty","退货数量","number"),F("reason","退货原因","select",["不合格","规格不符","超期","多送"]),F("qc","质检结论"),F("way","退款/换货方式","select",["退款","换货"]),F("warehouse","出库仓库"),F("apDeduct","应付冲减金额(元)","number"),F("status","状态","select",["草稿","待审核","已审核","已出库"])],c:["code","po","supplier","date","material","qty","reason","status"]},
- "供应商档案":{f:[F("code","供应商编码","text",0,1),F("name","供应商名称","text",0,1,["中粮食品有限公司","益海嘉里集团","圣牧乳业","双汇供应链"]),F("type","类型","select",["原料","包材","添加剂","外协"]),F("credit","统一社会信用代码"),F("supply","供应物料"),F("contact","联系人"),F("phone","电话"),F("address","地址"),F("account","账期"),F("settle","结算方式","select",["现结","月结","季结"]),F("bank","开户行"),F("acctName","账户名"),F("acctNo","账号"),F("level","评级","select",["A","B","C","待评估"]),F("access","准入状态","select",["已准入","待准入","已冻结"]),F("certList","证照清单与到期日"),F("created","创建日期","date")],c:["code","name","type","supply","account","level","access","phone"]},
+ "供应商档案":{f:[F("code","供应商编码","text",0,1),F("name","供应商名称","text",0,1),F("type","类型","select",["原料","包材","添加剂","外协"]),F("credit","统一社会信用代码"),F("supply","供应物料"),F("contact","联系人"),F("phone","电话"),F("address","地址"),F("account","账期"),F("settle","结算方式","select",["现结","月结","季结"]),F("bank","开户行"),F("acctName","账户名"),F("acctNo","账号"),F("level","评级","select",["A","B","C","待评估"]),F("access","准入状态","select",["已准入","待准入","已冻结"]),F("certList","证照清单与到期日"),F("created","创建日期","date")],c:["code","name","type","supply","account","level","access","phone"]},
  "合格供应商准入":{f:[F("code","申请单号","text",0,1),F("supplier","供应商","text",0,1),F("type","准入类型","select",["新准入","扩品类","复审"]),F("certOK","证照齐套情况"),F("sample","样品检验结果"),F("auditScore","现场审核得分","number"),F("conclusion","评审结论","select",["合格","有条件合格","不合格"]),F("scope","准入物料范围"),F("expire","有效期","date"),F("recheckDate","年度复审日期","date")],c:["code","supplier","type","auditScore","conclusion","scope","expire"]},
  "库存现有量":{f:[F("material","物料编码","text",0,1),F("name","名称","text",0,1),F("spec","规格"),F("warehouse","仓库"),F("area","库区"),F("loc","库位"),F("batch","批次号"),F("prodDate","生产日期","date"),F("expire","有效期至","date"),F("qty","库存数量","number"),F("avail","可用量","number"),F("lock","锁定量","number"),F("checking","在检量","number"),F("pending","待处理量","number"),F("unit","单位"),F("amount","库存金额(元)","number"),F("age","库龄(天)","number")],c:["material","name","warehouse","loc","batch","avail","lock","expire"]},
  "完工入库":{f:[F("code","入库单号","text",0,1),F("wo","工单号","text",0,1),F("product","产品"),F("spec","规格"),F("planQty","计划产量","number"),F("finishQty","完工数量","number"),F("passQty","合格数量","number"),F("defectQty","不良数量","number"),F("batch","批次号"),F("box","箱码/托盘码"),F("prodDate","生产日期","date"),F("expire","有效期至","date"),F("warehouse","入库仓库与库位"),F("qc","检验状态","select",["待检","已放行","不合格"]),F("operator","操作人")],c:["code","wo","product","finishQty","batch","prodDate","qc"]},
@@ -599,7 +1462,7 @@ const T={
  "库存预警":{f:[F("type","预警类型","select",["安全库存下限","安全库存上限","近效期","过期","呆滞"]),F("material","物料"),F("warehouse","仓库"),F("stock","当前库存","number"),F("min","安全库存下限","number"),F("max","安全库存上限","number"),F("near","近效期天数阈值","number"),F("slow","呆滞天数阈值","number"),F("level","预警级别","select",["提示","警告","严重"]),F("owner","责任人"),F("notify","通知方式"),F("status","处理状态","select",["未处理","已处理","已忽略"])],c:["type","material","warehouse","stock","level","owner","status"]},
  "盘点":{f:[F("code","盘点单号","text",0,1),F("plan","盘点方案","select",["全盘","抽盘","动态盘点","盲盘"]),F("warehouse","仓库"),F("area","库区"),F("date","盘点日期","date"),F("material","物料"),F("batch","批次"),F("loc","库位"),F("book","账面数量","number"),F("real","实盘数量","number"),F("diff","差异数量","number"),F("diffAmount","差异金额(元)","number"),F("reason","差异原因"),F("counter","盘点人"),F("rechecker","复盘人"),F("status","审批状态","select",["待审核","已审核","已驳回"])],c:["code","plan","warehouse","date","material","book","real","diff"]},
  "箱码与托盘码":{f:[F("type","码类型","select",["箱码","托盘码"]),F("code","码值","text",0,1),F("rule","编码规则","select",["GS1-128","QR"]),F("wo","关联工单"),F("product","产品"),F("batch","批次"),F("boxSeq","箱序号"),F("boxQty","每箱数量","number"),F("pltCap","托盘容量","number"),F("genTime","生成时间"),F("printStatus","打印状态","select",["已打印","未打印"]),F("bindInfo","绑定关系"),F("trace","流转节点")],c:["code","type","rule","wo","product","batch","printStatus"]},
- "仓库、库区与库位":{f:[F("code","仓库编码","text",0,1),F("name","名称","text",0,1),F("type","类型","select",["原料","包材","半成品","成品","冷库","留样库","不合格品区"]),F("zone","温区","select",["常温","冷藏","冷冻","恒温"]),F("address","地址"),F("owner","负责人"),F("areaCode","库区编码"),F("areaName","库区名称"),F("areaSize","面积(㎡)","number"),F("locCode","库位编码"),F("locType","库位类型","select",["货架","地堆","拣货位"]),F("capacity","容量"),F("mixBatch","是否混批","select",["允许","禁止"]),F("status","状态","select",["启用","停用"])],c:["code","name","type","zone","areaName","locCode","capacity","status"]},
+ "仓库、库区与库位":{f:[F("code","仓库编码","text",0,1),F("name","名称","text",0,1),F("type","类型","select",["原料","包材","半成品","成品","冷库","留样库","不合格品区"]),F("zone","温区","select",["常温","冷藏","冷冻","恒温"]),F("address","地址"),F("owner","负责人"),F("areaCode","库区编码"),F("areaName","库区名称"),F("areaSize","面积(㎡)","number"),F("locCode","库位编码"),F("locType","库位类型","select",["货架","地堆","拣货位"]),F("capacity","容量(托)","number",0,0,[1200,800,2000,600,400,150]),F("mixBatch","是否混批","select",["允许","禁止"]),F("status","状态","select",["启用","停用"])],c:["code","name","type","zone","areaName","locCode","capacity","status"]},
  "配送线路与排线":{f:[F("code","线路编码","text",0,1),F("name","线路名称","text",0,1),F("area","配送区域"),F("day","配送日","select",["周一","周二","周三","周四","周五","周六","周日"]),F("customers","客户及配送顺序"),F("mileage","预计里程(km)","number"),F("duration","预计时长(分钟)","number"),F("vehicle","默认车辆"),F("loadRate","装载率(%)","number"),F("driver","配送员"),F("status","状态","select",["启用","停用"])],c:["code","name","area","day","mileage","loadRate","driver","status"]},
  "车辆与司机":{f:[F("plate","车牌号","text",0,1),F("vType","车辆类型","select",["厢式","冷藏","常温"]),F("load","载重(吨)","number"),F("volume","容积(m³)","number"),F("zone","温区"),F("fleet","所属车队"),F("annual","年检到期日","date"),F("insurance","保险到期日","date"),F("maintain","保养记录"),F("driver","司机姓名"),F("dPhone","司机电话"),F("license","驾照类型","select",["A2","B2","C1"]),F("licenseExp","驾照到期日","date"),F("bindVehicle","绑定车辆"),F("status","状态","select",["可用","在途","维修","停用"])],c:["plate","vType","load","zone","annual","driver","licenseExp","status"]},
  "配送任务与签收":{f:[F("code","配送单号","text",0,1),F("line","线路"),F("vehicle","车辆"),F("driver","司机"),F("customer","客户","text",0,1),F("orderNo","订单号"),F("goods","商品明细"),F("pieces","件数","number"),F("ar","应收金额(元)","number"),F("eta","约定送达时间"),F("actual","实际送达时间"),F("signer","签收人"),F("photo","签收照片"),F("rejectQty","拒收数量","number"),F("rejectReason","拒收原因"),F("status","状态","select",["待派","配送中","已完成","异常"])],c:["code","orderNo","customer","line","driver","eta","actual","status"]},
@@ -626,7 +1489,7 @@ const T={
  "设备档案":{f:[F("code","设备编码","text",0,1),F("name","名称","text",0,1),F("model","型号"),F("type","类型"),F("maker","生产厂家"),F("buyDate","购置日期","date"),F("value","原值(元)","number"),F("loc","安装位置"),F("power","功率(kW)","number"),F("params","关键参数"),F("owner","责任人"),F("status","运行状态","select",["运行","停机","维修","报废"]),F("qr","设备二维码"),F("warranty","保修期")],c:["code","name","model","type","loc","status","owner"]},
  "点检与保养":{f:[F("code","计划编号","text",0,1),F("device","设备","text",0,1),F("type","计划类型","select",["日点检","周点检","月点检","一级保养","二级保养"]),F("cycle","执行频次"),F("items","点检项目与标准值"),F("owner","责任人"),F("next","下次执行日期","date"),F("last","上次执行结果"),F("miss","漏检次数","number"),F("status","状态","select",["正常","已逾期","已完成"])],c:["code","device","type","cycle","owner","next","status"]},
  "维修工单":{f:[F("code","维修单号","text",0,1),F("device","设备","text",0,1),F("fault","故障现象"),F("faultType","故障类别"),F("reporter","报修人"),F("reportTime","报修时间"),F("urgent","紧急程度","select",["普通","紧急","特急"]),F("repairer","派工维修人"),F("startTime","开始时间"),F("endTime","结束时间"),F("downtime","停机时长(h)","number"),F("content","维修内容"),F("parts","备件领用清单"),F("cost","费用(元)","number"),F("accepter","验收人"),F("status","状态","select",["待派工","维修中","待验收","已完成"])],c:["code","device","fault","repairer","downtime","cost","status"]},
- "客户档案":{f:[F("code","客户编码","text",0,1),F("name","客户名称","text",0,1,["味美轩餐饮","鲜果到家","城市配送中心","金鼎食品店"]),F("type","客户类型","select",["个体","配送公司","餐饮","平台"]),F("area","区域"),F("line","线路"),F("seq","配送顺序","number"),F("settle","结算方式","select",["现结","月结","季结"]),F("account","账期(天)","number"),F("credit","信用额度(元)","number"),F("used","已用额度(元)","number"),F("address","收货地址"),F("latlng","经纬度"),F("phone","联系电话"),F("salesman","业务员"),F("status","状态","select",["启用","停用"]),F("audit","审核状态","select",["待审核","已审核","已驳回"]),F("invoice","开票信息")],c:["code","name","type","line","settle","credit","salesman","status"]},
+ "客户档案":{f:[F("code","客户编码","text",0,1),F("name","客户名称","text",0,1),F("type","客户类型","select",["个体","配送公司","餐饮","平台"]),F("area","区域"),F("line","线路"),F("seq","配送顺序","number"),F("settle","结算方式","select",["现结","月结","季结"]),F("account","账期(天)","number"),F("credit","信用额度(元)","number"),F("used","已用额度(元)","number"),F("address","收货地址"),F("latlng","经纬度"),F("phone","联系电话"),F("salesman","业务员"),F("status","状态","select",["启用","停用"]),F("audit","审核状态","select",["待审核","已审核","已驳回"]),F("invoice","开票信息")],c:["code","name","type","line","settle","credit","salesman","status"]},
  "客户联系人":{f:[F("customer","所属客户","text",0,1),F("name","联系人姓名","text",0,1),F("role","角色","select",["订货人","收货人","对账人","负责人"]),F("phone","手机号"),F("wechat","微信"),F("position","职务"),F("isDefault","默认标识","select",["是","否"]),F("canOrder","可下单权限","select",["是","否"]),F("canPrice","可查看价格权限","select",["是","否"]),F("remark","备注"),F("status","状态","select",["启用","停用"])],c:["customer","name","role","phone","isDefault","status"]},
  "线索与商机":{f:[F("code","编号","text",0,1),F("name","客户名称","text",0,1),F("source","来源","select",["电话","展会","介绍","线上"]),F("contact","联系人"),F("intent","意向产品"),F("amount","预计金额(元)","number"),F("prob","成交概率(%)","number"),F("stage","阶段","select",["线索","初访","报价","谈判","赢单","输单"]),F("expectDate","预计成交日期","date"),F("owner","负责人"),F("nextFollow","下次跟进时间"),F("status","状态","select",["跟进中","已转化","已废弃"])],c:["code","name","source","amount","stage","owner","status"]},
  "客户公海与待办":{f:[F("customer","客户名称","text",0,1),F("area","区域"),F("industry","行业"),F("lastFollow","上次跟进时间"),F("idle","闲置天数","number"),F("prevOwner","原负责人"),F("claimer","领取人"),F("claimTime","领取时间"),F("protect","保护期截止","date"),F("followStatus","跟进状态","select",["未跟进","跟进中","已转化"])],c:["customer","area","idle","prevOwner","claimer","followStatus"]},
@@ -656,8 +1519,8 @@ const T={
  "财务指标与分析":{f:[F("name","指标名称","text",0,1),F("formula","指标公式"),F("target","目标值"),F("warn","预警阈值"),F("subject","取数科目"),F("period","统计期间"),F("yoy","同比(%)","number"),F("trend","趋势方向","select",["上升","下降","平稳"]),F("owner","责任人")],c:["name","formula","target","warn","period","owner"]},
  "员工档案":{f:[F("code","工号","text",0,1),F("name","姓名","text",0,1),F("gender","性别","select",["男","女"]),F("idNo","身份证号"),F("birth","出生日期","date"),F("dept","部门"),F("position","岗位"),F("level","职级"),F("joinDate","入职日期","date"),F("contractStart","合同起","date"),F("contractEnd","合同止","date"),F("empType","用工性质","select",["正式","兼职","外包"]),F("status","状态","select",["在职","离职","试用"]),F("phone","手机号"),F("bankCard","工资卡"),F("emergency","紧急联系人"),F("healthCert","健康证与有效期"),F("photo","照片")],c:["code","name","dept","position","empType","joinDate","status"]},
  "人事异动":{f:[F("code","异动单号","text",0,1),F("emp","员工","text",0,1),F("type","异动类型","select",["入职","转正","调岗","调薪","借调","离职"]),F("oldDept","原部门岗位"),F("newDept","新部门岗位"),F("oldSalary","原薪资","number"),F("newSalary","新薪资","number"),F("effDate","生效日期","date"),F("reason","异动原因"),F("handover","交接人"),F("status","审批状态","select",["待审核","已审核","已驳回"])],c:["code","emp","type","oldDept","newDept","effDate","status"]},
- "考勤管理":{f:[F("group","考勤组"),F("emp","员工","text",0,1),F("date","日期","date"),F("inTime","上班打卡时间"),F("outTime","下班打卡时间"),F("loc","打卡地点"),F("late","迟到/早退分钟","number"),F("miss","缺卡","number"),F("overtime","加班时长(h)","number"),F("leave","请假类型与时长"),F("trip","出差"),F("status","考勤状态","select",["正常","迟到","早退","缺勤"]),F("monthDays","月度出勤天数","number")],c:["emp","date","inTime","outTime","late","status"]},
- "班次排班":{f:[F("code","班次编码","text",0,1),F("name","名称","text",0,1),F("workTime","上下班时间"),F("rest","休息时长(分钟)","number"),F("cross","跨天标识","select",["是","否"]),F("team","适用班组"),F("date","日期","date"),F("emp","人员"),F("shift","班次"),F("hours","工时(h)","number"),F("swapReq","换班申请人"),F("swapTo","换班对方"),F("status","审批状态","select",["待审核","已审核","已驳回"])],c:["name","workTime","team","date","emp","shift","status"]},
+ "考勤管理":{f:[F("group","考勤组"),F("emp","员工","text",0,1),F("date","日期","date"),F("inTime","上班打卡时间"),F("outTime","下班打卡时间"),F("loc","打卡地点"),F("late","迟到/早退分钟","number",0,0,[0,16,15,0]),F("miss","缺卡","number"),F("overtime","加班时长(h)","number"),F("leave","请假类型与时长"),F("trip","出差"),F("status","考勤状态","select",["正常","迟到","早退","缺勤"]),F("monthDays","月度出勤天数","number")],c:["emp","date","inTime","outTime","late","status"]},
+ "班次排班":{f:[F("code","班次编码","text",0,1),F("name","名称","text",0,1),F("workTime","上下班时间"),F("rest","休息时长(分钟)","number"),F("cross","跨天标识","select",["是","否"],0,["否","否","是","否"]),F("team","适用班组"),F("date","日期","date"),F("emp","人员"),F("shift","班次"),F("hours","工时(h)","number",0,0,[8,8,8,8]),F("swapReq","换班申请人"),F("swapTo","换班对方"),F("status","审批状态","select",["待审核","已审核","已驳回"])],c:["name","workTime","team","date","emp","shift","status"]},
  "薪资管理":{f:[F("group","薪资组"),F("emp","员工","text",0,1),F("base","基本工资(元)","number"),F("post","岗位工资(元)","number"),F("perf","绩效(元)","number"),F("ot","加班费(元)","number"),F("piece","计件工资(元)","number"),F("allowance","补贴(元)","number"),F("social","社保公积金(元)","number"),F("tax","个税(元)","number"),F("other","其他扣款(元)","number"),F("net","实发工资(元)","number"),F("status","发放状态","select",["待发放","已发放"]),F("batch","银行代发批次")],c:["emp","base","perf","social","tax","net","status"]},
  "计件与工时工资":{f:[F("plan","计件方案","text",0,1),F("product","产品"),F("process","工序"),F("price","单价(元/件)","number"),F("teamCoef","班组单价系数","number"),F("emp","员工"),F("reportQty","报工产量","number"),F("passQty","合格数量","number"),F("defectRule","不良扣款规则"),F("pieceWage","计件工资(元)","number"),F("hourWage","工时工资(元)","number"),F("period","核算期间"),F("status","复核状态","select",["待复核","已复核","已发布"])],c:["plan","product","process","price","emp","passQty","pieceWage"]},
  "培训与上岗资质":{f:[F("code","培训计划","text",0,1),F("course","课程","select",["食品安全","操作规范","设备操作"]),F("teacher","讲师"),F("date","培训日期","date"),F("attendees","参训人员"),F("hours","学时","number"),F("exam","考核方式","select",["笔试","实操","面试"]),F("score","成绩","number"),F("qualType","上岗资质类型"),F("certNo","证书编号"),F("valid","有效期"),F("expire","到期日","date"),F("status","状态","select",["有效","已过期","未取得"])],c:["code","course","teacher","date","attendees","score","status"]},
@@ -696,7 +1559,7 @@ const uid=()=>Date.now()+Math.floor(Math.random()*1000);
 const isChartPage=r=>CHART_CFG[r.l3]!=null;
 const isFlowPage=r=>FLOWS[r.l3]!=null;
 const isSalesOrder=r=>r.l3==="销售订单";
-const getTpl=row=>T[row.l3]||T["物料主数据"];
+const getTpl=row=>T[row.l3]||T["产品与物料"];
 const getLink=(l3,k)=>LINKS[l3+"."+k]||null;
 
 const PRODUCT_POOL=["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕"];
@@ -714,6 +1577,41 @@ function ensureData(row){
   const count=15+(row.id%8);
   const list=[];
   const sts=["pending","approved","rejected","pending","approved","done","pending","approved"];
+
+  if (row.l3 === "产品与物料") {
+    const catOptions = ["原材料", "辅料", "包材", "半成品", "产成品"];
+    const names = ["高筋面粉","白砂糖","奶油奶酪","活性酵母","黄油","全脂奶粉","鸡蛋液","山梨酸钾","复合包装袋","瓦楞纸箱","奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕"];
+    const specs = ["25kg/袋","50kg/袋","10kg/箱","1kg/袋","25kg/箱","80g/个","400g/条","250g/盒","60g/个","70g/个","85g/个","450g/条","200g/盒"];
+    for(let i=0; i<152; i++){
+      const isProduct = i % 4 === 0 ? "产品" : "物料";
+      const name = names[i % names.length];
+      const spec = specs[i % specs.length];
+      const unit = ["kg", "袋", "箱", "个", "盒", "条"][i % 6];
+      const cat = catOptions[i % catOptions.length];
+      list.push({
+        id: row.id*10000+i,
+        _status: sts[i%sts.length],
+        _created: `2026-10-20 15:${String((i*7)%60).padStart(2,'0')}:00`,
+        code: "ITEM202610200000" + String(29 - (i%29)).padStart(2,"0"),
+        name: name,
+        spec: spec,
+        unit: unit,
+        cat: cat,
+        type: isProduct,
+        safe: i % 2 === 0 ? "是" : "否",
+        status: "开启",
+        batch: "开启",
+        shelf: [180, 365, 3, 7, 30][i%5],
+        storage: ["常温", "冷藏", "冷冻"][i%3],
+        allergen: ["无", "含麸质", "含乳制品", "含蛋制品"][i%4],
+        standard: ["GB/T 1355", "GB/T 317", "GB 7099"][i%3],
+        supplier: ["中粮食品有限公司", "益海嘉里集团", "圣牧乳业"][i%3]
+      });
+    }
+    state.data[row.id] = list;
+    return list;
+  }
+
   for(let i=0;i<count;i++){
     const hh=String(8+(i%10)).padStart(2,"0");const mm=String((i*7)%60).padStart(2,"0");
     const item={id:row.id*10000+i,_status:sts[i%sts.length],_created:`2026-11-05 ${hh}:${mm}:00`};
@@ -723,9 +1621,13 @@ function ensureData(row){
       item.deliveryDate=dateStr(i);item.orderDate=dateStr(i-1);
       item.deliveryTime=SO_TIMES[i%SO_TIMES.length];item.address=SO_ADDRESSES[i%SO_ADDRESSES.length];
       item.orderUser=REAL_PERSON;item.orderTime=`2026-11-05 ${hh}:${mm}`;item.status=SO_STATUS[i%SO_STATUS.length];
-      const dc=2+(i%4);const ds=[];
-      for(let j=0;j<dc;j++){const pi=(i+j)%PRODUCT_POOL.length;const q=QTY_POOL[pi];const p=PRICE_POOL[pi];ds.push({product:PRODUCT_POOL[pi],spec:SPEC_POOL[pi],qty:q,unit:"箱",price:p,subtotal:Number((q*p).toFixed(2)),remark:"按客户要求打包"});}
-      item.details=ds;list.push(item);continue;
+      const dc=2+(i%4);const ds=[]; let totalQty=0, totalAmt=0;
+      for(let j=0;j<dc;j++){const pi=(i+j)%PRODUCT_POOL.length;const q=QTY_POOL[pi];const p=PRICE_POOL[pi];const sub=Number((q*p).toFixed(2));ds.push({product:PRODUCT_POOL[pi],spec:SPEC_POOL[pi],qty:q,unit:"箱",price:p,subtotal:sub,remark:"按客户要求打包"}); totalQty+=q; totalAmt+=sub;}
+      item.details=ds;
+      item.specQty = totalQty;
+      item.totalAmount = totalAmt;
+      item.finStatus = ["未结清", "部分结清", "已结清"][i%3];
+      list.push(item);continue;
     }
     tpl.f.forEach(f=>{
       if(isDocNoField(f)) item[f.k]=genNumber(f.k, row.l3, i);
@@ -733,7 +1635,7 @@ function ensureData(row){
       else if(f.t==="number"){ if(f.demo)item[f.k]=f.demo[i%f.demo.length]; else item[f.k]=(i+1)*10; }
       else if(f.t==="select"){ if(f.demo)item[f.k]=f.demo[i%f.demo.length]; else item[f.k]=(f.opts||[])[i%((f.opts||[]).length)]||""; }
       else if(f.demo){ let v=f.demo[i%f.demo.length]; if(typeof v==="string")v=fixDateText(v,i); item[f.k]=v; }
-      else item[f.k]=realText(f,i);
+      else item[f.k]=realText(f,i,row.l3);
     });
     list.push(item);
   }
@@ -744,19 +1646,62 @@ function ensureData(row){
 const menuNav=$("menuNav"),sidebarEl=$("sidebar");
 function filteredMenus(){if(!state.keyword)return MENUS;const k=state.keyword.toLowerCase();return MENUS.filter(m=>m.l1.toLowerCase().includes(k)||m.l2.toLowerCase().includes(k)||m.l3.toLowerCase().includes(k)||(m.desc||"").toLowerCase().includes(k));}
 function buildTree(rows){const map=new Map();rows.forEach(r=>{if(!map.has(r.l1))map.set(r.l1,new Map());const m2=map.get(r.l1);if(!m2.has(r.l2))m2.set(r.l2,[]);m2.get(r.l2).push(r);});return map;}
+/* ============ 侧边栏图标 ============ */
+const M_ICONS={
+  doc:'<path d="M7 3h6l4 4v14H7z"/><path d="M13 3v4h4"/><path d="M10 12h5M10 16h5"/>',
+  monitor:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+  flag:'<path d="M6 21V4"/><path d="M6 4h9l-1.6 3.2L15 10.4H6"/>',
+  truck:'<path d="M3 7h10v9H3z"/><path d="M13 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/>',
+  back:'<path d="M9 14l-4-4 4-4"/><path d="M5 10h9a5 5 0 0 1 0 10h-3"/>',
+  box:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><path d="M12 12v9"/>',
+  cart:'<circle cx="9.5" cy="19.5" r="1.5"/><circle cx="17.5" cy="19.5" r="1.5"/><path d="M3 4h2.2l2.3 10.5h10.9L21 8H6.2"/>',
+  factory:'<path d="M3 21V10l5 3V10l5 3V8l6 4v9z"/><path d="M7.5 21v-3.5M12 21v-3.5M16.5 21v-3.5"/>',
+  shield:'<path d="M12 3l7 3v6c0 4.4-3 7.9-7 9-4-1.1-7-4.6-7-9V6z"/><path d="M9.2 12.2l2 2 3.8-3.9"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M3 12h2.5M18.5 12H21M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/>',
+  chart:'<path d="M4 20V5"/><path d="M4 20h16"/><path d="M8.5 16.5v-5M12.5 16.5V8M16.5 16.5v-3.2"/>',
+  users:'<circle cx="9" cy="8" r="3.2"/><path d="M3.2 20a5.8 5.8 0 0 1 11.6 0"/><path d="M15.6 5.6a3 3 0 0 1 0 5.2"/><path d="M17.4 14.3A5.4 5.4 0 0 1 20.8 19"/>',
+  user:'<circle cx="12" cy="8" r="3.5"/><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"/>',
+  cog:'<circle cx="12" cy="12" r="3.1"/><path d="M12 2.8v2.4M12 18.8v2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M2.8 12h2.4M18.8 12h2.4M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/>',
+  layers:'<path d="M12 3l8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 17l8 4 8-4"/>',
+  calendar:'<rect x="3.2" y="5" width="17.6" height="16" rx="2.2"/><path d="M8 3v4M16 3v4M3.2 10.5h17.6"/>',
+  flow:'<circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.4 6H14a3.2 3.2 0 0 1 0 6.4H9.6a3.2 3.2 0 0 0 0 6.4h6"/>'
+};
+function svgIcon(name){return `<svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${M_ICONS[name]||M_ICONS.doc}</svg>`;}
+function iconName(t){
+  const s=String(t||"");
+  if(/工作台|看板|驾驶舱|大屏/.test(s))return "monitor";
+  if(/接单/.test(s))return "flag";
+  if(/配送|发货|车辆|司机|线路|排线/.test(s))return "truck";
+  if(/退货|退换|召回|返工|售后/.test(s))return "back";
+  if(/库存|仓储|仓库|库区|库位|箱码|托盘|调拨|盘点|入库|出库|现有量|预警|物料/.test(s))return "box";
+  if(/采购|供应商|准入/.test(s))return "cart";
+  if(/生产|工单|排产|班组|报工|领料|退料|工序|流转|车间|MPS|MRP/.test(s))return "factory";
+  if(/质量|检|追溯|留样|缺陷|溯源|不合格/.test(s))return "shield";
+  if(/设备|点检|维修|能源/.test(s))return "gear";
+  if(/财务|凭证|账簿|结账|报表|应收|应付|发票|成本|费用|资金|账套|指标|总账/.test(s))return "chart";
+  if(/客户|线索|商机|回访|投诉/.test(s))return "users";
+  if(/员工|考勤|班次|薪资|培训|人事|异动|人力/.test(s))return "user";
+  if(/业务流程/.test(s))return "flow";
+  if(/系统|权限|流程|消息|字典|编码|接口|日志|备份|定时|版本|组织/.test(s))return "cog";
+  if(/配方|工艺|标准|计量|标签|产品/.test(s))return "layers";
+  if(/计划/.test(s))return "calendar";
+  return "doc";
+}
+const CARET_SVG='<svg class="caret-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+
 function renderSidebar(){
   const st=menuNav.scrollTop;const rows=filteredMenus(),tree=buildTree(rows);
-  if(state.collapsed){let h="";tree.forEach((_,l1)=>{h+=`<div class="m1"><div class="m1-h" data-tl1="${esc(l1)}" title="${esc(l1)}"><span class="m1-icon">${esc(l1.slice(0,1))}</span></div></div>`;});menuNav.innerHTML=h||'<div class="menu-empty">无匹配</div>';return;}
+  if(state.collapsed){let h="";tree.forEach((_,l1)=>{h+=`<div class="m1"><div class="m1-h" data-tl1="${esc(l1)}" title="${esc(l1)}">${svgIcon(iconName(l1))}</div></div>`;});menuNav.innerHTML=h||'<div class="menu-empty">无匹配</div>';return;}
   if(!tree.size){menuNav.innerHTML='<div class="menu-empty">没有匹配的菜单</div>';return;}
   const forceOpen=!!state.keyword;let html="";
   tree.forEach((l2map,l1)=>{
     const open=forceOpen||state.expandedL1.has(l1);
-    const total=Array.from(l2map.values()).reduce((s,a)=>s+a.length,0);
-    html+=`<div class="m1 ${open?"open":""}"><div class="m1-h" data-tl1="${esc(l1)}"><span class="caret">▸</span><span class="mlabel">${hl(l1)}</span><span class="mcount">${total}</span></div><div class="m1-b">`;
+    html+=`<div class="m1 ${open?"open":""}"><div class="m1-h" data-tl1="${esc(l1)}">${svgIcon(iconName(l1))}<span class="mlabel">${hl(l1)}</span>${CARET_SVG}</div><div class="m1-b">`;
     l2map.forEach((list,l2)=>{
       const key=l1+"||"+l2;const open2=forceOpen||state.expandedL2.has(key);
-      html+=`<div class="m2 ${open2?"open":""}"><div class="m2-h" data-tl2="${esc(key)}"><span class="caret">▸</span><span class="mlabel">${hl(l2)}</span><span class="mcount">${list.length}</span></div><div class="m2-b">`;
-      list.forEach(r=>{html+=`<div class="m3 ${state.activeId===r.id?"active":""}" data-mid="${r.id}"><span class="dot"></span><span class="mlabel">${hl(r.l3)}</span></div>`;});
+      const cur=list.some(r=>state.activeId===r.id);
+      html+=`<div class="m2 ${open2?"open":""} ${cur?"cur":""}"><div class="m2-h" data-tl2="${esc(key)}">${svgIcon(iconName(l2))}<span class="mlabel">${hl(l2)}</span>${CARET_SVG}</div><div class="m2-b">`;
+      list.forEach(r=>{html+=`<div class="m3 ${state.activeId===r.id?"active":""}" data-mid="${r.id}">${svgIcon(iconName(r.l3))}<span class="mlabel">${hl(r.l3)}</span></div>`;});
       html+=`</div></div>`;
     });
     html+=`</div></div>`;
@@ -782,8 +1727,183 @@ function svgStacked(d){const W=640,H=280,p={t:28,r:20,b:42,l:48},iW=W-p.l-p.r,iH
 function overviewHTML(){
   const l1Set=new Set(MENUS.map(m=>m.l1)),l2Set=new Set(MENUS.map(m=>m.l1+"||"+m.l2));
   const l1map=new Map();MENUS.forEach(m=>{if(!l1map.has(m.l1))l1map.set(m.l1,{l2:new Set(),n:0});const o=l1map.get(m.l1);o.l2.add(m.l2);o.n++;});
-  let cards="";l1map.forEach((o,l1)=>{cards+=`<div class="l1-card" data-card="${esc(l1)}"><h3>${esc(l1)}</h3><div class="meta"><span><b>${o.l2.size}</b> 个二级</span><span><b>${o.n}</b> 个功能</span></div><div class="tags">${Array.from(o.l2).slice(0,4).map(x=>`<span class="tagline">${esc(x)}</span>`).join("")}</div></div>`;});
-  return `<div class="hero"><h1>标准版 · 后台概览</h1><p>单号全部为规范数字单号（前缀+日期+流水）；有关联的单号旁显示红色「关联」标签，点击可查看关联菜单与模块并直接跳转。</p><div class="hero-actions"><button class="hero-btn primary" id="quickOpen">打开物料主数据</button><button class="hero-btn" id="quickOrder">打开销售订单</button><button class="hero-btn" id="quickFlow">查看业务流程图</button><button class="hero-btn" id="quickChart">打开经营驾驶舱</button></div></div><div class="stats"><div class="stat"><div class="stat-ico s-blue">▤</div><div><div class="stat-num">${l1Set.size}</div><div class="stat-label">一级业务模块</div></div></div><div class="stat"><div class="stat-ico s-green">▥</div><div><div class="stat-num">${l2Set.size}</div><div class="stat-label">二级功能分组</div></div></div><div class="stat"><div class="stat-ico s-amber">▦</div><div><div class="stat-num">${MENUS.length}</div><div class="stat-label">三级功能菜单</div></div></div><div class="stat"><div class="stat-ico s-violet">◈</div><div><div class="stat-num">v2.2</div><div class="stat-label">当前版本</div></div></div></div><div class="section-title"><h2>业务模块 <span class="sub">点击卡片进入对应模块</span></h2></div><div class="l1-grid">${cards}</div>`;
+  let cards="";l1map.forEach((o,l1)=>{cards+=`<div class="l1-card" data-card="${esc(l1)}" title="进入「${esc(l1)}」"><h3>${esc(l1)}</h3><div class="meta"><span><b>${o.l2.size}</b> 个二级</span><span><b>${o.n}</b> 个功能</span></div><div class="tags">${Array.from(o.l2).slice(0,4).map(x=>`<span class="tagline" data-ov2="${esc(l1+"||"+x)}" title="打开「${esc(x)}」第一页">${esc(x)}</span>`).join("")}</div></div>`;});
+  return `<div class="stats"><div class="stat"><div class="stat-ico s-blue">▤</div><div><div class="stat-num">${l1Set.size}</div><div class="stat-label">一级业务模块</div></div></div><div class="stat"><div class="stat-ico s-green">▥</div><div><div class="stat-num">${l2Set.size}</div><div class="stat-label">二级功能分组</div></div></div><div class="stat"><div class="stat-ico s-amber">▦</div><div><div class="stat-num">${MENUS.length}</div><div class="stat-label">三级功能菜单</div></div></div><div class="stat"><div class="stat-ico s-violet">◈</div><div><div class="stat-num">v2.4</div><div class="stat-label">当前版本</div></div></div></div><div class="section-title"><h2>业务模块 <span class="sub">点击卡片进入对应模块</span></h2></div><div class="l1-grid">${cards}</div>`;
+}
+
+/* ============ 专属页面：产品与物料 ============ */
+function productMaterialPageHTML(row) {
+  ensureData(row);
+  const all = state.data[row.id];
+  const rowsHtml = all.slice(0, 10).map(r => `
+    <tr>
+      <td><a class="code-link" data-pm-detail="${r.id}">${esc(r.code)}</a></td>
+      <td>${esc(r.name)}</td>
+      <td>${esc(r.spec || "—")}</td>
+      <td>${esc(r.unit)}</td>
+      <td>${esc(r.cat)}</td>
+      <td><span class="${r.type === '产品' ? 'tag-product' : 'tag-material'}">${esc(r.type)}</span></td>
+      <td>${esc(r.shelf)}</td>
+      <td style="color:var(--mute)">${esc(r.safe)}</td>
+      <td>
+        <label class="switch">
+          <input type="checkbox" ${r.status === '开启' ? 'checked' : ''} onchange="toast('状态已切换')">
+          <span class="slider"></span>
+        </label>
+      </td>
+      <td>${esc(r._created)}</td>
+      <td>
+        <a style="color:#2563eb;cursor:pointer;margin-right:12px" onclick="toast('编辑功能演示')">编辑</a>
+        <a style="color:#ef4444;cursor:pointer;margin-right:12px" onclick="toast('删除功能演示')">删除</a>
+        <a style="color:#2563eb;cursor:pointer" onclick="toast('标签打印功能演示')">标签打印</a>
+      </td>
+    </tr>
+  `).join("");
+
+  return `
+    <div class="page-head" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--sub)">
+        <span style="color:#2563eb;font-weight:600">产品与物料</span>
+      </div>
+    </div>
+    <div class="pm-layout">
+      <div class="pm-sidebar">
+        <h4><span style="color:#2563eb">▾</span> 物料产品分类</h4>
+        <ul class="pm-tree">
+          <li><div class="node-title"><span style="font-size:10px;opacity:.5">▸</span> 原材料</div></li>
+          <li>
+            <div class="node-title active"><span style="font-size:10px;opacity:1">▾</span> 产品</div>
+            <ul class="children">
+              <li><div class="node-title">半成品</div></li>
+              <li><div class="node-title">产成品</div></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="pm-main">
+        <div class="pm-search">
+          <div class="f-item"><label>物料编码</label><input type="text" placeholder="请输入物料编码"></div>
+          <div class="f-item"><label>物料名称</label><input type="text" placeholder="请输入物料名称"></div>
+          <div class="f-item"><label>状态</label><select><option>请选择状态</option><option>开启</option><option>关闭</option></select></div>
+          <div class="btns">
+            <button class="btn" onclick="toast('查询')">🔍 搜索</button>
+            <button class="btn" onclick="toast('重置')">↻ 重置</button>
+            <button class="btn btn-primary" onclick="toast('新增功能演示')">＋ 新增</button>
+            <button class="btn" style="color:#f59e0b;border-color:#fcd34d;background:#fffbeb" onclick="toast('导入功能演示')">↑ 导入</button>
+            <button class="btn" style="color:#10b981;border-color:#6ee7b7;background:#ecfdf5" onclick="toast('导出功能演示')">↓ 导出</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table class="tbl table-mini">
+            <thead>
+              <tr>
+                <th>物料编码</th><th>物料名称</th><th>规格型号</th><th>单位</th><th>物料分类</th>
+                <th>物料/产品</th><th>保质期(天)</th><th>安全库存</th><th>状态</th><th>创建时间</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+          <div class="pager" style="justify-content:flex-end;padding:16px;background:var(--panel);border-top:1px solid var(--bd)">
+            <span style="margin-right:16px;color:var(--sub)">共 152 条</span>
+            <select style="margin-right:16px"><option>10条/页</option><option>20条/页</option></select>
+            <div class="pages">
+              <button class="pg" disabled>‹</button>
+              <button class="pg active">1</button>
+              <button class="pg">2</button>
+              <button class="pg">3</button>
+              <button class="pg">4</button>
+              <button class="pg">5</button>
+              <button class="pg">6</button>
+              <span style="padding:0 4px">...</span>
+              <button class="pg">16</button>
+              <button class="pg">›</button>
+            </div>
+            <span style="margin-left:16px;display:flex;align-items:center;gap:6px">
+              前往 <input type="text" value="1" style="width:40px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px"> 页
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function openPMDetailModal(id) {
+  const row = MENUS[state.activeId];
+  const target = state.data[row.id].find(r => r.id === id);
+  if(!target) return;
+  const tabs = ["产品组成", "批次属性", "替代品", "SIP", "SOP", "版本变更"];
+  openModal({
+    title: "查看物料/产品",
+    body: `
+      <div class="form-grid-pm" style="margin-bottom:24px">
+        <div class="f-row"><label><span class="req">*</span>物料编码</label><input type="text" value="${esc(target.code)}" disabled style="background:var(--panel2);color:var(--sub)"><button class="btn btn-sm btn-primary" style="padding:4px 8px">生成</button></div>
+        <div class="f-row"><label><span class="req">*</span>物料名称</label><input type="text" value="${esc(target.name)}" disabled style="background:var(--panel2);color:var(--sub)"></div>
+        <div class="f-row"><label>规格型号</label><input type="text" placeholder="请输入规格型号" value="${esc(target.spec)}"></div>
+        <div class="f-row"><label><span class="req">*</span>单位</label><select><option>${esc(target.unit)}</option><option>kg</option><option>袋</option><option>箱</option></select></div>
+        <div class="f-row"><label><span class="req">*</span>物料分类</label><select><option>${esc(target.cat)}</option><option>原材料</option><option>产品</option></select></div>
+        <div class="f-row"><label>高值物料</label><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="f-row"><label>批次管理</label><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+        <div class="f-row"><label>安全库存</label><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="f-row"><label><span class="req">*</span>状态</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--sub);font-size:13px"><input type="radio" name="pm_status" checked> 开启</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--sub);font-size:13px;margin-left:12px"><input type="radio" name="pm_status"> 关闭</label>
+        </div>
+        <div class="f-row"><label>保质期(天)</label><input type="number" value="${esc(target.shelf || 180)}"></div>
+        <div class="f-row"><label>储存条件</label><select><option>${esc(target.storage || "常温")}</option><option>冷藏</option><option>冷冻</option></select></div>
+        <div class="f-row"><label>过敏原</label><input type="text" value="${esc(target.allergen || "无")}"></div>
+        <div class="f-row"><label>执行标准</label><input type="text" value="${esc(target.standard || "GB/T 1355")}"></div>
+        <div class="f-row"><label>默认供应商</label><input type="text" value="${esc(target.supplier || "中粮食品有限公司")}"></div>
+        <div class="f-row"><label>资质附件</label><input type="text" placeholder="点击上传附件" value="营业执照.pdf"></div>
+        <div class="f-row span3"><label>备注</label><textarea placeholder="请输入备注"></textarea></div>
+      </div>
+      <div class="pm-tabs" id="pmTabs">${tabs.map((t, i) => `<div class="tab-item ${i===0 ? 'active' : ''}" data-tab="${t}">${t}</div>`).join("")}</div>
+      <div id="pmTabContent">
+        <div class="tab-pane" data-pane="产品组成">
+          <table class="tbl table-mini">
+            <thead><tr><th>物料编码</th><th>物料名称</th><th>规格型号</th><th>单位</th><th>物料/产品</th><th>用量比例</th><th>备注</th></tr></thead>
+            <tbody><tr>
+              <td><a class="code-link" onclick="toast('跳转子件详情')">ITEM202610200000···</a></td>
+              <td>高筋面粉</td><td>25kg/袋</td><td>kg</td>
+              <td><span class="tag tag-material">物料</span></td><td>1</td><td></td>
+            </tr></tbody>
+          </table>
+        </div>
+        ${tabs.slice(1).map(t => `<div class="tab-pane" data-pane="${t}" style="display:none;text-align:center;padding:40px;color:var(--mute)">暂无 ${t} 数据</div>`).join("")}
+      </div>
+    `,
+    buttons: [
+      { id: "scan", text: "查看条码", cls: "btn-primary", onClick: () => toast("打开条码查看") },
+      { id: "cancel", text: "取消", onClick: closeModal }
+    ]
+  });
+  document.querySelectorAll("#pmTabs .tab-item").forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll("#pmTabs .tab-item").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const targetTab = tab.dataset.tab;
+      document.querySelectorAll("#pmTabContent .tab-pane").forEach(pane => {
+        pane.style.display = pane.dataset.pane === targetTab ? "block" : "none";
+      });
+    };
+  });
+}
+
+/* ============ 地图弹窗 ============ */
+function openMapModal(address){
+  const mapSvg = `<svg viewBox="0 0 400 300" style="width:100%;height:250px;background:#e5e7eb;border-radius:8px;margin-bottom:16px;">
+      <path d="M0,150 Q100,50 200,100 T400,150 L400,300 L0,300 Z" fill="#cbd5e1" />
+      <path d="M50,0 L150,300" stroke="#94a3b8" stroke-width="4"/>
+      <path d="M300,0 L250,300" stroke="#94a3b8" stroke-width="4"/>
+      <path d="M0,200 L400,220" stroke="#94a3b8" stroke-width="4"/>
+      <circle cx="200" cy="150" r="10" fill="#ef4444" />
+      <text x="220" y="155" font-size="12" fill="#1e293b">当前位置</text>
+  </svg>`;
+  openModal({
+    title: "地图位置",
+    body: `${mapSvg}<div style="font-size:15px;font-weight:600;text-align:center;color:var(--text)">${esc(address)}</div>`,
+    buttons: [{ id: "close", text: "关闭", cls: "btn-primary", onClick: closeModal }]
+  });
 }
 
 /* ============ 列表页 ============ */
@@ -800,42 +1920,89 @@ function filterRowsForRow(row,tpl){
     return true;
   });
 }
+
+function formatCellValue(f, v) {
+  if (v == null || v === "") return "—";
+  if (f && f.k === "qr" && /^https?:\/\//.test(String(v))) return qrThumbHTML(v);
+  if (f.t === "number" && /金额|价格|成本|单价|工资/.test(f.l)) v = fmtMoney(v);
+  let html = esc(v);
+  if (f.l && f.l.includes('地址') && v !== '—') {
+      html += ` <span class="map-icon" data-address="${esc(v)}">📍</span>`;
+  }
+  return html;
+}
+
 function renderCell(row, field, value){
   const f = getTpl(row).f.find(x=>x.k===field);
   let v = value;
-  if (f && f.t === "number" && typeof v === "number" && /金额|价格|成本|单价|工资/.test(f.l)) v = fmtMoney(v);
-  const title = v == null ? "" : String(v);
   const link = getLink(row.l3, field);
-  const linkHTML = link ? `<span class="link-badge" data-link-l3="${esc(row.l3)}" data-link-k="${esc(field)}" data-link-v="${esc(title)}">关联</span>` : "";
-  return `<td title="${esc(title)}">${f && field===getTpl(row).c[0] ? `<b>${esc(v??"—")}</b>` : esc(v??"—")}${linkHTML}</td>`;
+  const linkHTML = link ? `<span class="link-badge" data-link-l3="${esc(row.l3)}" data-link-k="${esc(field)}" data-link-v="${esc(v)}">关联</span>` : "";
+  const displayVal = formatCellValue(f, v);
+  return `<td title="${esc(v)}">${f && field===getTpl(row).c[0] ? `<b>${displayVal}</b>` : displayVal}${linkHTML}</td>`;
 }
+
 function listPageHTML(row){
-  ensureData(row);const tpl=getTpl(row),all=state.data[row.id],so=isSalesOrder(row),filtered=filterRowsForRow(row,tpl),ps=getPageSize(row.id),totalPages=Math.max(1,Math.ceil(filtered.length/ps)),cur=Math.min(getCurPage(row.id),totalPages);state.page[row.id]=cur;
-  const pageRows=filtered.slice((cur-1)*ps,cur*ps),sel=state.selected[row.id]||new Set(),allChecked=pageRows.length>0&&pageRows.every(r=>sel.has(r.id));
-  // 显示的列：tpl.c + 所有有 LINKS 的字段（如果不在 c 里则追加）
+  ensureData(row);
+  const tpl=getTpl(row),all=state.data[row.id],so=isSalesOrder(row),filtered=filterRowsForRow(row,tpl),
+        ps=getPageSize(row.id),totalPages=Math.max(1,Math.ceil(filtered.length/ps)),
+        cur=Math.min(getCurPage(row.id),totalPages);state.page[row.id]=cur;
+  const pageRows=filtered.slice((cur-1)*ps,cur*ps),sel=state.selected[row.id]||new Set(),
+        allChecked=pageRows.length>0&&pageRows.every(r=>sel.has(r.id));
   const extraLinkCols = Object.keys(LINKS).filter(k=>k.startsWith(row.l3+".")).map(k=>k.split(".")[1]).filter(k=>!tpl.c.includes(k));
-  const displayCols = so ? [] : [...tpl.c, ...extraLinkCols];
+  const displayCols = so ? ["code","customer","deliveryDate","orderDate","specQty","totalAmount","finStatus","status"] : [...tpl.c, ...extraLinkCols];
+
   let headers="";
-  if(so) headers=`<th>客户名称</th><th>配送日期</th><th>下单日期</th><th>状态</th><th>明细</th>`;
+  if(so) headers=`<th>订单号</th><th>客户名称</th><th>配送日期</th><th>下单日期</th><th>规格数量</th><th>总金额(元)</th><th>财务状态</th><th>状态</th><th>明细</th>`;
   else headers=displayCols.map(c=>{const f=tpl.f.find(x=>x.k===c);return `<th>${esc(f?f.l:c)}</th>`;}).join("");
+
+  let sumObj = {};
+  displayCols.forEach(c => { const f = tpl.f.find(x=>x.k===c); if (f && f.t === "number") sumObj[c] = 0; });
+
   const bodyRows=pageRows.length?pageRows.map(r=>{
     const checked=sel.has(r.id)?"checked":"";
-    if(so){const dc=(r.details||[]).length;const stTag=`<span class="tag ${STATUS[r._status]?.cls||'muted'}">${esc(r.status||'')}</span>`;
-      return `<tr class="${sel.has(r.id)?"selected":""}" data-row-id="${r.id}"><td class="col-check"><input type="checkbox" data-check="${r.id}" ${checked}></td><td><b>${esc(r.customer)}</b></td><td>${esc(r.deliveryDate||"—")}</td><td>${esc(r.orderDate||"—")}</td><td>${stTag}</td><td><span class="detail-badge">${dc} 项</span></td><td style="color:var(--sub);font-size:12px">${esc(r._created||"")}</td><td class="col-actions"><div class="actions"><button class="btn btn-sm" data-detail="${r.id}">详情</button><button class="btn btn-sm" data-edit="${r.id}">编辑</button><button class="btn btn-sm btn-ok" data-audit="${r.id}" ${(r._status==="pending"||r._status==="rejected")?"":"disabled"}>审核</button><button class="btn btn-sm btn-danger" data-del="${r.id}">删除</button></div></td></tr>`;}
+    if(so){
+      const dc=(r.details||[]).length;const stTag=`<span class="tag ${STATUS[r._status]?.cls||'muted'}">${esc(r.status||'')}</span>`;
+      return `<tr class="${sel.has(r.id)?"selected":""}" data-row-id="${r.id}"><td class="col-check"><input type="checkbox" data-check="${r.id}" ${checked}></td><td><b>${esc(r.code)}</b></td><td>${esc(r.customer)}</td><td>${esc(r.deliveryDate||"—")}</td><td>${esc(r.orderDate||"—")}</td><td>${r.specQty}</td><td>${fmtMoney(r.totalAmount)}</td><td>${esc(r.finStatus)}</td><td>${stTag}</td><td><span class="detail-badge">${dc} 项</span></td><td style="color:var(--sub);font-size:12px">${esc(r._created||"")}</td><td class="col-actions"><div class="actions"><button class="btn btn-sm" data-detail="${r.id}">详情</button><button class="btn btn-sm" data-edit="${r.id}">编辑</button><button class="btn btn-sm btn-ok" data-audit="${r.id}" ${(r._status==="pending"||r._status==="rejected")?"":"disabled"}>审核</button><button class="btn btn-sm btn-danger" data-del="${r.id}">删除</button></div></td></tr>`;
+    }
+    displayCols.forEach(c => { const f = tpl.f.find(x=>x.k===c); if (f && f.t === "number") sumObj[c] += Number(r[c]) || 0; });
     const tds = displayCols.map(c=>renderCell(row, c, r[c])).join("");
     const st=r._status,si=STATUS[st]||{text:st,cls:"muted"};
     return `<tr class="${sel.has(r.id)?"selected":""}" data-row-id="${r.id}"><td class="col-check"><input type="checkbox" data-check="${r.id}" ${checked}></td>${tds}<td><span class="tag ${si.cls}">${si.text}</span></td><td style="color:var(--sub);font-size:12px">${esc(r._created||"")}</td><td class="col-actions"><div class="actions"><button class="btn btn-sm" data-detail="${r.id}">详情</button><button class="btn btn-sm" data-edit="${r.id}">编辑</button><button class="btn btn-sm btn-ok" data-audit="${r.id}" ${(st==="pending"||st==="rejected")?"":"disabled"}>审核</button><button class="btn btn-sm btn-danger" data-del="${r.id}">删除</button></div></td></tr>`;
-  }).join(""):`<tr class="empty-row"><td colspan="${(so?8:displayCols.length+4)}">暂无数据，点击右上角「新增」创建第一条记录</td></tr>`;
+  }).join(""):`<tr class="empty-row"><td colspan="${(so?12:displayCols.length+4)}">暂无数据，点击右上角「新增」创建第一条记录</td></tr>`;
+
+  // 底部合计行
+  let footHtml = "";
+  if (so) {
+    let totalSpecQty = 0, totalAmount = 0;
+    pageRows.forEach(r => { totalSpecQty += Number(r.specQty)||0; totalAmount += Number(r.totalAmount)||0; });
+    footHtml = `<tr class="detail-total-row"><td class="col-check"></td><td colspan="4" style="text-align:right;color:var(--sub)">本页合计：</td><td><b>${totalSpecQty}</b></td><td><b>${fmtMoney(totalAmount)}</b></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+  } else if (displayCols.length > 0) {
+    let colsHtml = "", hasSum = false;
+    displayCols.forEach((c, idx) => {
+      const f = tpl.f.find(x=>x.k===c);
+      if (f && f.t === "number") { colsHtml += `<td><b>${fmtMoney(sumObj[c])}</b></td>`; hasSum = true; }
+      else if (idx === 0) { colsHtml += `<td colspan="1" style="text-align:right;color:var(--sub)">本页合计：</td>`; }
+      else { colsHtml += `<td></td>`; }
+    });
+    if (hasSum) footHtml = `<tr class="detail-total-row"><td class="col-check"></td>${colsHtml}<td></td><td></td><td></td></tr>`;
+  }
+
   let pagesHtml="";let from=Math.max(1,cur-3),to=Math.min(totalPages,from+6);if(to-from+1<7)from=Math.max(1,to-6);for(let i=from;i<=to;i++)pagesHtml+=`<button class="pg ${i===cur?"active":""}" data-pg="${i}">${i}</button>`;
+
   let toolbarHtml;
   if(so){toolbarHtml=`<div class="toolbar"><input class="tb-search" id="qInput" placeholder="搜索客户名称..." value="${esc(state.q[row.id]||"")}"><span class="date-sep">配送日期</span><input type="date" id="dateFromInput" value="${esc(state.dateFrom[row.id]||"")}"><span class="date-sep">至</span><input type="date" id="dateToInput" value="${esc(state.dateTo[row.id]||"")}"><select id="fStatus"><option value="">全部状态</option>${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${state.fStatus[row.id]===k?"selected":""}>${v.text}</option>`).join("")}</select><button class="btn" id="resetBtn">重置</button><div class="spacer"></div><span style="font-size:12.5px;color:var(--mute)">共 ${filtered.length} 条筛选结果</span></div>`;}
   else{toolbarHtml=`<div class="toolbar"><input class="tb-search" id="qInput" placeholder="搜索关键字..." value="${esc(state.q[row.id]||"")}"><select id="fStatus"><option value="">全部状态</option>${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${state.fStatus[row.id]===k?"selected":""}>${v.text}</option>`).join("")}</select><button class="btn" id="resetBtn">重置</button><div class="spacer"></div><span style="font-size:12.5px;color:var(--mute)">共 ${filtered.length} 条筛选结果 · 点行查看详情 · 红色「关联」可查看关联单据</span></div>`;}
+
   const moreBtns=parseButtons(row.b);
   const moreMenu=moreBtns.length?`<div class="dropdown" id="moreDropdown"><button class="btn" id="moreBtn">更多操作 ▾</button><div class="dropdown-menu">${moreBtns.map((b,i)=>`<div class="dropdown-item" data-more="${esc(b)}" data-idx="${i}"><span class="di-ico">▸</span>${esc(b)}</div>`).join("")}</div></div>`:"";
+
   return `<div class="page-head"><div><h2>${esc(row.l3)} <span class="badge">${all.length} 条</span></h2><p>${esc(row.l1)} / ${esc(row.l2)}　·　${esc(row.desc)}</p></div><div class="page-actions"><button class="btn btn-primary" id="addBtn">＋ 新增</button><button class="btn btn-ok" id="batchAuditBtn" ${sel.size?"":"disabled"}>批量审核 (${sel.size})</button><button class="btn btn-danger" id="batchDelBtn" ${sel.size?"":"disabled"}>批量删除 (${sel.size})</button>${moreMenu}<button class="btn" id="exportBtn">导出 CSV</button></div></div>
   <details class="page-info"><summary>页面结构说明 & 按钮操作说明</summary><div class="pi-body"><div class="pi-sec"><b>页面结构：</b>${esc(row.p||"按业务场景组织：上部查询条件、中部列表、右侧详情抽屉。")}</div><div class="pi-sec"><b>可用操作：</b>${esc(row.b||"新增、编辑、审核、删除、导出。")}</div></div></details>
   ${toolbarHtml}
-  <div class="tbl-wrap"><table class="tbl"><thead><tr><th class="col-check"><input type="checkbox" id="checkAll" ${allChecked?"checked":""}></th>${headers}<th>创建时间</th><th class="col-actions">操作</th></tr></thead><tbody>${bodyRows}</tbody></table>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th class="col-check"><input type="checkbox" id="checkAll" ${allChecked?"checked":""}></th>${headers}<th>审核状态</th><th>创建时间</th><th class="col-actions">操作</th></tr></thead>
+  <tbody>${bodyRows}</tbody>
+  <tfoot>${footHtml}</tfoot>
+  </table>
   <div class="pager"><span>第 ${cur} / ${totalPages} 页</span><select id="pageSizeSel">${[10,20,50].map(n=>`<option value="${n}" ${ps===n?"selected":""}>${n} 条/页</option>`).join("")}</select><div class="pages"><button class="pg" data-pg="1" ${cur===1?"disabled":""}>首页</button><button class="pg" data-pg="${cur-1}" ${cur===1?"disabled":""}>上一页</button>${pagesHtml}<button class="pg" data-pg="${cur+1}" ${cur===totalPages?"disabled":""}>下一页</button><button class="pg" data-pg="${totalPages}" ${cur===totalPages?"disabled":""}>末页</button></div></div></div>`;
 }
 function parseButtons(s){if(!s)return[];return s.replace(/、/g,",").split(",").map(x=>x.trim()).filter(x=>x&&!["新增","修改","编辑","删除","导出"].includes(x)).slice(0,20);}
@@ -877,37 +2044,53 @@ function openLinkModal(l3, fieldKey, fieldValue){
 function openSalesOrderDetail(row,id){
   const target=state.data[row.id].find(r=>r.id===id);if(!target)return;
   const stCls=STATUS[target._status]?.cls||"muted",stTxt=STATUS[target._status]?.text||target._status;
-  const details=target.details||[],totalQty=details.reduce((s,d)=>s+Number(d.qty||0),0),totalAmount=details.reduce((s,d)=>s+Number(d.subtotal||0),0);
-  const detailRows=details.length?details.map((d,i)=>`<tr><td>${i+1}</td><td><b>${esc(d.product||"")}</b></td><td>${esc(d.spec||"—")}</td><td>${esc(d.qty||0)}</td><td>${esc(d.unit||"—")}</td><td>${fmtMoney(d.price)}</td><td><b>${fmtMoney(d.subtotal)}</b></td><td>${esc(d.remark||"—")}</td></tr>`).join(""):`<tr><td colspan="8" style="text-align:center;color:var(--mute);padding:20px">暂无商品明细</td></tr>`;
+  const details=target.details||[];
+  let totalQty=0, totalAmount=0;
+  const detailRows=details.length?details.map((d,i)=>{
+    totalQty+=Number(d.qty)||0; totalAmount+=Number(d.subtotal)||0;
+    return `<tr><td>${i+1}</td><td><b>${esc(d.product||"")}</b></td><td>${esc(d.spec||"—")}</td><td>${esc(d.qty||0)}</td><td>${esc(d.unit||"—")}</td><td>${fmtMoney(d.price)}</td><td><b>${fmtMoney(d.subtotal)}</b></td><td>${esc(d.remark||"—")}</td></tr>`;
+  }).join(""):`<tr><td colspan="8" style="text-align:center;color:var(--mute);padding:20px">暂无商品明细</td></tr>`;
+  const footRow = `<tr class="detail-total-row"><td colspan="3" style="text-align:right">合计</td><td><b>${totalQty}</b></td><td></td><td></td><td><b>${fmtMoney(totalAmount)}</b></td><td></td></tr>`;
+  const addressHtml = target.address ? `${esc(target.address)} <span class="map-icon" data-address="${esc(target.address)}">📍</span>` : "—";
+
   openModal({title:`订单详情 · ${esc(target.code||"")}`,
     body:`<div class="detail-status"><span>订单状态：<span class="tag ${stCls}">${esc(stTxt)}</span></span><span>明细数：<b>${details.length}</b> 项</span></div>
-    <div class="detail-grid"><div class="dk">订单号</div><div class="dv"><b>${esc(target.code||"")}</b></div><div class="dk">客户名称</div><div class="dv">${esc(target.customer||"—")}</div><div class="dk">配送时间</div><div class="dv"><input id="detailDeliveryTime" value="${esc(target.deliveryTime||"")}" style="padding:6px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--panel2);color:var(--text);font-size:13px;width:200px;outline:none"><button class="btn btn-sm btn-primary" id="saveDeliveryTime" type="button" style="margin-left:8px">保存</button></div><div class="dk">配送地址</div><div class="dv">${esc(target.address||"—")}</div><div class="dk">下单人</div><div class="dv">${esc(target.orderUser||"—")}</div><div class="dk">下单时间</div><div class="dv">${esc(target.orderTime||"—")}</div><div class="dk">配送日期</div><div class="dv">${esc(target.deliveryDate||"—")}</div><div class="dk">下单日期</div><div class="dv">${esc(target.orderDate||"—")}</div></div>
-    <div class="detail-sub-title">商品详情（${details.length} 项）</div><div class="detail-sub-wrap"><table class="detail-sub-table"><thead><tr><th>序号</th><th>商品名称</th><th>规格</th><th>数量</th><th>单位</th><th>单价(元)</th><th>小计(元)</th><th>备注</th></tr></thead><tbody>${detailRows}</tbody></table></div>
-    <div class="detail-total">合计：数量 <b>${totalQty}</b>　金额 <b>${fmtMoney(totalAmount)}</b> 元</div>
+    <div class="detail-grid"><div class="dk">订单号</div><div class="dv"><b>${esc(target.code||"")}</b></div><div class="dk">客户名称</div><div class="dv">${esc(target.customer||"—")}</div><div class="dk">配送时间</div><div class="dv"><input id="detailDeliveryTime" value="${esc(target.deliveryTime||"")}" style="padding:6px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--panel2);color:var(--text);font-size:13px;width:200px;outline:none"><button class="btn btn-sm btn-primary" id="saveDeliveryTime" type="button" style="margin-left:8px">保存</button></div><div class="dk">配送地址</div><div class="dv">${addressHtml}</div><div class="dk">下单人</div><div class="dv">${esc(target.orderUser||"—")}</div><div class="dk">下单时间</div><div class="dv">${esc(target.orderTime||"—")}</div><div class="dk">配送日期</div><div class="dv">${esc(target.deliveryDate||"—")}</div><div class="dk">下单日期</div><div class="dv">${esc(target.orderDate||"—")}</div></div>
+    <div class="detail-sub-title">商品详情（${details.length} 项）</div><div class="detail-sub-wrap"><table class="detail-sub-table"><thead><tr><th>序号</th><th>商品名称</th><th>规格</th><th>数量</th><th>单位</th><th>单价(元)</th><th>小计(元)</th><th>备注</th></tr></thead><tbody>${detailRows}${footRow}</tbody></table></div>
     <div class="detail-actions"><button class="btn" id="detEdit" type="button">编辑订单</button><button class="btn btn-ok" id="detAudit" type="button" ${(target._status==="pending"||target._status==="rejected")?"":"disabled"}>审核</button><button class="btn btn-danger" id="detDel" type="button">删除订单</button></div>`,
     buttons:[{id:"close",text:"关闭",onClick:closeModal}]});
   const sb=document.getElementById("saveDeliveryTime");if(sb)sb.onclick=()=>{const v=document.getElementById("detailDeliveryTime").value.trim();if(!v){toast("配送时间不能为空");return;}target.deliveryTime=v;toast("配送时间已保存");};
   document.getElementById("detEdit").onclick=()=>{closeModal();openFormModal(row,target,true);};
   const ab=document.getElementById("detAudit");if(ab&&!ab.disabled)ab.onclick=()=>{closeModal();openAuditModal(row,id);};
   document.getElementById("detDel").onclick=()=>{closeModal();confirmDelete([id],row);};
+  document.querySelectorAll("#modalBody .map-icon").forEach(el => {
+      el.onclick = (e) => { e.stopPropagation(); openMapModal(el.dataset.address); };
+  });
 }
+
 function openDetailModal(row,id){
   if(isSalesOrder(row)){openSalesOrderDetail(row,id);return;}
   const tpl=getTpl(row),target=state.data[row.id].find(r=>r.id===id);if(!target)return;
   let rowsHtml=tpl.f.map(f=>{
-    let v=target[f.k];if(v==null||v==="")v="—";if(f.t==="number"&&/金额|价格|成本|单价|工资/.test(f.l))v=fmtMoney(v);
+    let v=target[f.k];if(v==null||v==="")v="—";
     const link = getLink(row.l3, f.k);
     const linkHTML = link ? `<span class="link-badge" data-link-l3="${esc(row.l3)}" data-link-k="${esc(f.k)}" data-link-v="${esc(String(v))}">关联</span>` : "";
-    return `<div class="dk">${esc(f.l)}</div><div class="dv" title="${esc(v)}">${esc(v)}${linkHTML}</div>`;
+    const displayVal = (f.k === "qr" && /^https?:\/\//.test(String(v))) ? qrThumbHTML(v, 96) : formatCellValue(f, v);
+    return `<div class="dk">${esc(f.l)}</div><div class="dv" title="${esc(v)}">${displayVal}${linkHTML}</div>`;
   }).join("");
   const si=STATUS[target._status]||{text:target._status,cls:"muted"};
   openModal({title:`详情 · ${row.l3}`,body:`<div class="detail-grid">${rowsHtml}</div><div class="detail-status"><span>状态：<span class="tag ${si.cls}">${si.text}</span></span><span>创建时间：<b>${esc(target._created||"")}</b></span><span>记录ID：<b>${esc(target.id)}</b></span></div><div class="detail-actions"><button class="btn" id="detEdit">编辑此条</button><button class="btn btn-ok" id="detAudit" ${(target._status==="pending"||target._status==="rejected")?"":"disabled"}>审核此条</button><button class="btn btn-danger" id="detDel">删除此条</button></div>`,buttons:[{id:"close",text:"关闭",onClick:closeModal}]});
   document.getElementById("detEdit").onclick=()=>{closeModal();openFormModal(row,target,true);};
   const ab=document.getElementById("detAudit");if(ab&&!ab.disabled)ab.onclick=()=>{closeModal();openAuditModal(row,id);};
   document.getElementById("detDel").onclick=()=>{closeModal();confirmDelete([id],row);};
-  // 详情里点击关联
   document.querySelectorAll("#modalBody .link-badge").forEach(el=>{
     el.onclick = (e) => { e.stopPropagation(); openLinkModal(el.dataset.linkL3, el.dataset.linkK, el.dataset.linkV); };
+  });
+  document.querySelectorAll("#modalBody .map-icon").forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); openMapModal(el.dataset.address); };
+  });
+  document.querySelectorAll("#modalBody .qr-thumb").forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); openQrModal(el.dataset.qr); };
   });
 }
 
@@ -929,7 +2112,14 @@ function chartPageHTML(row){
 }
 
 const contentEl=$("content");
-function renderContent(){if(state.activeId==null){contentEl.innerHTML=overviewHTML();return;}const row=MENUS[state.activeId];if(isFlowPage(row))contentEl.innerHTML=flowPageHTML(row);else if(isChartPage(row))contentEl.innerHTML=chartPageHTML(row);else contentEl.innerHTML=listPageHTML(row);}
+function renderContent(){
+  if(state.activeId==null){contentEl.innerHTML=overviewHTML();return;}
+  const row=MENUS[state.activeId];
+  if(row.l3==="产品与物料"){contentEl.innerHTML=productMaterialPageHTML(row);}
+  else if(isFlowPage(row))contentEl.innerHTML=flowPageHTML(row);
+  else if(isChartPage(row))contentEl.innerHTML=chartPageHTML(row);
+  else contentEl.innerHTML=listPageHTML(row);
+}
 function renderAll(){renderSidebar();renderTabs();renderCrumb();renderContent();}
 function openMenu(id){const row=MENUS[id];if(!row)return;state.activeId=id;if(!state.tabs.some(t=>t.id===id))state.tabs.push({id,l3:row.l3});state.expandedL1.add(row.l1);state.expandedL2.add(row.l1+"||"+row.l2);renderAll();contentEl.scrollTop=0;}
 function closeTab(id){const idx=state.tabs.findIndex(t=>t.id===id);if(idx===-1)return;state.tabs.splice(idx,1);if(state.activeId===id){const next=state.tabs[idx]||state.tabs[idx-1];state.activeId=next?next.id:null;}renderAll();}
@@ -1036,25 +2226,28 @@ crumbEl.addEventListener("click",e=>{
   const l2=e.target.closest("[data-cl2]");if(l2){const k=l2.dataset.cl2;state.expandedL1.add(k.split("||")[0]);state.expandedL2.add(k);renderSidebar();}
 });
 contentEl.addEventListener("click",e=>{
-  // 关联标签点击（最高优先级，避免触发行点击）
+  const qrImg = e.target.closest(".qr-thumb");
+  if(qrImg){ e.stopPropagation(); openQrModal(qrImg.dataset.qr); return; }
+  const ov2 = e.target.closest("[data-ov2]");
+  if(ov2){ e.stopPropagation(); const k=ov2.dataset.ov2, parts=k.split("||"), l1=parts[0], l2=parts[1];
+    const first=MENUS.find(m=>m.l1===l1&&m.l2===l2);
+    if(first){ state.expandedL1.add(l1); state.expandedL2.add(k); openMenu(first.id); } return; }
+  const card = e.target.closest("[data-card]");
+  if(card){ e.stopPropagation(); const l1=card.dataset.card; const first=MENUS.find(m=>m.l1===l1);
+    if(first){ state.expandedL1.add(l1); openMenu(first.id); } return; }
   const linkBadge = e.target.closest(".link-badge");
-  if(linkBadge){
-    e.stopPropagation();
-    openLinkModal(linkBadge.dataset.linkL3, linkBadge.dataset.linkK, linkBadge.dataset.linkV);
-    return;
-  }
-  if(e.target.id==="quickOpen"){const t=MENUS.find(m=>m.l3==="物料主数据");if(t)openMenu(t.id);return;}
-  if(e.target.id==="quickOrder"){const t=MENUS.find(m=>m.l3==="销售订单");if(t)openMenu(t.id);return;}
-  if(e.target.id==="quickFlow"){const t=MENUS.find(m=>m.l3==="全局业务流程图");if(t)openMenu(t.id);return;}
-  if(e.target.id==="quickChart"){const t=MENUS.find(m=>m.l3==="经营驾驶舱");if(t)openMenu(t.id);return;}
-  const card=e.target.closest("[data-card]");if(card){const l1=card.dataset.card;const first=MENUS.find(m=>m.l1===l1);if(first)openMenu(first.id);return;}
+  if(linkBadge){ e.stopPropagation(); openLinkModal(linkBadge.dataset.linkL3, linkBadge.dataset.linkK, linkBadge.dataset.linkV); return; }
+  const pmLink = e.target.closest("[data-pm-detail]");
+  if(pmLink){ e.stopPropagation(); openPMDetailModal(Number(pmLink.dataset.pmDetail)); return; }
+  const mapIcon = e.target.closest(".map-icon");
+  if(mapIcon){ e.stopPropagation(); openMapModal(mapIcon.dataset.address); return; }
   if(e.target.id==="chartRefresh"){renderContent();toast("已刷新图表数据");return;}
   if(e.target.id==="chartExport"){const row=MENUS[state.activeId];const lines=["指标,数值,同比"];["销售收入","毛利","订单数","回款","库存"].forEach((k,i)=>lines.push(`${k},${100+i*20},${(i+1)*2}%`));const blob=new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`${row.l3}_${Date.now()}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),1000);toast("图表数据已导出");return;}
   if(e.target.id==="moreBtn"){const d=$("moreDropdown");if(d)d.classList.toggle("open");return;}
   if(e.target.closest("[data-more]")){const item=e.target.closest("[data-more]");const row=MENUS[state.activeId];const d=$("moreDropdown");if(d)d.classList.remove("open");runMoreAction(item.dataset.more,row);return;}
   document.querySelectorAll(".dropdown.open").forEach(d=>{if(!e.target.closest(".dropdown"))d.classList.remove("open");});
   if(state.activeId==null)return;
-  const row=MENUS[state.activeId];if(isChartPage(row)||isFlowPage(row))return;
+  const row=MENUS[state.activeId];if(isChartPage(row)||isFlowPage(row)||row.l3==="产品与物料")return;
   if(e.target.id==="addBtn"){openFormModal(row,null,false);return;}
   if(e.target.id==="batchAuditBtn"){const sel=state.selected[row.id]||new Set();if(!sel.size){toast("请先勾选记录");return;}openModal({title:"批量审核",body:`<div class="audit-info">确认要审核选中的 <b>${sel.size}</b> 条记录吗？处理人：龚先生</div>`,buttons:[{id:"cancel",text:"取消",onClick:closeModal},{id:"ok",text:"全部通过",cls:"btn-ok",onClick:()=>{state.data[row.id].forEach(r=>{if(sel.has(r.id))r._status="approved";});toast(`已审核 ${sel.size} 条记录`);closeModal();renderContent();}}]});return;}
   if(e.target.id==="batchDelBtn"){const sel=state.selected[row.id]||new Set();if(!sel.size){toast("请先勾选记录");return;}confirmDelete(Array.from(sel),row);return;}
@@ -1070,8 +2263,8 @@ contentEl.addEventListener("click",e=>{
   const tr=e.target.closest("tr[data-row-id]");if(tr&&!e.target.closest("button")&&!e.target.closest("input")&&!e.target.closest(".col-actions")){openDetailModal(row,Number(tr.dataset.rowId));return;}
   const segBtn=e.target.closest("#chartSeg button");if(segBtn){document.querySelectorAll("#chartSeg button").forEach(b=>b.classList.remove("active"));segBtn.classList.add("active");toast("已切换："+segBtn.textContent);return;}
 });
-contentEl.addEventListener("input",e=>{if(state.activeId==null)return;const row=MENUS[state.activeId];if(isChartPage(row)||isFlowPage(row))return;if(e.target.id==="qInput"){state.q[row.id]=e.target.value.trim();state.page[row.id]=1;renderContent();}if(e.target.id==="dateFromInput"){state.dateFrom[row.id]=e.target.value;state.page[row.id]=1;renderContent();}if(e.target.id==="dateToInput"){state.dateTo[row.id]=e.target.value;state.page[row.id]=1;renderContent();}});
-contentEl.addEventListener("change",e=>{if(state.activeId==null)return;const row=MENUS[state.activeId];if(isChartPage(row)){if(e.target.id==="chartDimSel"){state.chartDim[row.id]=e.target.value;renderContent();toast("已切换维度："+e.target.value);}return;}if(isFlowPage(row))return;if(e.target.id==="fStatus"){state.fStatus[row.id]=e.target.value;state.page[row.id]=1;renderContent();}if(e.target.id==="pageSizeSel"){state.pageSize[row.id]=Number(e.target.value);state.page[row.id]=1;renderContent();}});
+contentEl.addEventListener("input",e=>{if(state.activeId==null)return;const row=MENUS[state.activeId];if(isChartPage(row)||isFlowPage(row)||row.l3==="产品与物料")return;if(e.target.id==="qInput"){state.q[row.id]=e.target.value.trim();state.page[row.id]=1;renderContent();}if(e.target.id==="dateFromInput"){state.dateFrom[row.id]=e.target.value;state.page[row.id]=1;renderContent();}if(e.target.id==="dateToInput"){state.dateTo[row.id]=e.target.value;state.page[row.id]=1;renderContent();}});
+contentEl.addEventListener("change",e=>{if(state.activeId==null)return;const row=MENUS[state.activeId];if(isChartPage(row)){if(e.target.id==="chartDimSel"){state.chartDim[row.id]=e.target.value;renderContent();toast("已切换维度："+e.target.value);}return;}if(isFlowPage(row)||row.l3==="产品与物料")return;if(e.target.id==="fStatus"){state.fStatus[row.id]=e.target.value;state.page[row.id]=1;renderContent();}if(e.target.id==="pageSizeSel"){state.pageSize[row.id]=Number(e.target.value);state.page[row.id]=1;renderContent();}});
 const backTop=$("backTop");backTop.onclick=()=>contentEl.scrollTo({top:0,behavior:"smooth"});
 contentEl.addEventListener("scroll",()=>backTop.classList.toggle("show",contentEl.scrollTop>260));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(modalWrap.classList.contains("show")){closeModal();return;}if(state.activeId!=null)closeTab(state.activeId);}});
