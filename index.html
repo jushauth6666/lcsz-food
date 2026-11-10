@@ -464,7 +464,8 @@ function openQrModal(v){
 /* ============ 菜单数据 ============ */
 const M=(l1,l2,l3,p,b)=>({l1,l2,l3,p,b});
 const RAW=[
-M("产品与配方","物料与产品","产品与物料","左侧物料产品分类树，右侧列表查询与分页显示。点击物料编码可查看详情及页签。","新增、导入、导出、编辑、删除、标签打印"),
+M("产品与配方","物料与产品","产品管理","左侧产品分类树，右侧列表查询与分页显示。点击产品编码可查看详情及页签。","新增、导入、导出、编辑、删除、标签打印"),
+M("产品与配方","物料与产品","物料管理","左侧物料分类树，右侧列表查询与分页显示。点击物料编码可查看详情及页签。","新增、导入、导出、编辑、删除、标签打印"),
 M("产品与配方","物料与产品","计量单位与换算","左侧计量单位列表，右侧换算关系矩阵，顶部为物料与单位筛选。","新增单位、新增换算、修改、删除、启用/停用、批量导入换算关系、单位换算试算"),
 M("产品与配方","物料与产品","标签模板","上部为标签模板列表，右侧可视化模板设计区，下部为打印预览。","新增模板、字段绑定、条码/二维码设置、打印预览、打印测试、另存版本、设默认模板、启用/停用、导入导出模板文件"),
 M("产品与配方","配方管理","配方成本","上部为核算参数，中部为单位成本构成饼图与明细表，下部为按物料的价格来源明细。","重新核算、成本模拟、明细穿透、导出成本表、版本对比、同步至报价"),
@@ -581,7 +582,7 @@ const STATUS={pending:{text:"待审核",cls:"warn"},approved:{text:"已审核",c
 /* ============ 单号 & 关联映射 ============ */
 const DOC_NO_KEYS = ["code","po","wo","orderNo","reqCode","batch","box","inNo","outNo","reportNo","rwNo","docNo","certNo","no","barcode"];
 const CODE_PREFIX_BY_L3 = {
-  "产品与物料":"ITEM","计量单位与换算":"U","标签模板":"LB",
+  "产品管理":"ITEM", "物料管理":"ITEM", "计量单位与换算":"U","标签模板":"LB",
   "配方成本":"BC",
   "工序库":"PR","工艺路线":"RT","工艺版本管理":"BB",
   "生产计划（MPS）":"MPS","物料需求计划（MRP）":"MRP",
@@ -1515,6 +1516,9 @@ const T={
  "版本与升级":{f:[F("ver","版本号","text",0,1),F("client","端类型","select",["服务端","APP","小程序"]),F("date","发布日期","date"),F("content","更新内容"),F("module","影响模块"),F("gray","灰度比例与范围"),F("force","强制更新标识","select",["是","否"]),F("pkg","安装包/小程序版本"),F("audit","审核状态","select",["待审核","已通过","已驳回"]),F("online","上线状态","select",["未上线","灰度中","全量上线"]),F("rollback","回滚版本")],c:["ver","client","date","content","online","gray"]}
 };
 
+T["产品管理"] = T["产品与物料"];
+T["物料管理"] = T["产品与物料"];
+
 const CHART_CFG = {
   "经营驾驶舱":{kpi:[["销售收入","326.8","万元",8.2],["毛利额","98.4","万元",5.6],["订单数","1,286","单",12.3],["回款额","312.5","万元",-2.1]],titles:["月度销售收入（万元）","产量与销售趋势","成本构成","订单状态分布","产品销量排行","仓储库存分布","部门人效（万元/人）"]},
   "销售与客户分析":{kpi:[["销售额","326.8","万元",8.2],["客户数","486","个",3.5],["订单均价","2,540","元/单",-1.8],["流失率","4.2","%",-0.6]],titles:["月度销售额（万元）","客户回款趋势（万元）","客户类型占比","订单状态","产品销售排行","区域销量分布","销售员业绩（万元）"]},
@@ -1526,7 +1530,7 @@ const CHART_CFG = {
   "配送分析":{kpi:[["配送单量","1,842","单",6.8],["准时率","96.2","%",1.5],["拒收率","0.8","%",-0.3],["装载率","82.4","%",2.1]],titles:["配送单量趋势","准时送达率（%）","拒收原因占比","车辆装载率","线路配送量排行","客户配送量排行","配送成本（元/单）"]}
 };
 
-const state={keyword:"",activeId:null,tabs:[],expandedL1:new Set(),expandedL2:new Set(),collapsed:false,data:{},page:{},pageSize:{},q:{},fStatus:{},selected:{},chartDim:{},dateFrom:{},dateTo:{}};
+const state={keyword:"",activeId:null,tabs:[],expandedL1:new Set(),expandedL2:new Set(),collapsed:false,data:{},page:{},pageSize:{},q:{},advSearch:{},selected:{},chartDim:{}};
 state.expandedL1.add(MENUS[0].l1); state.expandedL2.add(MENUS[0].l1+"||"+MENUS[0].l2);
 
 const $=id=>document.getElementById(id);
@@ -1558,15 +1562,14 @@ function ensureData(row){
   const list=[];
   const sts=["pending","approved","rejected","pending","approved","done","pending","approved"];
 
-  if (row.l3 === "产品与物料") {
-    const catOptions = ["原材料", "辅料", "包材", "半成品", "产成品"];
-    const names = ["高筋面粉","白砂糖","奶油奶酪","活性酵母","黄油","全脂奶粉","鸡蛋液","山梨酸钾","复合包装袋","瓦楞纸箱","奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕"];
-    const specs = ["25kg/袋","50kg/袋","10kg/箱","1kg/袋","25kg/箱","80g/个","400g/条","250g/盒","60g/个","70g/个","85g/个","450g/条","200g/盒"];
-    for(let i=0; i<152; i++){
-      const isProduct = i % 4 === 0 ? "产品" : "物料";
+  if (row.l3 === "产品管理") {
+    const catOptions = ["半成品", "产成品"];
+    const names = ["奶油面包","全麦吐司","芝士蛋糕","椰蓉餐包","牛角可颂","红豆面包","肉松吐司","抹茶蛋糕","手撕包","丹麦酥","蓝莓贝果","黑森林蛋糕"];
+    const specs = ["400g/条","80g/个","250g/盒","60g/个","70g/个","85g/个","450g/条","200g/盒"];
+    for(let i=0; i<76; i++){
       const name = names[i % names.length];
       const spec = specs[i % specs.length];
-      const unit = ["kg", "袋", "箱", "个", "盒", "条"][i % 6];
+      const unit = ["个", "盒", "条"][i % 3];
       const cat = catOptions[i % catOptions.length];
       list.push({
         id: row.id*10000+i,
@@ -1577,7 +1580,40 @@ function ensureData(row){
         spec: spec,
         unit: unit,
         cat: cat,
-        type: isProduct,
+        type: "产品",
+        safe: i % 2 === 0 ? "是" : "否",
+        status: "开启",
+        batch: "开启",
+        shelf: [7, 30, 180][i%3],
+        storage: ["常温", "冷藏", "冷冻"][i%3],
+        allergen: ["无", "含麸质", "含乳制品", "含蛋制品"][i%4],
+        standard: ["GB/T 1355", "GB/T 317", "GB 7099"][i%3],
+        supplier: "内部生产"
+      });
+    }
+    state.data[row.id] = list;
+    return list;
+  }
+
+  if (row.l3 === "物料管理") {
+    const catOptions = ["原材料", "辅料", "包材"];
+    const names = ["高筋面粉","白砂糖","奶油奶酪","活性酵母","黄油","全脂奶粉","鸡蛋液","山梨酸钾","复合包装袋","瓦楞纸箱","不干胶标签","保鲜膜","纸托","烘焙油纸","红豆沙","肉松","抹茶粉","椰蓉"];
+    const specs = ["25kg/袋","50kg/袋","10kg/箱","1kg/袋","25kg/箱"];
+    for(let i=0; i<76; i++){
+      const name = names[i % names.length];
+      const spec = specs[i % specs.length];
+      const unit = ["kg", "袋", "箱"][i % 3];
+      const cat = catOptions[i % catOptions.length];
+      list.push({
+        id: row.id*10000+i,
+        _status: sts[i%sts.length],
+        _created: `2026-10-20 15:${String((i*7)%60).padStart(2,'0')}:00`,
+        code: "ITEM202610200000" + String(29 - (i%29)).padStart(2,"0"),
+        name: name,
+        spec: spec,
+        unit: unit,
+        cat: cat,
+        type: "物料",
         safe: i % 2 === 0 ? "是" : "否",
         status: "开启",
         batch: "开启",
@@ -1850,6 +1886,8 @@ function overviewHTML(){
 function productMaterialPageHTML(row) {
   ensureData(row);
   const all = state.data[row.id];
+  const isProduct = row.l3 === "产品管理";
+  
   const rowsHtml = all.slice(0, 10).map(r => `
     <tr>
       <td><a class="code-link" data-pm-detail="${r.id}">${esc(r.code)}</a></td>
@@ -1878,21 +1916,29 @@ function productMaterialPageHTML(row) {
   return `
     <div class="page-head" style="margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--sub)">
-        <span style="color:#2563eb;font-weight:600">产品与物料</span>
+        <span style="color:#2563eb;font-weight:600">${esc(row.l3)}</span>
       </div>
     </div>
     <div class="pm-layout">
       <div class="pm-sidebar">
-        <h4><span style="color:#2563eb">▾</span> 物料产品分类</h4>
+        <h4><span style="color:#2563eb">▾</span> ${isProduct ? '产品' : '物料'}分类</h4>
         <ul class="pm-tree">
-          <li><div class="node-title"><span style="font-size:10px;opacity:.5">▸</span> 原材料</div></li>
-          <li>
-            <div class="node-title active"><span style="font-size:10px;opacity:1">▾</span> 产品</div>
-            <ul class="children">
-              <li><div class="node-title">半成品</div></li>
-              <li><div class="node-title">产成品</div></li>
-            </ul>
-          </li>
+          ${isProduct ? `
+            <li><div class="node-title active"><span style="font-size:10px;opacity:1">▾</span> 产品</div>
+              <ul class="children">
+                <li><div class="node-title">半成品</div></li>
+                <li><div class="node-title">产成品</div></li>
+              </ul>
+            </li>
+          ` : `
+            <li><div class="node-title active"><span style="font-size:10px;opacity:1">▾</span> 物料</div>
+              <ul class="children">
+                <li><div class="node-title">原材料</div></li>
+                <li><div class="node-title">辅料</div></li>
+                <li><div class="node-title">包材</div></li>
+              </ul>
+            </li>
+          `}
         </ul>
       </div>
       <div class="pm-main">
@@ -1919,7 +1965,7 @@ function productMaterialPageHTML(row) {
             <tbody>${rowsHtml}</tbody>
           </table>
           <div class="pager" style="justify-content:flex-end;padding:16px;background:var(--panel);border-top:1px solid var(--bd)">
-            <span style="margin-right:16px;color:var(--sub)">共 152 条</span>
+            <span style="margin-right:16px;color:var(--sub)">共 ${all.length} 条</span>
             <select style="margin-right:16px"><option>10条/页</option><option>20条/页</option></select>
             <div class="pages">
               <button class="pg" disabled>‹</button>
@@ -2023,15 +2069,82 @@ function openMapModal(address){
 
 /* ============ 列表页 ============ */
 const getPageSize=id=>state.pageSize[id]||10,getCurPage=id=>state.page[id]||1;
+
+function getSearchFields(tpl) {
+  const fields = [];
+  const st = tpl.f.find(f=>f.k==='status');
+  if (st) fields.push({ key: 'status', label: '状态', type: 'select', opts: st.opts || ['启用','停用','开启','关闭'] });
+
+  if (tpl.f.some(f=>f.k==='customer' || f.l.includes('客户'))) fields.push({ key: 'customer', label: '客户', type: 'text' });
+  if (tpl.f.some(f=>['orderNo','soNo','wo','po'].includes(f.k) || f.l.includes('订单') || f.l.includes('单号'))) fields.push({ key: 'orderNo', label: '单号', type: 'text' });
+  if (tpl.f.some(f=>['phone','dPhone','mobile'].includes(f.k) || f.l.includes('电话') || f.l.includes('手机'))) fields.push({ key: 'phone', label: '电话', type: 'text' });
+  if (tpl.f.some(f=>f.k==='supplier' || f.l.includes('供应商'))) fields.push({ key: 'supplier', label: '供应商', type: 'text' });
+  if (tpl.f.some(f=>f.k==='line' || f.l.includes('产线'))) fields.push({ key: 'line', label: '产线', type: 'select', opts: ['一线','二线','三线'] });
+  if (tpl.f.some(f=>['material','物料'].some(x=>f.k===x || f.l.includes(x)))) fields.push({ key: 'material', label: '物料', type: 'text' });
+  if (tpl.f.some(f=>['applicant','申请人'].some(x=>f.k===x || f.l.includes(x)))) fields.push({ key: 'applicant', label: '申请人', type: 'text' });
+  
+  // 新增：产品、编码、名称
+  if (tpl.f.some(f=>f.k==='product' || f.l.includes('产品'))) fields.push({ key: 'product', label: '产品', type: 'text' });
+  if (tpl.f.some(f=>f.k==='code' || f.l.includes('编码'))) fields.push({ key: 'code', label: '编码', type: 'text' });
+  if (tpl.f.some(f=>f.k==='name' || f.l.includes('名称'))) fields.push({ key: 'name', label: '名称', type: 'text' });
+
+  return fields.filter((v,i,a)=>a.findIndex(t=>t.key===v.key)===i);
+}
+
 function filterRowsForRow(row,tpl){
-  const all=state.data[row.id],q=(state.q[row.id]||"").toLowerCase(),f=state.fStatus[row.id]||"",so=isSalesOrder(row),df=state.dateFrom[row.id]||"",dt=state.dateTo[row.id]||"";
+  const all=state.data[row.id],q=(state.q[row.id]||"").toLowerCase(),adv=state.advSearch[row.id]||{};
   return all.filter(r=>{
     if(q){
-      if(so){if(!String(r.customer||"").toLowerCase().includes(q))return false;}
-      else{const hit=tpl.c.some(c=>String(r[c]??"").toLowerCase().includes(q))||(r.details&&r.details.some(d=>JSON.stringify(d).toLowerCase().includes(q)))||(STATUS[r._status]||{}).text.includes(q);if(!hit)return false;}
+      const hit=tpl.c.some(c=>String(r[c]??"").toLowerCase().includes(q))||(r.details&&r.details.some(d=>JSON.stringify(d).toLowerCase().includes(q)))||(STATUS[r._status]||{}).text.includes(q);
+      if(!hit)return false;
     }
-    if(f&&r._status!==f)return false;
-    if(so){const d=r.deliveryDate||"";if(df&&d<df)return false;if(dt&&d>dt)return false;}
+    
+    if(adv.status && r.status !== adv.status && r._status !== adv.status && (STATUS[r._status]||{}).text !== adv.status) return false;
+    if(adv.customer && !String(r.customer||r.name||'').includes(adv.customer)) return false;
+    
+    if(adv.orderNo) {
+       const orderKeys = ['orderNo', 'soNo', 'wo', 'po', 'code', 'reqCode', 'inNo', 'outNo', 'reportNo', 'docNo'];
+       if(!orderKeys.some(k => String(r[k]||'').includes(adv.orderNo))) return false;
+    }
+    
+    if(adv.phone) {
+       const phoneKeys = ['phone', 'dPhone', 'mobile'];
+       if(!phoneKeys.some(k => String(r[k]||'').includes(adv.phone))) return false;
+    }
+    
+    if(adv.supplier && !String(r.supplier||'').includes(adv.supplier)) return false;
+    if(adv.line && r.line !== adv.line && r.team !== adv.line) return false;
+    
+    if(adv.material) {
+       const matKeys = ['material', 'name'];
+       const match = matKeys.some(k => String(r[k]||'').includes(adv.material)) || 
+                     (r.details && r.details.some(d => String(d.material||d.product||'').includes(adv.material)));
+       if(!match) return false;
+    }
+    
+    if(adv.applicant) {
+       const appKeys = ['applicant', 'emp', 'name', 'orderUser', 'creator'];
+       if(!appKeys.some(k => String(r[k]||'').includes(adv.applicant))) return false;
+    }
+
+    if(adv.product) {
+       const prodKeys = ['product', 'goods', 'name'];
+       if(!prodKeys.some(k => String(r[k]||'').includes(adv.product)) && !(r.details && r.details.some(d=>String(d.product||'').includes(adv.product)))) return false;
+    }
+    
+    if(adv.code) {
+       const codeKeys = ['code', 'mCode', 'wo', 'po', 'orderNo', 'reqCode', 'inNo', 'outNo', 'docNo', 'barcode'];
+       if(!codeKeys.some(k => String(r[k]||'').includes(adv.code))) return false;
+    }
+    
+    if(adv.name) {
+       const nameKeys = ['name', 'customer', 'supplier', 'material', 'product'];
+       if(!nameKeys.some(k => String(r[k]||'').includes(adv.name))) return false;
+    }
+    
+    if(adv.dateStart && r._created && r._created.slice(0,10) < adv.dateStart) return false;
+    if(adv.dateEnd && r._created && r._created.slice(0,10) > adv.dateEnd) return false;
+    
     return true;
   });
 }
@@ -2080,11 +2193,11 @@ function listPageHTML(row){
   const noAudit=noAuditPage(row);
   const detailKeys=tpl.details?tpl.details.fields.map(df=>df.k):[];
   const extraLinkCols = Object.keys(LINKS).filter(k=>k.startsWith(row.l3+".")).map(k=>k.split(".")[1]).filter(k=>!tpl.c.includes(k)&&!detailKeys.includes(k));
-  const displayCols = so ? ["code","customer","deliveryDate","orderDate","specQty","totalAmount","finStatus","status"] : [...tpl.c, ...extraLinkCols];
+  const displayCols = so ? ["code","customer","deliveryDate","orderDate","totalAmount","finStatus","status","detailsCount"] : [...tpl.c, ...extraLinkCols];
   const hasDetailCol=!so&&!!tpl.details;
 
   let headers="";
-  if(so) headers=`<th>订单号</th><th>客户名称</th><th>配送日期</th><th>下单日期</th><th>规格数量</th><th>总金额(元)</th><th>财务状态</th><th>状态</th><th>明细</th>`;
+  if(so) headers=`<th>订单号</th><th>客户名称</th><th>配送日期</th><th>下单日期</th><th>总金额(元)</th><th>财务状态</th><th>状态</th><th>品种数</th>`;
   else {headers=displayCols.map(c=>{const f=tpl.f.find(x=>x.k===c);return `<th>${esc(f?f.l:c)}</th>`;}).join("");if(hasDetailCol)headers+=`<th>物料明细</th>`;}
 
   let sumObj = {};
@@ -2094,7 +2207,7 @@ function listPageHTML(row){
     const checked=sel.has(r.id)?"checked":"";
     if(so){
       const dc=(r.details||[]).length;const stTag=`<span class="tag ${STATUS[r._status]?.cls||'muted'}">${esc(r.status||'')}</span>`;
-      return `<tr class="${sel.has(r.id)?"selected":""}" data-row-id="${r.id}"><td class="col-check"><input type="checkbox" data-check="${r.id}" ${checked}></td><td><b>${esc(r.code)}</b></td><td>${esc(r.customer)}</td><td>${esc(r.deliveryDate||"—")}</td><td>${esc(r.orderDate||"—")}</td><td>${r.specQty}</td><td>${fmtMoney(r.totalAmount)}</td><td>${esc(r.finStatus)}</td><td>${stTag}</td><td><span class="detail-badge">${dc} 项</span></td><td style="color:var(--sub);font-size:12px">${esc(r._created||"")}</td><td class="col-actions"><div class="actions"><button class="btn btn-sm" data-detail="${r.id}">详情</button><button class="btn btn-sm" data-edit="${r.id}">编辑</button><button class="btn btn-sm btn-ok" data-audit="${r.id}" ${(r._status==="pending"||r._status==="rejected")?"":"disabled"}>审核</button><button class="btn btn-sm btn-danger" data-del="${r.id}">删除</button></div></td></tr>`;
+      return `<tr class="${sel.has(r.id)?"selected":""}" data-row-id="${r.id}"><td class="col-check"><input type="checkbox" data-check="${r.id}" ${checked}></td><td><b>${esc(r.code)}</b></td><td>${esc(r.customer)}</td><td>${esc(r.deliveryDate||"—")}</td><td>${esc(r.orderDate||"—")}</td><td>${fmtMoney(r.totalAmount)}</td><td>${esc(r.finStatus)}</td><td>${stTag}</td><td><span class="detail-badge">${dc} 种</span></td><td><span class="tag ${STATUS[r._status]?.cls||'muted'}">${STATUS[r._status]?.text||r._status}</span></td><td style="color:var(--sub);font-size:12px">${esc(r._created||"")}</td><td class="col-actions"><div class="actions"><button class="btn btn-sm" data-detail="${r.id}">详情</button><button class="btn btn-sm" data-edit="${r.id}">编辑</button><button class="btn btn-sm btn-ok" data-audit="${r.id}" ${(r._status==="pending"||r._status==="rejected")?"":"disabled"}>审核</button><button class="btn btn-sm btn-danger" data-del="${r.id}">删除</button></div></td></tr>`;
     }
     displayCols.forEach(c => { const f = tpl.f.find(x=>x.k===c); if (f && f.t === "number") sumObj[c] += Number(r[c]) || 0; });
     const tds = displayCols.map(c=>renderCell(row, c, r[c])).join("");
@@ -2111,9 +2224,9 @@ function listPageHTML(row){
   // 底部合计行
   let footHtml = "";
   if (so) {
-    let totalSpecQty = 0, totalAmount = 0;
-    pageRows.forEach(r => { totalSpecQty += Number(r.specQty)||0; totalAmount += Number(r.totalAmount)||0; });
-    footHtml = `<tr class="detail-total-row"><td class="col-check"></td><td colspan="4" style="text-align:right;color:var(--sub)">本页合计：</td><td><b>${totalSpecQty}</b></td><td><b>${fmtMoney(totalAmount)}</b></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+    let totalAmount = 0;
+    pageRows.forEach(r => { totalAmount += Number(r.totalAmount)||0; });
+    footHtml = `<tr class="detail-total-row"><td class="col-check"></td><td colspan="4" style="text-align:right;color:var(--sub)">本页合计：</td><td><b>${fmtMoney(totalAmount)}</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
   } else if (displayCols.length > 0) {
     let colsHtml = "", hasSum = false;
     displayCols.forEach((c, idx) => {
@@ -2127,9 +2240,35 @@ function listPageHTML(row){
 
   let pagesHtml="";let from=Math.max(1,cur-3),to=Math.min(totalPages,from+6);if(to-from+1<7)from=Math.max(1,to-6);for(let i=from;i<=to;i++)pagesHtml+=`<button class="pg ${i===cur?"active":""}" data-pg="${i}">${i}</button>`;
 
-  let toolbarHtml;
-  if(so){toolbarHtml=`<div class="toolbar"><input class="tb-search" id="qInput" placeholder="搜索客户名称..." value="${esc(state.q[row.id]||"")}"><span class="date-sep">配送日期</span><input type="date" id="dateFromInput" value="${esc(state.dateFrom[row.id]||"")}"><span class="date-sep">至</span><input type="date" id="dateToInput" value="${esc(state.dateTo[row.id]||"")}"><select id="fStatus"><option value="">全部状态</option>${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${state.fStatus[row.id]===k?"selected":""}>${v.text}</option>`).join("")}</select><button class="btn" id="resetBtn">重置</button><div class="spacer"></div><span style="font-size:12.5px;color:var(--mute)">共 ${filtered.length} 条筛选结果</span></div>`;}
-  else{toolbarHtml=`<div class="toolbar"><input class="tb-search" id="qInput" placeholder="搜索关键字..." value="${esc(state.q[row.id]||"")}"><select id="fStatus"><option value="">全部状态</option>${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${state.fStatus[row.id]===k?"selected":""}>${v.text}</option>`).join("")}</select><button class="btn" id="resetBtn">重置</button><div class="spacer"></div><span style="font-size:12.5px;color:var(--mute)">共 ${filtered.length} 条筛选结果 · 点行查看详情 · 红色「关联」可查看关联单据</span></div>`;}
+  const adv = state.advSearch[row.id] || {};
+  const searchFields = getSearchFields(tpl);
+  let advHtml = searchFields.map(f => {
+    if(f.type==='select') {
+      return `<div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sub)">${f.label}:
+        <select class="adv-select" data-k="${f.key}" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--panel2);color:var(--text);outline:none;height:32px">
+          <option value="">全部</option>
+          ${(f.opts||[]).map(o => `<option value="${o}" ${adv[f.key]===o?'selected':''}>${o}</option>`).join('')}
+        </select>
+      </div>`;
+    } else {
+      return `<div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sub)">${f.label}:
+        <input class="adv-input" data-k="${f.key}" placeholder="输入${f.label}" value="${esc(adv[f.key]||'')}" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--panel2);color:var(--text);outline:none;width:120px;height:32px">
+      </div>`;
+    }
+  }).join('');
+
+  advHtml += `<div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sub)">
+      时间: <input type="date" class="adv-date" data-k="dateStart" value="${adv.dateStart||''}" style="padding:5px;border-radius:6px;border:1px solid var(--bd);background:var(--panel2);color:var(--text);height:32px"> 至 
+      <input type="date" class="adv-date" data-k="dateEnd" value="${adv.dateEnd||''}" style="padding:5px;border-radius:6px;border:1px solid var(--bd);background:var(--panel2);color:var(--text);height:32px">
+  </div>`;
+
+  let toolbarHtml = `<div class="toolbar" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px;background:var(--panel);border-radius:var(--r);border:1px solid var(--bd);margin-bottom:12px">
+    <input class="tb-search" id="qInput" placeholder="全局搜索..." value="${esc(state.q[row.id]||"")}" style="flex:1;min-width:150px;max-width:180px;margin:0;height:32px">
+    ${advHtml}
+    <button class="btn" id="resetBtn" style="height:32px">重置</button>
+    <div class="spacer" style="flex:1"></div>
+    <span style="font-size:12.5px;color:var(--mute)">共 ${filtered.length} 条筛选结果</span>
+  </div>`;
 
   const moreBtns=parseButtons(row.b);
   const moreMenu=moreBtns.length?`<div class="dropdown" id="moreDropdown"><button class="btn" id="moreBtn">更多操作 ▾</button><div class="dropdown-menu">${moreBtns.map((b,i)=>`<div class="dropdown-item" data-more="${esc(b)}" data-idx="${i}"><span class="di-ico">▸</span>${esc(b)}</div>`).join("")}</div></div>`:"";
@@ -2193,9 +2332,9 @@ function openSalesOrderDetail(row,id){
   const addressHtml = target.address ? `${esc(target.address)} <span class="map-icon" data-address="${esc(target.address)}">📍</span>` : "—";
 
   openModal({title:`订单详情 · ${esc(target.code||"")}`,
-    body:`<div class="detail-status"><span>订单状态：<span class="tag ${stCls}">${esc(stTxt)}</span></span><span>明细数：<b>${details.length}</b> 项</span></div>
+    body:`<div class="detail-status"><span>订单状态：<span class="tag ${stCls}">${esc(stTxt)}</span></span><span>品种数：<b>${details.length}</b> 种</span></div>
     <div class="detail-grid"><div class="dk">订单号</div><div class="dv"><b>${esc(target.code||"")}</b></div><div class="dk">客户名称</div><div class="dv">${esc(target.customer||"—")}</div><div class="dk">配送时间</div><div class="dv"><input id="detailDeliveryTime" value="${esc(target.deliveryTime||"")}" style="padding:6px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--panel2);color:var(--text);font-size:13px;width:200px;outline:none"><button class="btn btn-sm btn-primary" id="saveDeliveryTime" type="button" style="margin-left:8px">保存</button></div><div class="dk">配送地址</div><div class="dv">${addressHtml}</div><div class="dk">下单人</div><div class="dv">${esc(target.orderUser||"—")}</div><div class="dk">下单时间</div><div class="dv">${esc(target.orderTime||"—")}</div><div class="dk">配送日期</div><div class="dv">${esc(target.deliveryDate||"—")}</div><div class="dk">下单日期</div><div class="dv">${esc(target.orderDate||"—")}</div></div>
-    <div class="detail-sub-title">商品详情（${details.length} 项）</div><div class="detail-sub-wrap"><table class="detail-sub-table"><thead><tr><th>序号</th><th>商品名称</th><th>规格</th><th>数量</th><th>单位</th><th>单价(元)</th><th>小计(元)</th><th>备注</th></tr></thead><tbody>${detailRows}${footRow}</tbody></table></div>
+    <div class="detail-sub-title">商品详情（${details.length} 种）</div><div class="detail-sub-wrap"><table class="detail-sub-table"><thead><tr><th>序号</th><th>商品名称</th><th>规格</th><th>数量</th><th>单位</th><th>单价(元)</th><th>小计(元)</th><th>备注</th></tr></thead><tbody>${detailRows}${footRow}</tbody></table></div>
     <div class="detail-actions"><button class="btn" id="detEdit" type="button">编辑订单</button><button class="btn btn-ok" id="detAudit" type="button" ${(target._status==="pending"||target._status==="rejected")?"":"disabled"}>审核</button><button class="btn btn-danger" id="detDel" type="button">删除订单</button></div>`,
     buttons:[{id:"close",text:"关闭",onClick:closeModal}]});
   const sb=document.getElementById("saveDeliveryTime");if(sb)sb.onclick=()=>{const v=document.getElementById("detailDeliveryTime").value.trim();if(!v){toast("配送时间不能为空");return;}target.deliveryTime=v;toast("配送时间已保存");};
@@ -2484,7 +2623,7 @@ function renderContent(){
   if(state.activeId==null){contentEl.innerHTML=overviewHTML();return;}
   const row=MENUS[state.activeId];
   if(row.l3==="车间生产看板"){contentEl.innerHTML=workshopDashboardHTML(row);}
-  else if(row.l3==="产品与物料"){contentEl.innerHTML=productMaterialPageHTML(row);}
+  else if(row.l3==="产品管理" || row.l3==="物料管理"){contentEl.innerHTML=productMaterialPageHTML(row);}
   else if(isFlowPage(row))contentEl.innerHTML=flowPageHTML(row);
   else if(isChartPage(row))contentEl.innerHTML=chartPageHTML(row);
   else contentEl.innerHTML=listPageHTML(row);
@@ -2517,7 +2656,6 @@ function readForm(fields){const out={};fields.forEach(f=>{const el=document.quer
 function readDetails(){const tbody=document.getElementById("detailRows");if(!tbody)return[];const details=[];tbody.querySelectorAll("tr.detail-row").forEach(tr=>{const obj={};let hv=false;tr.querySelectorAll("[data-df]").forEach(el=>{const k=el.dataset.df;let v=el.value;if(el.type==="number")v=v===""?"":Number(v);else v=String(v).trim();obj[k]=v;if(v!==""&&v!=null)hv=true;});if(hv)details.push(obj);});return details;}
 function validateForm(fields,data){for(const f of fields)if(f.req&&(data[f.k]===""||data[f.k]==null))return `请填写「${f.l}」`;return null;}
 function openFormModal(row,values,isEdit){
-  // 解除对工序库和工艺路线的拦截，让它们走下方的通用表单逻辑
   if (row.l3 === "班组任务") { openWorkstationModal(row, values, isEdit); return; }
   
   const tpl=getTpl(row),title=isEdit?`编辑 · ${row.l3}`:`新增 · ${row.l3}`;let bodyHtml=formHTML(tpl.f,values||{});if(tpl.details)bodyHtml+=detailFormHTML(tpl.details,values&&values.details?values.details:[]);
@@ -2622,12 +2760,18 @@ contentEl.addEventListener("click",e=>{
   if(e.target.closest("[data-more]")){const item=e.target.closest("[data-more]");const row=MENUS[state.activeId];const d=$("moreDropdown");if(d)d.classList.remove("open");runMoreAction(item.dataset.more,row);return;}
   document.querySelectorAll(".dropdown.open").forEach(d=>{if(!e.target.closest(".dropdown"))d.classList.remove("open");});
   if(state.activeId==null)return;
-  const row=MENUS[state.activeId];if(isChartPage(row)||isFlowPage(row)||row.l3==="产品与物料"||row.l3==="车间生产看板")return;
+  const row=MENUS[state.activeId];if(isChartPage(row)||isFlowPage(row)||row.l3==="产品管理"||row.l3==="物料管理"||row.l3==="车间生产看板")return;
   if(e.target.id==="addBtn"){openFormModal(row,null,false);return;}
   if(e.target.id==="batchAuditBtn"){const sel=state.selected[row.id]||new Set();if(!sel.size){toast("请先勾选记录");return;}openModal({title:"批量审核",body:`<div class="audit-info">确认要审核选中的 <b>${sel.size}</b> 条记录吗？处理人：龚先生</div>`,buttons:[{id:"cancel",text:"取消",onClick:closeModal},{id:"ok",text:"全部通过",cls:"btn-ok",onClick:()=>{state.data[row.id].forEach(r=>{if(sel.has(r.id))r._status="approved";});toast(`已审核 ${sel.size} 条记录`);closeModal();renderContent();}}]});return;}
   if(e.target.id==="batchDelBtn"){const sel=state.selected[row.id]||new Set();if(!sel.size){toast("请先勾选记录");return;}confirmDelete(Array.from(sel),row);return;}
   if(e.target.id==="exportBtn"){downloadCSV(row,getTpl(row));return;}
-  if(e.target.id==="resetBtn"){state.q[row.id]="";state.fStatus[row.id]="";state.dateFrom[row.id]="";state.dateTo[row.id]="";state.page[row.id]=1;renderContent();return;}
+  if(e.target.id==="resetBtn"){
+    state.q[row.id]="";
+    state.advSearch[row.id]={};
+    state.page[row.id]=1;
+    renderContent();
+    return;
+  }
   const detailBtn=e.target.closest("[data-detail]");if(detailBtn){openDetailModal(row,Number(detailBtn.dataset.detail));return;}
   const editBtn=e.target.closest("[data-edit]");if(editBtn){const id=Number(editBtn.dataset.edit);const t=state.data[row.id].find(r=>r.id===id);if(t)openFormModal(row,t,true);return;}
   const auditBtn=e.target.closest("[data-audit]");if(auditBtn&&!auditBtn.disabled){openAuditModal(row,Number(auditBtn.dataset.audit));return;}
@@ -2638,8 +2782,36 @@ contentEl.addEventListener("click",e=>{
   const tr=e.target.closest("tr[data-row-id]");if(tr&&!e.target.closest("button")&&!e.target.closest("input")&&!e.target.closest(".col-actions")){openDetailModal(row,Number(tr.dataset.rowId));return;}
   const segBtn=e.target.closest("#chartSeg button");if(segBtn){document.querySelectorAll("#chartSeg button").forEach(b=>b.classList.remove("active"));segBtn.classList.add("active");toast("已切换："+segBtn.textContent);return;}
 });
-contentEl.addEventListener("input",e=>{if(state.activeId==null)return;const row=MENUS[state.activeId];if(isChartPage(row)||isFlowPage(row)||row.l3==="产品与物料"||row.l3==="车间生产看板")return;if(e.target.id==="qInput"){state.q[row.id]=e.target.value.trim();state.page[row.id]=1;renderContent();}if(e.target.id==="dateFromInput"){state.dateFrom[row.id]=e.target.value;state.page[row.id]=1;renderContent();}if(e.target.id==="dateToInput"){state.dateTo[row.id]=e.target.value;state.page[row.id]=1;renderContent();}});
-contentEl.addEventListener("change",e=>{if(state.activeId==null)return;const row=MENUS[state.activeId];if(isChartPage(row)){if(e.target.id==="chartDimSel"){state.chartDim[row.id]=e.target.value;renderContent();toast("已切换维度："+e.target.value);}return;}if(isFlowPage(row)||row.l3==="产品与物料"||row.l3==="车间生产看板")return;if(e.target.id==="fStatus"){state.fStatus[row.id]=e.target.value;state.page[row.id]=1;renderContent();}if(e.target.id==="pageSizeSel"){state.pageSize[row.id]=Number(e.target.value);state.page[row.id]=1;renderContent();}});
+contentEl.addEventListener("input", e => {
+  if(state.activeId==null) return;
+  const row=MENUS[state.activeId];
+  if(isChartPage(row)||isFlowPage(row)||row.l3==="产品管理"||row.l3==="物料管理"||row.l3==="车间生产看板") return;
+  
+  if(e.target.id==="qInput"){
+    state.q[row.id]=e.target.value.trim(); state.page[row.id]=1; renderContent();
+  } else if (e.target.classList.contains("adv-input")) {
+    if(!state.advSearch[row.id]) state.advSearch[row.id] = {};
+    state.advSearch[row.id][e.target.dataset.k] = e.target.value.trim();
+    state.page[row.id]=1; renderContent();
+  }
+});
+contentEl.addEventListener("change", e => {
+  if(state.activeId==null) return;
+  const row=MENUS[state.activeId];
+  if(isChartPage(row)) {
+    if(e.target.id==="chartDimSel"){ state.chartDim[row.id]=e.target.value; renderContent(); toast("已切换维度："+e.target.value); }
+    return;
+  }
+  if(isFlowPage(row)||row.l3==="产品管理"||row.l3==="物料管理"||row.l3==="车间生产看板") return;
+  
+  if(e.target.classList.contains("adv-select") || e.target.classList.contains("adv-date")) {
+    if(!state.advSearch[row.id]) state.advSearch[row.id] = {};
+    state.advSearch[row.id][e.target.dataset.k] = e.target.value;
+    state.page[row.id]=1; renderContent();
+  } else if(e.target.id==="pageSizeSel") {
+    state.pageSize[row.id]=Number(e.target.value); state.page[row.id]=1; renderContent();
+  }
+});
 const backTop=$("backTop");backTop.onclick=()=>contentEl.scrollTo({top:0,behavior:"smooth"});
 contentEl.addEventListener("scroll",()=>backTop.classList.toggle("show",contentEl.scrollTop>260));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(modalWrap.classList.contains("show")){closeModal();return;}if(state.activeId!=null)closeTab(state.activeId);}});
